@@ -47,7 +47,7 @@ func main() {
 
 ```
 
-### ChannelByExample
+#### ChannelByExample
 
 ```go
 package main
@@ -71,7 +71,6 @@ func main() {
 	if e != nil {
 		panic(e)
 	}
-	close(ch)
 }
 
 ```
