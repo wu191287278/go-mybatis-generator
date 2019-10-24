@@ -600,7 +600,6 @@ func (query *{{domainName}}Example) UpdateByPrimaryKeySelective(t *{{domainName}
 	buffer.WriteString("update ")
 	buffer.WriteString(query.getTableName())
 	buffer.WriteString(" set ")
-	updateSql := buffer.String()
 	prefix := make([]string, 0)
 	args := make([]interface{}, 0)
 
@@ -653,6 +652,7 @@ func (query *{{domainName}}Example) UpdateByPrimaryKeySelective(t *{{domainName}
     {{/primaryKeys}}
 	buffer.WriteString(strings.Join(prefix, ","))
 	buffer.WriteString(" where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
+    updateSql := buffer.String()
 
 	result, e := query.DefaultDB.Exec(updateSql, args...)
 	if e == nil {
