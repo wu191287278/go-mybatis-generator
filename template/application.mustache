@@ -17,7 +17,7 @@ func main() {
 	{{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
 
 {{/tables}}
-r := gin.Default()
+    r := gin.Default()
 
 {{#tables}}
 	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
@@ -28,5 +28,5 @@ r := gin.Default()
 	}
 
 {{/tables}}
-r.Run(":8080")
+    r.Run(":8080")
 }
