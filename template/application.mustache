@@ -14,7 +14,7 @@ func main() {
 
 	{{lowerDomainName}}Repository := New{{domainName}}Repository(db)
 	{{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
-	{{lowerDomainName}}Controller := New{{domainName}}Controller({{domainName}}Service)
+	{{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
 
 	r := gin.Default()
 	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
