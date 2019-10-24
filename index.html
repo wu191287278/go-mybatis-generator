@@ -254,7 +254,7 @@
 
     function loadingSettings() {
         let storage = window.localStorage;
-        let settings = storage.getItem("es.settings");
+        let settings = storage.getItem("go-mybatis.settings");
         if (settings) {
             loadSettingsEditor(settings);
         } else {
@@ -275,7 +275,7 @@
 
     function loadingQueryEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.queryTemplate");
+        let template = storage.getItem("go-mybatis.queryTemplate");
         if (template) {
             loadQueryTemplateEditor(template);
         } else {
@@ -295,7 +295,7 @@
 
     function loadingControllerEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.controllerTemplate");
+        let template = storage.getItem("go-mybatis.controllerTemplate");
         if (template) {
             loadControllerTemplateEditor(template);
         } else {
@@ -316,7 +316,7 @@
 
     function loadingPomEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.pomTemplate");
+        let template = storage.getItem("go-mybatis.pomTemplate");
         if (template) {
             loadPomTemplateEditor(template);
         } else {
@@ -337,7 +337,7 @@
 
     function loadingRepositoryEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.repositoryTemplate");
+        let template = storage.getItem("go-mybatis.repositoryTemplate");
         if (template) {
             loadRepositoryTemplateEditor(template);
         } else {
@@ -358,7 +358,7 @@
 
     function loadingApplicationEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.applicationTemplate");
+        let template = storage.getItem("go-mybatis.applicationTemplate");
         if (template) {
             loadApplicationTemplateEditor(template);
         } else {
@@ -379,7 +379,7 @@
 
     function loadingModelEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.modelTemplate");
+        let template = storage.getItem("go-mybatis.modelTemplate");
         if (template) {
             loadModelTemplateEditor(template);
         } else {
@@ -399,7 +399,7 @@
 
     function loadingServiceEditor() {
         let storage = window.localStorage;
-        let template = storage.getItem("es.serviceTemplate");
+        let template = storage.getItem("go-mybatis.serviceTemplate");
         if (template) {
             loadServiceTemplateEditor(template);
         } else {
@@ -429,27 +429,27 @@
 
     function clearCache() {
         let storage = window.localStorage;
-        storage.removeItem("es.settings");
-        storage.removeItem("es.queryTemplate");
-        storage.removeItem("es.controllerTemplate");
-        storage.removeItem("es.repositoryTemplate");
-        storage.removeItem("es.pomTemplate");
-        storage.removeItem("es.applicationTemplate");
-        storage.removeItem("es.modelTemplate");
-        storage.removeItem("es.serviceTemplate");
+        storage.removeItem("go-mybatis.settings");
+        storage.removeItem("go-mybatis.queryTemplate");
+        storage.removeItem("go-mybatis.controllerTemplate");
+        storage.removeItem("go-mybatis.repositoryTemplate");
+        storage.removeItem("go-mybatis.pomTemplate");
+        storage.removeItem("go-mybatis.applicationTemplate");
+        storage.removeItem("go-mybatis.modelTemplate");
+        storage.removeItem("go-mybatis.serviceTemplate");
         window.location.reload()
     }
 
     function save() {
         let storage = window.localStorage;
-        storage.setItem("es.settings", settingsEditor.getValue());
-        storage.setItem("es.queryTemplate", queryTemplate.getValue());
-        storage.setItem("es.controllerTemplate", controllerTemplate.getValue());
-        storage.setItem("es.repositoryTemplate", repositoryTemplate.getValue());
-        storage.setItem("es.pomTemplate", pomTemplate.getValue());
-        storage.setItem("es.applicationTemplate", applicationTemplate.getValue());
-        storage.setItem("es.modelTemplate", modelTemplate.getValue());
-        storage.setItem("es.serviceTemplate", modelTemplate.getValue());
+        storage.setItem("go-mybatis.settings", settingsEditor.getValue());
+        storage.setItem("go-mybatis.queryTemplate", queryTemplate.getValue());
+        storage.setItem("go-mybatis.controllerTemplate", controllerTemplate.getValue());
+        storage.setItem("go-mybatis.repositoryTemplate", repositoryTemplate.getValue());
+        storage.setItem("go-mybatis.pomTemplate", pomTemplate.getValue());
+        storage.setItem("go-mybatis.applicationTemplate", applicationTemplate.getValue());
+        storage.setItem("go-mybatis.modelTemplate", modelTemplate.getValue());
+        storage.setItem("go-mybatis.serviceTemplate", modelTemplate.getValue());
         alert("success")
     }
 
