@@ -478,17 +478,19 @@
         let artifact = document.getElementById("artifact").value;
         let zip = new JSZip();
         let settings = JSON.parse(settingsEditor.getValue());
-        for (let i = 0; i < settings.length; i++) {
-            var setting = settings[i];
-            var fields = setting["fields"];
-            var tableName = setting["tableName"];
-            setting["lowerDomainName"] = lowerCamel(tableName);
-            setting["domainName"] = upperCamel(tableName);
-            setting["artifact"] = artifact;
-            var primaryKeys = setting["primaryKeys"];
-            setting["hasPrimaryKey"] = primaryKeys && primaryKeys.length > 0
+        settings["artifact"] = artifact;
+        let tables = settings["tables"]
+        for (let i = 0; i < tables.length; i++) {
+            let table = tables[i];
+            let fields = table["fields"];
+            let tableName = table["tableName"];
+            table["lowerDomainName"] = lowerCamel(tableName);
+            table["domainName"] = upperCamel(tableName);
+            table["artifact"] = artifact;
+            let primaryKeys = table["primaryKeys"];
+            table["hasPrimaryKey"] = primaryKeys && primaryKeys.length > 0
             for (let j = 0; j < fields.length; j++) {
-                var field = fields[j];
+                let field = fields[j];
                 field["upperName"] = upperCamel(field["name"]);
                 field["lowerName"] = lowerCamel(field["name"]);
                 field["propertyType"] = getGolangType(field["type"]);
@@ -500,7 +502,7 @@
                 }
             }
             for (let j = 0; j < primaryKeys.length; j++) {
-                var field = primaryKeys[j];
+                let field = primaryKeys[j];
                 field["upperName"] = upperCamel(field["name"]);
                 field["lowerName"] = lowerCamel(field["name"]);
                 field["propertyType"] = getGolangType(field["type"]);
@@ -511,14 +513,14 @@
                     field["hasNext"] = true
                 }
             }
-            zip.file(artifact + "/domain/" + tableName + ".go", Mustache.render(modelTemplate.getValue(), setting));
-            zip.file(artifact + "/domain/" + tableName + "_example.go", Mustache.render(queryTemplate.getValue(), setting));
-            zip.file(artifact + "/controller/" + tableName + "_controller.go", Mustache.render(controllerTemplate.getValue(), setting));
-            zip.file(artifact + "/service/" + tableName + "_service.go", Mustache.render(serviceTemplate.getValue(), setting));
-            zip.file(artifact + "/repository/" + tableName + "_repository.go", Mustache.render(repositoryTemplate.getValue(), setting));
+            zip.file(artifact + "/domain/" + tableName + ".go", Mustache.render(modelTemplate.getValue(), table));
+            zip.file(artifact + "/domain/" + tableName + "_example.go", Mustache.render(queryTemplate.getValue(), table));
+            zip.file(artifact + "/controller/" + tableName + "_controller.go", Mustache.render(controllerTemplate.getValue(), table));
+            zip.file(artifact + "/service/" + tableName + "_service.go", Mustache.render(serviceTemplate.getValue(), table));
+            zip.file(artifact + "/repository/" + tableName + "_repository.go", Mustache.render(repositoryTemplate.getValue(), table));
         }
-        zip.file(artifact + "/glide.yaml", Mustache.render(pomTemplate.getValue(), setting));
-        zip.file(artifact + "/main.go", Mustache.render(applicationTemplate.getValue(), setting));
+        zip.file(artifact + "/glide.yaml", Mustache.render(pomTemplate.getValue(), settings));
+        zip.file(artifact + "/main.go", Mustache.render(applicationTemplate.getValue(), settings));
 
         zip.generateAsync({type: "blob"})
             .then(function (content) {

@@ -11,11 +11,13 @@ import (
 func main() {
 	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/graphql")
 	defer db.Close()
-
+{{#tables}}
 	{{lowerDomainName}}Repository := New{{domainName}}Repository(db)
 	{{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
 	{{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
 
+{{/tables}}
+{{#tables}}
 	r := gin.Default()
 	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
     {
@@ -24,5 +26,6 @@ func main() {
 	    {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
 	}
 
-	r.Run(":8080")
+{{/tables}}
+r.Run(":8080")
 }
