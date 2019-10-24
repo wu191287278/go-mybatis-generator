@@ -17,8 +17,9 @@ func main() {
 	{{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
 
 {{/tables}}
+r := gin.Default()
+
 {{#tables}}
-	r := gin.Default()
 	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
     {
         {{lowerDomainName}}.GET("/search", {{lowerDomainName}}Controller.Search)
