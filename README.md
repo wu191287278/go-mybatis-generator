@@ -2,7 +2,7 @@
 
 ## Introduction
 
-该项目是 mybatis-generator go版本的移植,
+该项目是 mybatis-generator go版本的移植,同时加入协程与分库分表支持
 
 ## 预览
 
