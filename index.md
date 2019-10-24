@@ -13,9 +13,6 @@
 
 前往 [ElasticSearch Query](https://wu191287278.github.io/generator/elasticsearch/java/index.html) 生成代码
 
-
-
-
 #### Getting Started
 
 ```sql
@@ -48,8 +45,3 @@ func main() {
 }
 
 ```
-
-#### 从数据库元数据中生成mapping信息
-
-[MappingUtils.java](./elasticsearch/java/template/MappingUtils.java)
-
