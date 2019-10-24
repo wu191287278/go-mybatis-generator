@@ -1,0 +1,28 @@
+package main
+
+import (
+	. "{{{artifact}}}/controller"
+	. "{{{artifact}}}/repository"
+	. "{{{artifact}}}/service"
+	"database/sql"
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/graphql")
+	defer db.Close()
+
+	{{lowerDomainName}}Repository := New{{domainName}}Controller(db)
+	{{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
+	{{lowerDomainName}}Controller := New{{domainName}}Repository(New{{domainName}}Service)
+
+	r := gin.Default()
+	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
+    {
+        {{lowerDomainName}}.GET("/search", {{lowerDomainName}}Controller.Search)
+	    {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
+	    {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
+	}
+
+	r.Run(":8080")
+}

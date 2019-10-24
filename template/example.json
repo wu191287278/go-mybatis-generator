@@ -1,0 +1,41 @@
+[
+  {
+    "tableName": "users",
+    "isAutoIncrement": true,
+    "primaryKeys": [
+      {
+        "name": "id",
+        "upperName": "Id",
+        "type": "bigint",
+        "length": 19,
+        "remarks": "主键id"
+      }
+    ],
+    "fields": [
+      {
+        "name": "id",
+        "type": "bigint",
+        "length": 19,
+        "remarks": "主键id"
+      },
+      {
+        "name": "email",
+        "type": "varchar",
+        "length": 32,
+        "remarks": "邮件"
+      },
+      {
+        "name": "user_id",
+        "type": "bigint",
+        "length": 19,
+        "remarks": "用户id"
+      },
+      {
+        "name": "created_at",
+        "type": "datetime",
+        "length": 19,
+        "remarks": "创建时间"
+      }
+    ]
+  }
+]

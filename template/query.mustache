@@ -1,0 +1,918 @@
+package domain
+
+import (
+	"bytes"
+	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
+	"strings"
+	"strconv"
+)
+
+type {{domainName}}Example struct {
+	Page          uint32
+	Size          uint32
+	TableName     string
+	Conditions    []string
+	Args          []interface{}
+	OrExamples    []{{domainName}}Example
+	OrderByClause string
+	DefaultDB     *sql.DB
+}
+
+func New{{domainName}}Example() *{{domainName}}Example {
+	return &{{domainName}}Example{}
+}
+
+func (query *{{domainName}}Example) WithDB(db *sql.DB) *{{domainName}}Example {
+	query.DefaultDB = db
+	return query
+}
+
+func (query *{{domainName}}Example) WithPage(page uint32, size uint32) *{{domainName}}Example {
+	query.Page = page
+	query.Size = size
+	return query
+}
+
+func (query *{{domainName}}Example) WithLimit(size uint32) *{{domainName}}Example {
+	query.Page = 1
+	query.Size = size
+	return query
+}
+
+func (query *{{domainName}}Example) WithTableName(tableName string) *{{domainName}}Example {
+	query.TableName = tableName
+	return query
+}
+
+func (query *{{domainName}}Example) WithOrderByClause(orderByClause string) *{{domainName}}Example {
+	query.OrderByClause = orderByClause
+	return query
+}
+
+{{#fields}}
+func (query *{{domainName}}Example) And{{upperName}}EqualTo({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} = ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}GreaterThan({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} > ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}GreaterThanEqualTo({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} >= ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}LessThan({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} < ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}LessThanEqualTo({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} <= ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}In({{lowerName}} []{{propertyType}}) *{{domainName}}Example {
+	var buffer bytes.Buffer
+	buffer.WriteString("{{name}} in (")
+	length := len({{lowerName}}) - 1
+	for i, item := range {{lowerName}} {
+		query.Args = append(query.Args, item)
+		if i == length {
+			buffer.WriteString("?")
+		} else {
+			buffer.WriteString("?,")
+		}
+	}
+	buffer.WriteString(")")
+	query.Conditions = append(query.Conditions, buffer.String())
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}NotIn({{lowerName}} []{{propertyType}}) *{{domainName}}Example {
+	var buffer bytes.Buffer
+	buffer.WriteString("{{name}} not in (")
+	length := len({{lowerName}}) - 1
+	for i, item := range {{lowerName}} {
+		query.Args = append(query.Args, item)
+		if i == length {
+			buffer.WriteString("?")
+		} else {
+			buffer.WriteString("?,")
+		}
+	}
+	buffer.WriteString(")")
+	query.Conditions = append(query.Conditions, buffer.String())
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}IsNull() *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} is null")
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}IsNotNull() *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} is not null")
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}Like({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} like ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}NotLike({{lowerName}} {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} not like ?")
+	query.Args = append(query.Args, {{lowerName}})
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}Between({{lowerName}}1 {{propertyType}}, {{lowerName}}2 {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} between ? and ?")
+	query.Args = append(query.Args, {{lowerName}}1, {{lowerName}}2)
+	return query
+}
+
+func (query *{{domainName}}Example) And{{upperName}}NotBetween({{lowerName}}1 {{propertyType}}, {{lowerName}}2 {{propertyType}}) *{{domainName}}Example {
+	query.Conditions = append(query.Conditions, "{{name}} not between ? and ?")
+	query.Args = append(query.Args, {{lowerName}}1, {{lowerName}}2)
+	return query
+}
+{{/fields}}
+
+func (query *{{domainName}}Example) toCondition() string {
+	conditions := query.Conditions
+	OrExamples := query.OrExamples
+	var buffer bytes.Buffer
+	if OrExamples != nil {
+		buffer.WriteString(" where ")
+		if len(conditions) > 0 {
+			buffer.WriteString("(")
+			buffer.WriteString(strings.Join(conditions, " and "))
+			buffer.WriteString(")")
+		}
+		for _, item := range OrExamples {
+			if len(item.Conditions) > 0 {
+				buffer.WriteString(" or ")
+				buffer.WriteString("(")
+				buffer.WriteString(strings.Join(item.Conditions, " and "))
+				buffer.WriteString(")")
+			}
+		}
+	} else {
+		if len(conditions) > 0 {
+			buffer.WriteString(" where ")
+			buffer.WriteString(strings.Join(conditions, " and "))
+		}
+	}
+	return buffer.String()
+}
+
+func (query *{{domainName}}Example) getTableName() string {
+	if query.TableName == "" {
+	    return "{{{tableName}}}"
+	}
+	return query.TableName
+}
+
+func (query *{{domainName}}Example) toLimit() string {
+	var buffer bytes.Buffer
+	if query.Page > 0 && query.Size > 0 {
+		buffer.WriteString(" limit ")
+		if query.Page == 1 {
+			buffer.WriteString(strconv.Itoa(int(query.Size)))
+		} else {
+			startNum := (query.Page - 1) * query.Size
+			buffer.WriteString(string(startNum))
+			buffer.WriteString(",")
+			buffer.WriteString(string(query.Size))
+		}
+	}
+	return buffer.String()
+}
+
+func (query *{{domainName}}Example) toOrderByClause() string {
+	var buffer bytes.Buffer
+	if query.OrderByClause != "" {
+		buffer.WriteString(" ")
+		buffer.WriteString(query.OrderByClause)
+	}
+	return buffer.String()
+}
+
+func (query *{{domainName}}Example) Or(orExample {{domainName}}Example) *{{domainName}}Example {
+	if query.OrExamples == nil {
+		query.OrExamples = make([]{{domainName}}Example, 0)
+	}
+	query.OrExamples = append(query.OrExamples, orExample)
+	query.Args = append(query.Args, orExample.Args...)
+	return query
+}
+
+func (query *{{domainName}}Example) SelectByExample() ([]{{domainName}}, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(query.toLimit())
+	querySql := buffer.String()
+
+	stmt, e := query.DefaultDB.Prepare(querySql)
+	if e != nil {
+		return nil, e
+	}
+	rows, e := stmt.Query(query.Args...)
+	if e != nil {
+		return nil, e
+	}
+	result := make([]{{domainName}}, 0)
+	for rows.Next() {
+{{#fields}}
+{{#isInt8}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt8}}
+{{#isInt16}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt16}}
+{{#isInt32}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt32}}
+{{#isInt64}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt64}}
+{{#isString}}
+		var {{lowerName}} sql.NullString
+{{/isString}}
+{{#isBoolean}}
+		var {{lowerName}} sql.NullBoolean
+{{/isBoolean}}
+{{#isFloat32}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat32}}
+{{#isFloat64}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat64}}
+{{/fields}}
+		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
+		if e != nil {
+			break
+		}
+
+		t := {{domainName}}{}
+{{#fields}}
+{{#isInt8}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int8({{lowerName}}.Int64)
+        }
+{{/isInt8}}
+{{#isInt16}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int16({{lowerName}}.Int64)
+        }
+{{/isInt16}}
+{{#isInt32}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int32({{lowerName}}.Int64)
+        }
+{{/isInt32}}
+{{#isInt64}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Int64
+        }
+{{/isInt64}}
+{{#isString}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.String
+        }
+{{/isString}}
+{{#isFloat32}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = float32({{lowerName}}.Float64)
+        }
+{{/isFloat32}}
+{{#isFloat64}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Float64
+        }
+{{/isFloat64}}
+{{#isBoolean}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Boolean
+        }
+{{/isBoolean}}
+{{/fields}}
+		result = append(result, t)
+	}
+	return result, nil
+}
+{{#hasPrimaryKey}}
+
+func (query *{{domainName}}Example) SelectOne() (*{{domainName}}, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(" limit 1")
+	querySql := buffer.String()
+	stmt, e := query.DefaultDB.Prepare(querySql)
+	if e != nil {
+		return nil, e
+	}
+	rows, e := stmt.Query(query.Args...)
+
+	if e != nil {
+		return nil, e
+	}
+
+	if rows.Next() {
+{{#fields}}
+{{#isInt8}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt8}}
+{{#isInt16}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt16}}
+{{#isInt32}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt32}}
+{{#isInt64}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt64}}
+{{#isString}}
+		var {{lowerName}} sql.NullString
+{{/isString}}
+{{#isBoolean}}
+		var {{lowerName}} sql.NullBoolean
+{{/isBoolean}}
+{{#isFloat32}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat32}}
+{{#isFloat64}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat64}}
+{{/fields}}
+		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
+		if e != nil {
+			return nil, e
+		}
+
+		t := {{domainName}}{}
+{{#fields}}
+{{#isInt8}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int8({{lowerName}}.Int64)
+        }
+{{/isInt8}}
+{{#isInt16}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int16({{lowerName}}.Int64)
+        }
+{{/isInt16}}
+{{#isInt32}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = int32({{lowerName}}.Int64)
+        }
+{{/isInt32}}
+{{#isInt64}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Int64
+        }
+{{/isInt64}}
+{{#isString}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.String
+        }
+{{/isString}}
+{{#isFloat32}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = float32({{lowerName}}.Float64)
+        }
+{{/isFloat32}}
+{{#isFloat64}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Float64
+        }
+{{/isFloat64}}
+{{#isBoolean}}
+		if {{lowerName}}.Valid {
+            t.{{upperName}} = {{lowerName}}.Boolean
+        }
+{{/isBoolean}}
+{{/fields}}
+        return &t,e
+	}
+	return nil, e
+}
+{{/hasPrimaryKey}}
+
+func (query *{{domainName}}Example) SelectChannel(ch chan {{domainName}}) error {
+	var buffer bytes.Buffer
+	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(query.toLimit())
+	querySql := buffer.String()
+	stmt, e := query.DefaultDB.Prepare(querySql)
+	if e != nil {
+		return e
+	}
+	rows, e := stmt.Query(query.Args...)
+	if e != nil {
+		return e
+	}
+	for rows.Next() {
+{{#fields}}
+{{#isInt8}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt8}}
+{{#isInt16}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt16}}
+{{#isInt32}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt32}}
+{{#isInt64}}
+		var {{lowerName}} sql.NullInt64
+{{/isInt64}}
+{{#isString}}
+		var {{lowerName}} sql.NullString
+{{/isString}}
+{{#isBoolean}}
+		var {{lowerName}} sql.NullBoolean
+{{/isBoolean}}
+{{#isFloat32}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat32}}
+{{#isFloat64}}
+		var {{lowerName}} sql.NullFloat64
+{{/isFloat64}}
+{{/fields}}
+		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
+		if e != nil {
+			break
+		}
+
+		{{domainName}} := {{domainName}}{}
+{{#fields}}
+{{#isInt8}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = int8({{lowerName}}.Int64)
+        }
+{{/isInt8}}
+{{#isInt16}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = int16({{lowerName}}.Int64)
+        }
+{{/isInt16}}
+{{#isInt32}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = int32({{lowerName}}.Int64)
+        }
+{{/isInt32}}
+{{#isInt64}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = {{lowerName}}.Int64
+        }
+{{/isInt64}}
+{{#isString}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = {{lowerName}}.String
+        }
+{{/isString}}
+{{#isFloat32}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = float32({{lowerName}}.Float64)
+        }
+{{/isFloat32}}
+{{#isFloat64}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = {{lowerName}}.Float64
+        }
+{{/isFloat64}}
+{{#isBoolean}}
+		if {{lowerName}}.Valid {
+            {{domainName}}.{{upperName}} = {{lowerName}}.Boolean
+        }
+{{/isBoolean}}
+{{/fields}}
+		ch <- {{domainName}}
+	}
+
+	close(ch)
+	return e
+}
+
+func (query *{{domainName}}Example) CountByExample() (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("select count(*) as count from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	querySql := buffer.String()
+	rows, e := query.DefaultDB.Query(querySql, query.Args...)
+	if e == nil && rows.Next() {
+		var count sql.NullInt64
+		e := rows.Scan(&count)
+		if e != nil {
+			return 0, e
+		}
+		if count.Valid {
+			return count.Int64, e
+		}
+	}
+	return 0, e
+}
+
+
+func (query *{{domainName}}Example) ExistsByExample() (bool, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("select true from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(" limit 1")
+	querySql := buffer.String()
+	rows, e := query.DefaultDB.Query(querySql, query.Args...)
+	if e == nil && rows.Next() {
+		var exists sql.NullBool
+		e := rows.Scan(&exists)
+		if e != nil {
+			return false, e
+		}
+		if exists.Valid {
+			return exists.Bool, e
+		}
+	}
+	return false, e
+}
+
+func (query *{{domainName}}Example) DeleteByExample() (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("delete from ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(query.toLimit())
+	deleteSql := buffer.String()
+	result, e := query.DefaultDB.Exec(deleteSql, query.Args...)
+	if e != nil {
+		return 0, e
+	}
+
+	i, e := result.RowsAffected()
+	if e != nil {
+		return 0, e
+	}
+
+	return i, nil
+}
+{{#hasPrimaryKey}}
+
+func (query *{{domainName}}Example) UpdateByPrimaryKey(t *{{domainName}}) (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("update ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(" set ")
+	buffer.WriteString("{{#fields}}{{name}}=?{{#hasNext}},{{/hasNext}}{{/fields}}")
+	buffer.WriteString(" where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
+	updateSql := buffer.String()
+	result, e := query.DefaultDB.Exec(updateSql, {{#fields}}&t.{{upperName}}{{#hasNext}},{{/hasNext}}{{/fields}}{{#primaryKeys}},&t.{{upperName}}{{/primaryKeys}})
+	if e == nil {
+		i, e := result.RowsAffected()
+		return i, e
+	}
+	return 0, e
+}
+
+func (query *{{domainName}}Example) UpdateByPrimaryKeySelective(t *{{domainName}}) (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("update ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(" set ")
+	updateSql := buffer.String()
+	prefix := make([]string, 0)
+	args := make([]interface{}, 0)
+
+{{#fields}}
+{{#isInt8}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt8}}
+{{#isInt16}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt16}}
+{{#isInt32}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt32}}
+{{#isInt64}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt64}}
+{{#isBoolean}}
+	if t.{{upperName}} != false {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isBoolean}}
+{{#isString}}
+	if t.{{upperName}} != "" {
+		prefix = append(prefix, "{{name}}=?")
+        args = append(args, t.{{upperName}})
+	}
+
+{{/isString}}
+{{/fields}}
+{{#primaryKeys}}
+    args = append(args, t.{{upperName}})
+    {{/primaryKeys}}
+	buffer.WriteString(strings.Join(prefix, ","))
+	buffer.WriteString(" where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
+
+	result, e := query.DefaultDB.Exec(updateSql, args...)
+	if e == nil {
+		i, e := result.RowsAffected()
+		return i, e
+	}
+	return 0, nil
+}
+{{/hasPrimaryKey}}
+func (query *{{domainName}}Example) UpdateByExample(t *{{domainName}}) (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("update ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(" set {{#fields}}{{name}}=?{{#hasNext}},{{/hasNext}}{{/fields}} where id=?")
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(query.toLimit())
+	updateSql := buffer.String()
+	args := make([]interface{},0)
+	args = append(args, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    args = append(args, query.Args...)
+	result, e := query.DefaultDB.Exec(updateSql, args)
+	if e == nil {
+		i, e := result.RowsAffected()
+		return i, e
+	}
+	return 0, e
+}
+
+func (query *{{domainName}}Example) UpdateByExampleSelective(t *{{domainName}}) (int64, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("update ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString(" set ")
+	prefix := make([]string, 0)
+	args := make([]interface{}, 0)
+
+{{#fields}}
+{{#isInt8}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt8}}
+{{#isInt16}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt16}}
+{{#isInt32}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt32}}
+{{#isInt64}}
+	if t.{{upperName}} != 0 {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt64}}
+{{#isBoolean}}
+	if t.{{upperName}} != false {
+        prefix = append(prefix, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isBoolean}}
+{{#isString}}
+	if t.{{upperName}} != "" {
+		prefix = append(prefix, "{{name}}=?")
+        args = append(args, t.{{upperName}})
+	}
+
+{{/isString}}
+{{/fields}}
+	buffer.WriteString(strings.Join(prefix, ","))
+	buffer.WriteString(query.toCondition())
+	buffer.WriteString(query.toOrderByClause())
+	buffer.WriteString(query.toLimit())
+	updateSql := buffer.String()
+	args = append(args, query.Args...)
+	result, e := query.DefaultDB.Exec(updateSql, args...)
+	if e == nil {
+		i, e := result.RowsAffected()
+		return i, e
+	}
+	return 0, nil
+}
+
+func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, error) {
+	var buffer bytes.Buffer
+	buffer.WriteString("insert into ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString("({{#fields}}{{name}}{{#hasNext}}, {{/hasNext}}{{/fields}})")
+	buffer.WriteString(" values ({{#fields}}?{{#hasNext}}, {{/hasNext}}{{/fields}})")
+	insertSql := buffer.String()
+	result, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+{{#hasPrimaryKey}}
+{{#isAutoIncrement}}
+	if e == nil {
+		i, e := result.LastInsertId()
+		if e == nil {
+{{#primaryKeys}}
+{{#isInt64}}
+            t.{{upperName}} = i
+{{/isInt64}}
+{{^isInt64}}
+            t.{{upperName}} = {{propertyType}}(i)
+{{/isInt64}}
+{{/primaryKeys}}
+		}
+	}
+{{/isAutoIncrement}}
+{{/hasPrimaryKey}}
+	return t, e
+}
+
+func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domainName}}, error) {
+	var prefix bytes.Buffer
+	var suffix bytes.Buffer
+	prefix.WriteString("insert into ")
+	prefix.WriteString(query.getTableName())
+	prefix.WriteString("(")
+	suffix.WriteString(" values (")
+
+	args := make([]interface{}, 0)
+	columns := make([]string, 0)
+	placeholder := make([]string, 0)
+
+{{#fields}}
+{{#isInt8}}
+	if t.{{upperName}} != 0 {
+        columns = append(columns, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt8}}
+{{#isInt16}}
+	if t.{{upperName}} != 0 {
+        columns = append(columns, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt16}}
+{{#isInt32}}
+	if t.{{upperName}} != 0 {
+        columns = append(columns, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt32}}
+{{#isInt64}}
+	if t.{{upperName}} != 0 {
+        columns = append(columns, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isInt64}}
+{{#isBoolean}}
+	if t.{{upperName}} != false {
+        columns = append(columns, "{{name}}=?")
+		args = append(args, t.{{upperName}})
+	}
+
+{{/isBoolean}}
+{{#isString}}
+	if t.{{upperName}} != "" {
+		columns = append(columns, "{{name}}=?")
+        args = append(args, t.{{upperName}})
+	}
+
+{{/isString}}
+{{/fields}}
+	prefix.WriteString(strings.Join(columns, ","))
+	suffix.WriteString(strings.Join(placeholder, ","))
+
+	prefix.WriteString(")")
+	suffix.WriteString(")")
+
+	insertSql := prefix.String() + suffix.String()
+
+	result, e := query.DefaultDB.Exec(insertSql, args...)
+{{#hasPrimaryKey}}
+{{#isAutoIncrement}}
+	if e == nil {
+		i, e := result.LastInsertId()
+		if e == nil {
+{{#primaryKeys}}
+{{#isInt64}}
+            t.{{upperName}} = i
+{{/isInt64}}
+{{^isInt64}}
+            t.{{upperName}} = {{propertyType}}(i)
+{{/isInt64}}
+{{/primaryKeys}}
+		}
+	}
+{{/isAutoIncrement}}
+{{/hasPrimaryKey}}
+	return t, e
+}
+
+func (query *{{domainName}}Example) BatchInsert(ts []{{domainName}}) error {
+	var buffer bytes.Buffer
+	buffer.WriteString("insert into ")
+	buffer.WriteString(query.getTableName())
+	buffer.WriteString("({{#fields}}{{name}}{{#hasNext}}, {{/hasNext}}{{/fields}})")
+	buffer.WriteString(" values ")
+	placeholder := make([]string, 0)
+	args := make([]interface{}, 0)
+	for i := 0; i < len(ts); i++ {
+		placeholder = append(placeholder, "({{#fields}}?{{#hasNext}}, {{/hasNext}}{{/fields}})")
+		t := ts[i]
+		args = append(args, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+	}
+	buffer.WriteString(strings.Join(placeholder, ","))
+	insertSql := buffer.String()
+	_, e := query.DefaultDB.Exec(insertSql, args...)
+	return e
+}
+{{#hasPrimaryKey}}
+
+func (query *{{domainName}}Example) DeleteByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+{{#primaryKeys}}
+    query.And{{upperName}}EqualTo({{lowerName}})
+{{/primaryKeys}}
+	return query.DeleteByExample()
+}
+
+func (query *{{domainName}}Example) DeleteByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+{{#primaryKeys}}
+    query.And{{upperName}}In({{lowerName}})
+{{/primaryKeys}}
+	return query.DeleteByExample()
+}
+
+func (query *{{domainName}}Example) SelectByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (*{{domainName}}, error) {
+{{#primaryKeys}}
+    query.And{{upperName}}EqualTo({{lowerName}})
+{{/primaryKeys}}
+	return query.SelectOne()
+}
+
+func (query *{{domainName}}Example) SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) ([]{{domainName}}, error) {
+{{#primaryKeys}}
+    query.And{{upperName}}In({{lowerName}})
+{{/primaryKeys}}
+	return query.SelectByExample()
+}
+
+func (query *{{domainName}}Example) ExistsByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (bool, error) {
+{{#primaryKeys}}
+    query.And{{upperName}}EqualTo({{lowerName}})
+{{/primaryKeys}}
+	return query.ExistsByExample()
+}
+{{/hasPrimaryKey}}

@@ -1,0 +1,8 @@
+package domain
+
+type {{domainName}} struct {
+{{#fields}}
+    /*{{{remarks}}}*/
+	{{upperName}}        {{propertyType}}  `json:"{{lowerName}}" form:"{{lowerName}}"`
+{{/fields}}
+}

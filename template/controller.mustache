@@ -1,0 +1,121 @@
+package controller
+
+import (
+	"github.com/gin-gonic/gin"
+	. "{{{artifact}}}/domain"
+	. "{{{artifact}}}/service"
+	"net/http"
+	"strconv"
+)
+
+type {{domainName}}Controller struct {
+	{{lowerDomainName}}Service *{{domainName}}Service
+}
+
+func New{{domainName}}Controller({{lowerDomainName}}Service *{{domainName}}Service) *{{domainName}}Controller {
+	return &{{domainName}}Controller{ {{lowerDomainName}}Service: {{lowerDomainName}}Service }
+}
+
+func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Context) {
+	var page uint32 = 1
+	var size uint32 = 20
+
+	if i, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32); err == nil {
+		page = uint32(i)
+	}
+
+	if i, err := strconv.ParseInt(c.DefaultQuery("size", "20"), 10, 32); err == nil {
+		size = uint32(i)
+	}
+
+	params := &{{domainName}}{}
+	e := c.Bind(params)
+	if e != nil {
+		_ = c.AbortWithError(http.StatusBadRequest, e)
+		return
+	}
+
+	query := New{{domainName}}Example().WithPage(page, size)
+
+{{#fields}}
+{{#isInt8}}
+	if params.{{upperName}} != 0 {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isInt8}}
+{{#isInt16}}
+	if params.{{upperName}} != 0 {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isInt16}}
+{{#isInt32}}
+	if params.{{upperName}} != 0 {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isInt32}}
+{{#isInt64}}
+	if params.{{upperName}} != 0 {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isInt64}}
+{{#isBoolean}}
+	if params.{{upperName}} != 0 {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isBoolean}}
+{{#isString}}
+	if params.{{upperName}} != "" {
+    	query.And{{upperName}}EqualTo(params.{{upperName}})
+    }
+
+{{/isString}}
+{{/fields}}
+	{{lowerDomainName}}, e := {{lowerDomainName}}Controller.{{lowerDomainName}}Service.SelectByExample(query)
+	if e != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, e)
+		return
+	}
+
+	c.JSON(http.StatusOK, {{lowerDomainName}})
+}
+
+func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c *gin.Context) {
+	{{lowerDomainName}} := &{{domainName}}{}
+	e := c.BindJSON({{lowerDomainName}})
+	if e != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, e)
+		return
+	}
+
+	{{lowerDomainName}}, e = {{lowerDomainName}}Controller.{{lowerDomainName}}Service.InsertSelective({{lowerDomainName}})
+	if e != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, e)
+		return
+	}
+
+	c.JSON(http.StatusOK, {{lowerDomainName}})
+
+}
+
+func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
+	{{lowerDomainName}} := &{{domainName}}{}
+	e := c.BindJSON({{lowerDomainName}})
+	if e != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, e)
+		return
+	}
+
+	_, e = {{lowerDomainName}}Controller.{{lowerDomainName}}Service.UpdateByPrimaryKeySelective({{lowerDomainName}})
+	if e != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, e)
+		return
+	}
+
+	c.JSON(http.StatusOK, {{lowerDomainName}})
+
+}

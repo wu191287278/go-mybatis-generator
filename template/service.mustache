@@ -1,0 +1,85 @@
+package service
+
+import (
+	. "{{{artifact}}}/domain"
+	. "{{{artifact}}}/repository"
+)
+
+type {{domainName}}Service struct {
+	{{lowerDomainName}}Repository *{{domainName}}Repository
+}
+
+func New{{domainName}}Service({{lowerDomainName}}Repository *{{domainName}}Repository) *{{domainName}}Service {
+	return &{{domainName}}Service{ {{lowerDomainName}}Repository: {{lowerDomainName}}Repository }
+}
+{{#hasPrimaryKey}}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) SelectByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (*{{domainName}}, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.SelectByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) ([]{{domainName}}, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) DeleteByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.DeleteByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) DeleteByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.DeleteByPrimaryKeys({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) ExistsByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (bool, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ExistsByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) UpdateByPrimaryKey(t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.UpdateByPrimaryKey(t)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) UpdateByPrimaryKeySelective(t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.UpdateByPrimaryKeySelective(t)
+}
+
+{{/hasPrimaryKey}}
+func ({{lowerDomainName}}Service *{{domainName}}Service) SelectByExample({{lowerDomainName}}Example *{{domainName}}Example) ([]{{domainName}}, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.SelectByExample({{lowerDomainName}}Example)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan {{domainName}}) error {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ChanelByExample({{lowerDomainName}}Example, ch)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) CountByExample({{lowerDomainName}}Example *{{domainName}}Example) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.CountByExample({{lowerDomainName}}Example)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) ExistsByExample({{lowerDomainName}}Example *{{domainName}}Example) (bool, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ExistsByExample({{lowerDomainName}}Example)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) DeleteByExample({{lowerDomainName}}Example *{{domainName}}Example) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.DeleteByExample({{lowerDomainName}}Example)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) UpdateByExample({{lowerDomainName}}Example *{{domainName}}Example, t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.UpdateByExample({{lowerDomainName}}Example, t)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) UpdateByExampleSelective({{lowerDomainName}}Example *{{domainName}}Example, t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.UpdateByExampleSelective({{lowerDomainName}}Example, t)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) Insert(t *{{domainName}}) (*{{domainName}}, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.Insert(t)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) InsertSelective(t *{{domainName}}) (*{{domainName}}, error) {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.InsertSelective(t)
+}
+
+func ({{lowerDomainName}}Service *{{domainName}}Service) BatchInsert(ts []{{domainName}}) error {
+	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.BatchInsert(ts);
+}
+

@@ -1,0 +1,85 @@
+package repository
+
+import (
+	. "{{{artifact}}}/domain"
+	"database/sql"
+)
+
+type {{domainName}}Repository struct {
+	db *sql.DB
+}
+
+func New{{domainName}}Repository(db *sql.DB) *{{domainName}}Repository {
+	return &{{domainName}}Repository{db: db}
+}
+{{#hasPrimaryKey}}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) SelectByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (*{{domainName}}, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).SelectByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) ([]{{domainName}}, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) DeleteByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).DeleteByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) DeleteByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (int64, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).DeleteByPrimaryKeys({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) ExistsByPrimaryKey({{#primaryKeys}}{{lowerName}} {{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) (bool, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).ExistsByPrimaryKey({{#primaryKeys}}{{lowerName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) UpdateByPrimaryKey(t *{{domainName}}) (int64, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).UpdateByPrimaryKey(t)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) UpdateByPrimaryKeySelective(t *{{domainName}}) (int64, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).UpdateByPrimaryKeySelective(t)
+}
+
+{{/hasPrimaryKey}}
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) SelectByExample({{lowerDomainName}}Example *{{domainName}}Example) ([]{{domainName}}, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).SelectByExample()
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan {{domainName}}) error {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).SelectChannel(ch)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) CountByExample({{lowerDomainName}}Example *{{domainName}}Example) (int64, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).CountByExample()
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) ExistsByExample({{lowerDomainName}}Example *{{domainName}}Example) (bool, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).ExistsByExample()
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) DeleteByExample({{lowerDomainName}}Example *{{domainName}}Example) (int64, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).DeleteByExample()
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) UpdateByExample({{lowerDomainName}}Example *{{domainName}}Example, t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).UpdateByExample(t)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) UpdateByExampleSelective({{lowerDomainName}}Example *{{domainName}}Example, t *{{domainName}}) (int64, error) {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).UpdateByExampleSelective(t)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) Insert(t *{{domainName}}) (*{{domainName}}, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).Insert(t)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) InsertSelective(t *{{domainName}}) (*{{domainName}}, error) {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).InsertSelective(t)
+}
+
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) BatchInsert(ts []{{domainName}}) error {
+	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).BatchInsert(ts);
+}
+

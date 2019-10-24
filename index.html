@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<section style="height: 50px;">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="javascript:void(0)">ElasticSearch-QueryGenerator</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <select id="selectTemplate" onchange="changeTemplate()" class="form-control">
+                            <option value="settingTemplateDiv">Setting</option>
+                            <option value="applicationTemplateDiv">Main</option>
+                            <option value="queryTemplateDiv">Query</option>
+                            <option value="controllerTemplateDiv">Controller</option>
+                            <option value="serviceTemplateDiv">Service</option>
+                            <option value="repositoryTemplateDiv">Repository</option>
+                            <option value="modelTemplateDiv">Domain</option>
+                            <option value="pomTemplateDiv">Glide</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-default" onclick="clearCache()">Reset</button>
+                    <button type="button" class="btn btn-default" onclick="save()">Save</button>
+                    <button type="button" class="btn btn-default" onclick="generatorSpringBootPop()">Generate
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</section>
+<div class="row" style="height: 100%">
+
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="settingTemplateDiv">
+        <div id="settingTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="queryTemplateDiv">
+        <div id="queryTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="controllerTemplateDiv">
+        <div id="controllerTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="applicationTemplateDiv">
+        <div id="applicationTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="repositoryTemplateDiv">
+        <div id="repositoryTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="pomTemplateDiv">
+        <div id="pomTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="modelTemplateDiv">
+        <div id="modelTemplate" style="width:100%;height:100%"></div>
+    </div>
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="serviceTemplateDiv">
+        <div id="serviceTemplate" style="width:100%;height:100%"></div>
+    </div>
+</div>
+<div class='modal' id='generatorSpringBootPop'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>
+                    <span aria-hidden='true'>×</span><span class='sr-only'>Close</span>
+                </button>
+                <h4 class='modal-title'>Generate SpringBoot Project</h4>
+            </div>
+            <div class='modal-body'>
+                <form onsubmit="generate()" action="javascript:void(0)" method="get" role='form'>
+                    <div class='form-group'>
+                        <label>Artifact:</label>
+                        <input type='text' class='form-control' id="artifact" value="demo" placeholder="demo">
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default'
+                                data-dismiss='modal'>Close
+                        </button>
+                        <button type="submit" class='btn btn-primary'>Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/mustache.js/3.0.1/mustache.js"></script>
+<script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
+<script src="https://cdn.bootcss.com/jszip/3.1.5/jszip.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/loader.js"></script>
+<script>
+    let settingsEditor;
+    let queryTemplate;
+    let controllerTemplate;
+    let repositoryTemplate;
+    let pomTemplate;
+    let applicationTemplate;
+    let modelTemplate;
+    let serviceTemplate;
+
+    function loadSettingsEditor(settings) {
+        let container = document.getElementById('settingTemplate');
+        let defaultOption = {
+            value: settings,
+            language: 'json'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            settingsEditor = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                settingsEditor.layout();
+            };
+        });
+    }
+
+    function loadQueryTemplateEditor(template) {
+        let container = document.getElementById('queryTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'go'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            queryTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                queryTemplate.layout();
+            };
+        });
+    }
+
+    function loadControllerTemplateEditor(template) {
+        let container = document.getElementById('controllerTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'go'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            controllerTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                controllerTemplate.layout();
+            };
+        });
+    }
+
+    function loadRepositoryTemplateEditor(template) {
+        let container = document.getElementById('repositoryTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'go'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            repositoryTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                repositoryTemplate.layout();
+            };
+        });
+    }
+
+    function loadApplicationTemplateEditor(template) {
+        let container = document.getElementById('applicationTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'go'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            applicationTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                applicationTemplate.layout();
+            };
+        });
+    }
+
+    function loadPomTemplateEditor(template) {
+        let container = document.getElementById('pomTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'yaml'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            pomTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                pomTemplate.layout();
+            };
+        });
+    }
+
+    function loadModelTemplateEditor(template) {
+        let container = document.getElementById('modelTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'java'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            modelTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                pomTemplate.layout();
+            };
+        });
+    }
+
+    function loadServiceTemplateEditor(template) {
+        let container = document.getElementById('serviceTemplate');
+        let defaultOption = {
+            value: template,
+            language: 'java'
+        };
+        require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
+        require(['vs/editor/editor.main'], function () {
+            serviceTemplate = monaco.editor.create(container, defaultOption);
+
+            window.onresize = function () {
+                pomTemplate.layout();
+            };
+        });
+    }
+
+    function loadingSettings() {
+        let storage = window.localStorage;
+        let settings = storage.getItem("es.settings");
+        if (settings) {
+            loadSettingsEditor(settings);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadSettingsEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/example.json");
+            xhr.send(null);
+        }
+    }
+
+
+    function loadingQueryEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.queryTemplate");
+        if (template) {
+            loadQueryTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadQueryTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/query.mustache");
+            xhr.send(null);
+        }
+    }
+
+    function loadingControllerEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.controllerTemplate");
+        if (template) {
+            loadControllerTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadControllerTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/controller.mustache");
+            xhr.send(null);
+        }
+    }
+
+
+    function loadingPomEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.pomTemplate");
+        if (template) {
+            loadPomTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadPomTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/glide.yaml");
+            xhr.send(null);
+        }
+    }
+
+
+    function loadingRepositoryEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.repositoryTemplate");
+        if (template) {
+            loadRepositoryTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadRepositoryTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/repository.mustache");
+            xhr.send(null);
+        }
+    }
+
+
+    function loadingApplicationEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.applicationTemplate");
+        if (template) {
+            loadApplicationTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadApplicationTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/application.mustache");
+            xhr.send(null);
+        }
+    }
+
+
+    function loadingModelEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.modelTemplate");
+        if (template) {
+            loadModelTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadModelTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/domain.mustache");
+            xhr.send(null);
+        }
+    }
+
+    function loadingServiceEditor() {
+        let storage = window.localStorage;
+        let template = storage.getItem("es.serviceTemplate");
+        if (template) {
+            loadServiceTemplateEditor(template);
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    loadServiceTemplateEditor(xhr.responseText);
+                } else {
+                    alert(xhr.status);
+                }
+            };
+
+            xhr.open("get", "./template/service.mustache");
+            xhr.send(null);
+        }
+    }
+
+
+    loadingSettings();
+    loadingQueryEditor();
+    loadingControllerEditor();
+    loadingRepositoryEditor();
+    loadingApplicationEditor();
+    loadingPomEditor();
+    loadingModelEditor();
+    loadingServiceEditor();
+
+    function clearCache() {
+        let storage = window.localStorage;
+        storage.removeItem("es.settings");
+        storage.removeItem("es.queryTemplate");
+        storage.removeItem("es.controllerTemplate");
+        storage.removeItem("es.repositoryTemplate");
+        storage.removeItem("es.pomTemplate");
+        storage.removeItem("es.applicationTemplate");
+        storage.removeItem("es.modelTemplate");
+        storage.removeItem("es.serviceTemplate");
+        window.location.reload()
+    }
+
+    function save() {
+        let storage = window.localStorage;
+        storage.setItem("es.settings", settingsEditor.getValue());
+        storage.setItem("es.queryTemplate", queryTemplate.getValue());
+        storage.setItem("es.controllerTemplate", controllerTemplate.getValue());
+        storage.setItem("es.repositoryTemplate", repositoryTemplate.getValue());
+        storage.setItem("es.pomTemplate", pomTemplate.getValue());
+        storage.setItem("es.applicationTemplate", applicationTemplate.getValue());
+        storage.setItem("es.modelTemplate", modelTemplate.getValue());
+        storage.setItem("es.serviceTemplate", modelTemplate.getValue());
+        alert("success")
+    }
+
+    function changeTemplate() {
+        hiddenTemplate();
+        document.getElementById(document.getElementById("selectTemplate").value).hidden = false;
+    }
+
+    function hiddenTemplate() {
+        document.getElementById("settingTemplateDiv").hidden = true;
+        document.getElementById("queryTemplateDiv").hidden = true;
+        document.getElementById("controllerTemplateDiv").hidden = true;
+        document.getElementById("repositoryTemplateDiv").hidden = true;
+        document.getElementById("pomTemplateDiv").hidden = true;
+        document.getElementById("applicationTemplateDiv").hidden = true;
+        document.getElementById("modelTemplateDiv").hidden = true;
+        document.getElementById("serviceTemplateDiv").hidden = true;
+    }
+
+    function generatorSpringBootPop() {
+        $('#generatorSpringBootPop').modal('toggle')
+    }
+
+
+    function generate() {
+        let artifact = document.getElementById("artifact").value;
+        let zip = new JSZip();
+        let settings = JSON.parse(settingsEditor.getValue());
+        for (let i = 0; i < settings.length; i++) {
+            var setting = settings[i];
+            var fields = setting["fields"];
+            var tableName = setting["tableName"];
+            setting["lowerDomainName"] = lowerCamel(tableName);
+            setting["domainName"] = upperCamel(tableName);
+            setting["artifact"] = artifact;
+            var primaryKeys = setting["primaryKeys"];
+            setting["hasPrimaryKey"] = primaryKeys && primaryKeys.length > 0
+            for (let j = 0; j < fields.length; j++) {
+                var field = fields[j];
+                field["upperName"] = upperCamel(field["name"]);
+                field["lowerName"] = lowerCamel(field["name"]);
+                field["propertyType"] = getGolangType(field["type"]);
+                processGolangType(field)
+                if (j === (fields.length - 1)) {
+                    field["hasNext"] = false
+                } else {
+                    field["hasNext"] = true
+                }
+            }
+            for (let j = 0; j < primaryKeys.length; j++) {
+                var field = primaryKeys[j];
+                field["upperName"] = upperCamel(field["name"]);
+                field["lowerName"] = lowerCamel(field["name"]);
+                field["propertyType"] = getGolangType(field["type"]);
+                processGolangType(field)
+                if (j === (primaryKeys.length - 1)) {
+                    field["hasNext"] = false
+                } else {
+                    field["hasNext"] = true
+                }
+            }
+            zip.file(artifact + "/domain/" + tableName + ".go", Mustache.render(modelTemplate.getValue(), setting));
+            zip.file(artifact + "/domain/" + tableName + "_example.go", Mustache.render(queryTemplate.getValue(), setting));
+            zip.file(artifact + "/controller/" + tableName + "_controller.go", Mustache.render(controllerTemplate.getValue(), setting));
+            zip.file(artifact + "/service/" + tableName + "_service.go", Mustache.render(serviceTemplate.getValue(), setting));
+            zip.file(artifact + "/repository/" + tableName + "_repository.go", Mustache.render(repositoryTemplate.getValue(), setting));
+        }
+        zip.file(artifact + "/glide.yaml", Mustache.render(pomTemplate.getValue(), setting));
+        zip.file(artifact + "/main.go", Mustache.render(applicationTemplate.getValue(), setting));
+
+        zip.generateAsync({type: "blob"})
+            .then(function (content) {
+                saveAs(content, artifact + ".zip");
+            });
+
+    }
+
+    function lowerCamel(name) {
+        return name.replace(/[^a-zA-Z0-9]/g, "_").replace(/_([a-z0-9_A-Z])/g, function (all, letter) {
+            return letter.toUpperCase();
+        });
+    }
+
+    function upperCamel(name) {
+        let lower = lowerCamel(name);
+        if (lower.length > 1) {
+            return lower.substr(0, 1).toUpperCase() + lower.substr(1, lower.length - 1);
+        }
+        return lower.toUpperCase();
+    }
+
+    function toLine(name) {
+        return name.replace(/([A-Z])/g, "_$1").toLowerCase();
+    }
+
+    function processGolangType(filed) {
+        var golangType = filed["propertyType"];
+        filed["isInt8"] = false;
+        filed["isInt16"] = false;
+        filed["isInt32"] = false;
+        filed["isInt64"] = false;
+        filed["isFloat32"] = false;
+        filed["isFloat64"] = false;
+        filed["isString"] = false;
+        filed["isBoolean"] = false;
+        if (golangType == "string") {
+            filed["isString"] = true
+        } else if (golangType == "int8") {
+            filed["isInt8"] = true
+        } else if (golangType == "int16") {
+            filed["isInt16"] = true
+        } else if (golangType == "int32") {
+            filed["isInt32"] = true
+        } else if (golangType == "int64") {
+            filed["isInt64"] = true
+        } else if (golangType == "float32") {
+            filed["isFloat32"] = true
+        } else if (golangType == "float64") {
+            filed["isFloat64"] = true
+        } else if (golangType == "int64") {
+            filed["isInt64"] = true
+        } else if (golangType == "byte") {
+            filed["isByte"] = true
+        } else if (golangType == "bit") {
+            filed["isBoolean"] = true
+        } else {
+            filed["isString"] = true
+        }
+    }
+
+    function getGolangType(jdbcType) {
+        jdbcType = jdbcType.toUpperCase()
+        if (jdbcType == "CHAR" || jdbcType == "VARCHAR" || jdbcType == "TEXT" || jdbcType == "LONGTEXT"
+            || jdbcType == "LONGVARCHAR" || jdbcType == "VARCHAR2" || jdbcType == "JSON"
+            || jdbcType == "SET" || jdbcType == "ENUM" || jdbcType == "NUMERIC") {
+            return "string";
+        }
+
+        if (jdbcType == "INT" || jdbcType == "INT UNSIGNED" || jdbcType == "INTEGER" || jdbcType == "MEDIUMINT UNSIGNED") {
+            return "int32";
+        }
+
+        if (jdbcType == "SMALLINT" || jdbcType == "SMALLINT UNSIGNED") {
+            return "int16";
+        }
+
+        if (jdbcType == "TINYINT" || jdbcType == "TINYINT UNSIGNED") {
+            return "int8";
+        }
+
+        if (jdbcType == "DATETIME" || jdbcType == "TIMESTAMP"
+            || jdbcType == "DATE" || jdbcType == "YEAR" || jdbcType == "TIME") {
+            return "string";
+        }
+
+        if (jdbcType == "BIGINT" || jdbcType == "BIGINT UNSIGNED") {
+            return "int64";
+        }
+
+        if (jdbcType == "DOUBLE" || jdbcType == "DOUBLE UNSIGNED") {
+            return "float64";
+        }
+
+        if (jdbcType == "DECIMAL" || jdbcType == "DECIMAL UNSIGNED") {
+            return "float64";
+        }
+
+        if (jdbcType == "FLOAT" || jdbcType == "FLOAT UNSIGNED") {
+            return "float32";
+        }
+
+        if (jdbcType == "BYTE" || jdbcType == "BYTE UNSIGNED") {
+            return "byte";
+        }
+
+        if (jdbcType == "BINARY" || jdbcType == "GEOMETRY") {
+            return "[]byte";
+        }
+
+        if (jdbcType == "BIT") {
+            return "bool";
+        }
+
+        return "string";
+    }
+</script>
+</body>
+</html>
