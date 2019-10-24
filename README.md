@@ -25,6 +25,30 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=utf8mb4;
 ```
 
+#### SelectByExample
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	. "mysql_demo/domain"
+)
+
+func main() {
+	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/users")
+	defer db.Close()
+	users, e := NewUsersExample().WithDB(db).WithPage(1, 20).AndUserIdEqualTo(1).AndEmailLike("%@qq.com").SelectByExample()
+	if e != nil {
+		panic(e)
+	}
+	fmt.Println(users)
+}
+
+```
+
+### ChannelByExample
+
 ```go
 package main
 
