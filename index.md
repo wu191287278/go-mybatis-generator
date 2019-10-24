@@ -6,7 +6,7 @@
 
 ## 预览
 
-![preview](./images/preivew.jpg)
+![preview](./images/preview.jpg)
 
 
 ### ElasticSearch Query
