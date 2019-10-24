@@ -47,7 +47,7 @@ func ({{lowerDomainName}}Service *{{domainName}}Service) SelectByExample({{lower
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.SelectByExample({{lowerDomainName}}Example)
 }
 
-func ({{lowerDomainName}}Service *{{domainName}}Service) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan {{domainName}}) error {
+func ({{lowerDomainName}}Service *{{domainName}}Service) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan *{{domainName}}) error {
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ChanelByExample({{lowerDomainName}}Example, ch)
 }
 
