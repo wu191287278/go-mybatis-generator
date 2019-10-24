@@ -417,7 +417,7 @@ func (query *{{domainName}}Example) SelectOne() (*{{domainName}}, error) {
 }
 {{/hasPrimaryKey}}
 
-func (query *{{domainName}}Example) SelectChannel(ch chan {{domainName}}) error {
+func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error {
 	var buffer bytes.Buffer
 	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
 	buffer.WriteString(query.getTableName())
@@ -465,50 +465,50 @@ func (query *{{domainName}}Example) SelectChannel(ch chan {{domainName}}) error 
 			break
 		}
 
-		{{domainName}} := {{domainName}}{}
+		t := &{{domainName}}{}
 {{#fields}}
 {{#isInt8}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = int8({{lowerName}}.Int64)
+           t.{{upperName}} = int8({{lowerName}}.Int64)
         }
 {{/isInt8}}
 {{#isInt16}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = int16({{lowerName}}.Int64)
+           t.{{upperName}} = int16({{lowerName}}.Int64)
         }
 {{/isInt16}}
 {{#isInt32}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = int32({{lowerName}}.Int64)
+           t.{{upperName}} = int32({{lowerName}}.Int64)
         }
 {{/isInt32}}
 {{#isInt64}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = {{lowerName}}.Int64
+            t.{{upperName}} = {{lowerName}}.Int64
         }
 {{/isInt64}}
 {{#isString}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = {{lowerName}}.String
+            t.{{upperName}} = {{lowerName}}.String
         }
 {{/isString}}
 {{#isFloat32}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = float32({{lowerName}}.Float64)
+            t.{{upperName}} = float32({{lowerName}}.Float64)
         }
 {{/isFloat32}}
 {{#isFloat64}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = {{lowerName}}.Float64
+            t.{{upperName}} = {{lowerName}}.Float64
         }
 {{/isFloat64}}
 {{#isBoolean}}
 		if {{lowerName}}.Valid {
-            {{domainName}}.{{upperName}} = {{lowerName}}.Boolean
+            t.{{upperName}} = {{lowerName}}.Boolean
         }
 {{/isBoolean}}
 {{/fields}}
-		ch <- {{domainName}}
+		ch <- t
 	}
 
 	close(ch)
