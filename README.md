@@ -59,7 +59,7 @@ import (
 )
 
 func main() {
-	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/graphql")
+	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/users")
 	defer db.Close()
 	ch := make(chan *Users, 1)
 	go func(ch chan *Users) {
