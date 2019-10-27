@@ -1,22 +1,22 @@
 package domain
 
 import (
-	"bytes"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"strings"
-	"strconv"
+    "bytes"
+    "database/sql"
+    _ "github.com/go-sql-driver/mysql"
+    "strconv"
+    "strings"
 )
 
-type {{domainName}}Example struct {
-	Page          uint32
-	Size          uint32
-	TableName     string
-	Conditions    []string
-	Args          []interface{}
-	OrExamples    []{{domainName}}Example
-	OrderByClause string
-	DefaultDB     *sql.DB
+type UsersExample struct {
+    Page          uint32         `json:"page,omitempty"`
+    Size          uint32         `json:"size,omitempty"`
+    TableName     string         `json:"tableName,omitempty"`
+    Conditions    []string       `json:"conditions,omitempty"`
+    Args          []interface{}  `json:"args,omitempty"`
+    OrExamples    []{{domainName}}Example `json:"orExamples,omitempty"`
+    OrderByClause string         `json:"orderByClause,omitempty"`
+    DefaultDB     *sql.DB        `json:"-"`
 }
 
 func New{{domainName}}Example() *{{domainName}}Example {

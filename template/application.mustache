@@ -1,22 +1,31 @@
 package main
 
 import (
-	. "{{{artifact}}}/controller"
-	. "{{{artifact}}}/repository"
-	. "{{{artifact}}}/service"
-	"database/sql"
+    "database/sql"
+    "github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+    "log"
+    . "{{{artifact}}}/controller"
+    . "{{{artifact}}}/repository"
+    . "{{{artifact}}}/service"
 )
 
 func main() {
 	db, _ := sql.Open("mysql", "root:root@(localhost:3306)/graphql")
 	defer db.Close()
+
 {{#tables}}
 	{{lowerDomainName}}Repository := New{{domainName}}Repository(db)
-	{{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
-	{{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
-
 {{/tables}}
+
+{{#tables}}
+    {{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
+{{/tables}}
+
+{{#tables}}
+    {{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
+{{/tables}}
+
     r := gin.Default()
 
 {{#tables}}
@@ -28,5 +37,9 @@ func main() {
 	}
 
 {{/tables}}
-    r.Run(":8080")
+
+    err := endless.ListenAndServe(":8080", r)
+    if err != nil {
+        log.Fatal(err)
+    }
 }
