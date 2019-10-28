@@ -101,7 +101,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c
 	c.JSON(http.StatusOK, {{lowerDomainName}})
 
 }
-
+{{#hasPrimaryKey}}
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
@@ -119,3 +119,4 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKe
 	c.JSON(http.StatusOK, {{lowerDomainName}})
 
 }
+{{/hasPrimaryKey}}

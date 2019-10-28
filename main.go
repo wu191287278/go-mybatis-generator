@@ -13,14 +13,14 @@ import (
 )
 
 func main() {
-	localhost := flag.String("host", "localhost", "mysql host")
+	host := flag.String("host", "localhost", "mysql host")
 	port := flag.Int("port", 3306, "mysql port")
 	username := flag.String("username", "root", "username")
 	password := flag.String("password", "root", "password")
 	dbName := flag.String("dbname", "users", "db name")
 	dir := flag.String("serve", "./", "static server directory")
-    flag.Parse()
-	dataSourceName := *username + ":" + *password + "@(" + *localhost + ":" + strconv.Itoa(*port) + ")/information_schema"
+	flag.Parse()
+	dataSourceName := *username + ":" + *password + "@(" + *host + ":" + strconv.Itoa(*port) + ")/information_schema"
 	log.Println("connect " + dataSourceName)
 	db, _ := sql.Open("mysql", dataSourceName)
 	defer db.Close()
@@ -65,14 +65,14 @@ func main() {
 			table.IsAutoIncrement = true
 		}
 	}
-
-	example := Example{Tables: tables}
+	dataSource := DataSource{Host: *host, Port: *port, Username: *username, Password: *password,DBName:*dbName}
+	example := Example{Tables: tables, DataSource: dataSource}
 	bytes, e := json.MarshalIndent(example, "", "  ")
 	if e != nil {
 		panic(e)
 	}
 	filename := *dir + "/template/example.json"
-	log.Println("Write to "+filename)
+	log.Println("Write to " + filename)
 	file, e := os.Create(filename)
 	if e != nil {
 		panic(e)
@@ -81,13 +81,22 @@ func main() {
 		panic(e)
 	}
 	file.Write(bytes)
-    file.Close()
-    log.Println("Serving files from "+*dir+" at http://localhost:8080\n"+"Press Ctrl+C to quit")
+	file.Close()
+	log.Println("Serving files from " + *dir + " at http://localhost:8080\n" + "Press Ctrl+C to quit")
 	log.Fatal(http.ListenAndServe(":8080", http.FileServer(http.Dir(*dir))))
 }
 
 type Example struct {
-	Tables []*Table `json:"tables"`
+	DataSource DataSource `json:"dataSource"`
+	Tables     []*Table   `json:"tables"`
+}
+
+type DataSource struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	DBName   string `json:"dbName"`
 }
 
 type Table struct {

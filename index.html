@@ -492,7 +492,9 @@
             for (let j = 0; j < fields.length; j++) {
                 let field = fields[j];
                 field["upperName"] = upperCamel(field["name"]);
-                field["lowerName"] = lowerCamel(field["name"]);
+                if (!field["lowerName"]) {
+                    field["lowerName"] = lowerCamel(field["name"]);
+                }
                 field["propertyType"] = getGolangType(field["type"]);
                 processGolangType(field)
                 if (j === (fields.length - 1)) {
@@ -504,7 +506,9 @@
             for (let j = 0; j < primaryKeys.length; j++) {
                 let field = primaryKeys[j];
                 field["upperName"] = upperCamel(field["name"]);
-                field["lowerName"] = lowerCamel(field["name"]);
+                if (!field["lowerName"]) {
+                    field["lowerName"] = lowerCamel(field["name"]);
+                }
                 field["propertyType"] = getGolangType(field["type"]);
                 processGolangType(field)
                 if (j === (primaryKeys.length - 1)) {
@@ -530,6 +534,11 @@
     }
 
     function lowerCamel(name) {
+        for (let keyword of keywords) {
+            if (name === keyword) {
+                return name + "Alias"
+            }
+        }
         return name.replace(/[^a-zA-Z0-9]/g, "_").replace(/_([a-z0-9_A-Z])/g, function (all, letter) {
             return letter.toUpperCase();
         });
@@ -637,6 +646,34 @@
 
         return "string";
     }
+
+    let keywords = [
+        "import",
+        "package",
+        "chan",
+        "const",
+        "func",
+        "interface",
+        "map",
+        "struct",
+        "type",
+        "var",
+        "break",
+        "case",
+        "continue",
+        "default",
+        "defer",
+        "else",
+        "fallthrough",
+        "for",
+        "go",
+        "if",
+        "range",
+        "return",
+        "select",
+        "switch"
+    ];
+
 </script>
 </body>
 </html>

@@ -459,7 +459,7 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 	if e != nil {
 		return e
 	}
-    var total int64
+    var selectChannelTotal int64
 	for rows.Next() {
 {{#fields}}
 {{#isInt8}}
@@ -536,10 +536,10 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 {{/isBoolean}}
 {{/fields}}
 		ch <- t
-        total++
+        selectChannelTotal++
 	}
     close(ch)
-    query.after(total)
+    query.after(selectChannelTotal)
 	return e
 }
 
@@ -800,10 +800,14 @@ func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, 
 	buffer.WriteString(" values ({{#fields}}?{{#hasNext}}, {{/hasNext}}{{/fields}})")
 	insertSql := buffer.String()
     query.before(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
-	result, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+
+{{^isAutoIncrement}}
+    _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+{{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
-	if e == nil {
+    result, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    if e == nil {
 		i, e := result.LastInsertId()
 		if e == nil {
 {{#primaryKeys}}
@@ -888,11 +892,15 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
 
 	insertSql := prefix.String() + suffix.String()
     query.before(insertSql, args...)
-	result, e := query.DefaultDB.Exec(insertSql, args...)
+
+{{^isAutoIncrement}}
+    _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+{{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
-	if e == nil {
-		i, e := result.LastInsertId()
+    result, e := query.DefaultDB.Exec(insertSql, args...)
+    if e == nil {
+        i, e := result.LastInsertId()
 		if e == nil {
 {{#primaryKeys}}
 {{#isInt64}}
