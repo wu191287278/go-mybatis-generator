@@ -1,40 +1,5877 @@
 {
   "tables": [
     {
-      "tableName": "users",
+      "tableName": "addresses",
       "isAutoIncrement": true,
-      "primaryKeys": [
-        {
-          "name": "id",
-          "type": "bigint",
-          "length": 19,
-          "remarks": "主键id"
-        }
-      ],
       "fields": [
         {
           "name": "id",
           "type": "bigint",
-          "length": 19,
-          "remarks": "主键id"
-        },
-        {
-          "name": "email",
-          "type": "varchar",
-          "length": 32,
-          "remarks": "邮件"
+          "remarks": "snowflake id"
         },
         {
           "name": "user_id",
           "type": "bigint",
-          "length": 19,
+          "remarks": "用户id"
+        },
+        {
+          "name": "first_name",
+          "type": "varchar",
+          "remarks": "名"
+        },
+        {
+          "name": "last_name",
+          "type": "varchar",
+          "remarks": "姓"
+        },
+        {
+          "name": "address1",
+          "type": "varchar",
+          "remarks": "地址"
+        },
+        {
+          "name": "city",
+          "type": "varchar",
+          "remarks": "城市"
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": "州"
+        },
+        {
+          "name": "country",
+          "type": "varchar",
+          "remarks": "国家"
+        },
+        {
+          "name": "zip",
+          "type": "varchar",
+          "remarks": "邮编"
+        },
+        {
+          "name": "phone",
+          "type": "varchar",
+          "remarks": "手机号"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "status",
+          "type": "int",
+          "remarks": "状态"
+        },
+        {
+          "name": "verified_at",
+          "type": "datetime",
+          "remarks": "认证时间"
+        },
+        {
+          "name": "verified_by",
+          "type": "int",
+          "remarks": "认证用户id"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        }
+      ]
+    },
+    {
+      "tableName": "adobe_keys",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "cc_key",
+          "type": "varchar",
+          "remarks": "cc key 值"
+        },
+        {
+          "name": "region_sku",
+          "type": "varchar",
+          "remarks": "region sku"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户 id"
+        },
+        {
+          "name": "product_sale_id",
+          "type": "bigint",
+          "remarks": "出售记录 id"
+        },
+        {
+          "name": "sold_at",
+          "type": "datetime",
+          "remarks": "adobe key 的出售时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "authentications",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        },
+        {
+          "name": "provider",
+          "type": "varchar",
+          "remarks": "第三方名称 google （old） compatible for old data .  google_oauth2,    google standard. new user or old user newly login will user this from google old   one   google,    facebook.   facebook,    twitter.   twitter,    qq_connect.   qq_connect,    klout.   klout,    flickr.   flickr;"
+        },
+        {
+          "name": "uid",
+          "type": "varchar",
+          "remarks": "oauth 返回用户ID"
+        },
+        {
+          "name": "token",
+          "type": "varchar",
+          "remarks": "oauth 返回token"
+        },
+        {
+          "name": "secret",
+          "type": "varchar",
+          "remarks": "有些第三方oauth需要secret"
+        },
+        {
+          "name": "refresh_token",
+          "type": "varchar",
+          "remarks": "oauth refresh_token"
+        },
+        {
+          "name": "remote_contacts_last_pulled",
+          "type": "datetime",
+          "remarks": "最近一个oauth时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        }
+      ]
+    },
+    {
+      "tableName": "boss_sales",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "图片作者id"
+        },
+        {
+          "name": "buyer_id",
+          "type": "bigint",
+          "remarks": "Vcg (71576437 \u0026 14466947);Getty (33778897);500px Enterprise (29632435);500px Marketplace (6728138)"
+        },
+        {
+          "name": "distributor_id",
+          "type": "bigint",
+          "remarks": "Real buyer_id, purchase_items表中的user_id（分销商id）"
+        },
+        {
+          "name": "stock_photo_id",
+          "type": "varchar",
+          "remarks": "分销平台素材编号"
+        },
+        {
+          "name": "asset_type",
+          "type": "varchar",
+          "remarks": "1:picture;2:video;3music"
+        },
+        {
+          "name": "asset_family",
+          "type": "varchar",
+          "remarks": "1.editorial;2.creative"
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "licensing_photos 中的 photo_id"
+        },
+        {
+          "name": "payment_id",
+          "type": "int",
+          "remarks": "licensing_photos 中的 photo_id"
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": "1) 不计入余额的状态1.a) 买家相关Waiting_for_authorization 等待支付系统授权Authorization_failed 授权失败Waiting_for_payment 等待支付系统完成付款Refunded 已退款voided 支付系统授权已失效 failed 支付系统处理失败disputed 信用卡交易被申诉（相当于退款）1.b) 摄影师打款相关Submitted_for_payout 已申请支付摄影师稿费Paid_out 摄影师打款成功2) 计入当前余额的状态Ready_for_ship 买家付款完成 Printing 正在打印shipped 已经发出打印件"
+        },
+        {
+          "name": "payout_request_id",
+          "type": "int",
+          "remarks": "关联的提现记录ID（payout_requests表中的 id）"
+        },
+        {
+          "name": "gross",
+          "type": "int",
+          "remarks": "未分成前的稿费总额"
+        },
+        {
+          "name": "seller_share",
+          "type": "int",
+          "remarks": " 摄影师分成拿到金额，以美分记。"
+        },
+        {
+          "name": "photographer_cut",
+          "type": "float",
+          "remarks": "摄影师分成百分比"
+        },
+        {
+          "name": "payment_method",
+          "type": "int",
+          "remarks": "销售渠道或零售付款方式，见文档详细解释"
+        },
+        {
+          "name": "license_name",
+          "type": "varchar",
+          "remarks": "授权类型. 与exclusive联合决定分成比例.multi_seat web_ready print_ready unlimited_prints rights_managedproducts_for_resale retina_ready image_guarantee Web ReadySTANDARD LICENSE(S) Print Ready (M, L, XL or Web Ready, Retina Ready \u0026 Print Ready)- Exclusive - 60% Non-Excl - 30%EXTENDED LICENSE(S) Multi-seat, Unlimited Digital Print Run, and Product for Resale- Exclusive - 40% Non-excl - 30%Extended Legal Warranty - Exclusive - 0% Non-Excl - 0%"
+        },
+        {
+          "name": "exclusive",
+          "type": "varchar",
+          "remarks": "0: non_exc; 1:exclusive（独家）"
+        },
+        {
+          "name": "sales_territory",
+          "type": "varchar",
+          "remarks": "销售区域"
+        },
+        {
+          "name": "industry",
+          "type": "varchar",
+          "remarks": "行业,预留字段,未使用"
+        },
+        {
+          "name": "usage",
+          "type": "longtext",
+          "remarks": "用途,预留字段,未使用"
+        },
+        {
+          "name": "original_sales_id",
+          "type": "int",
+          "remarks": "撤片,退款使用, 表示关联的原始销售记录"
+        },
+        {
+          "name": "is_refunded",
+          "type": "varchar",
+          "remarks": "是否被退款. 0:否;1是"
+        },
+        {
+          "name": "vendor_license_id",
+          "type": "varchar",
+          "remarks": "销售记录所属的订单编号. 退款时通过invoice_number, user_id, photo_id, gross找到原销售记录."
+        },
+        {
+          "name": "cancelled",
+          "type": "tinyint",
+          "remarks": "原marketplace取消购买标记, 历史数据导入,保证新系统数据兼容性. 0:否;1:是"
+        },
+        {
+          "name": "imports_id",
+          "type": "bigint",
+          "remarks": "关联imports表的id"
+        },
+        {
+          "name": "sheet_index",
+          "type": "int",
+          "remarks": "对应源文件Sheet序号"
+        },
+        {
+          "name": "line",
+          "type": "int",
+          "remarks": "对应原导入文件中的行号"
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "remarks": "来源. 1.studio;2.Getty;3VCG"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "交易时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "记录更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        }
+      ]
+    },
+    {
+      "tableName": "camera_alternative_names",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "camera_id",
+          "type": "bigint",
+          "remarks": "相机id"
+        },
+        {
+          "name": "alternative_name",
+          "type": "varchar",
+          "remarks": "相机别名"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "cameras",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "brand_id",
+          "type": "bigint",
+          "remarks": "品牌id"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "相机名称"
+        },
+        {
+          "name": "camera_type",
+          "type": "tinyint",
+          "remarks": "相机类型"
+        },
+        {
+          "name": "verified",
+          "type": "tinyint",
+          "remarks": "管理员是否已确认"
+        },
+        {
+          "name": "slug",
+          "type": "varchar",
+          "remarks": "相机格式化名称"
+        },
+        {
+          "name": "features",
+          "type": "text",
+          "remarks": "相机高光特性"
+        },
+        {
+          "name": "upc",
+          "type": "varchar",
+          "remarks": "相机UPC编码"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "client_applications",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "url",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "support_url",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "callback_url",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "key",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "secret",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "approved",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "custom_icon",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "sdk_callback",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "sdk_key",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "watermark",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "allow_publishers_access",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "scopes",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "grant_types",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "content_stream_photos",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        },
+        {
+          "name": "stream_type",
+          "type": "tinyint",
+          "remarks": "流名称"
+        },
+        {
+          "name": "start_at",
+          "type": "datetime",
+          "remarks": "进入流的时间"
+        },
+        {
+          "name": "end_at",
+          "type": "datetime",
+          "remarks": "退出流的时间"
+        },
+        {
+          "name": "editored_by",
+          "type": "bigint",
+          "remarks": "用户id"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        },
+        {
+          "name": "stream_type",
+          "type": "tinyint",
+          "remarks": "流名称"
+        }
+      ]
+    },
+    {
+      "tableName": "delivery_types",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "media_type",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "size",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "current",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "license",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "height",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "education_classes",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "discussion_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "class_type",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "starts_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "ends_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "equipment_brands",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "品牌名称"
+        },
+        {
+          "name": "slug",
+          "type": "varchar",
+          "remarks": "品牌格式化名称"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        }
+      ]
+    },
+    {
+      "tableName": "equipment_vendor_mapping",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "upc",
+          "type": "varchar",
+          "remarks": "upc"
+        },
+        {
+          "name": "bh_id",
+          "type": "varchar",
+          "remarks": "bh_id"
+        },
+        {
+          "name": "bh_link",
+          "type": "varchar",
+          "remarks": "bh_link"
+        }
+      ],
+      "primaryKeys": []
+    },
+    {
+      "tableName": "featured_quests",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "quest_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "flagged_contents",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户 id"
+        },
+        {
+          "name": "item_type",
+          "type": "tinyint",
+          "remarks": "举报对象类型，1-7，1：用户，2：图片，3：评论，4：story 5：影集,6：Groups_group 7:groups_post"
+        },
+        {
+          "name": "item_id",
+          "type": "bigint",
+          "remarks": "举报对象 id"
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "举报状态，1：未审核 2：已审核"
+        },
+        {
+          "name": "reason",
+          "type": "tinyint",
+          "remarks": "举报原因，1-7"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "resolved",
+          "type": "tinyint",
+          "remarks": "1：已处理，0：未处理"
+        },
+        {
+          "name": "resolved_by",
+          "type": "bigint",
+          "remarks": "处理人用户 id"
+        },
+        {
+          "name": "reason_details",
+          "type": "text",
+          "remarks": "举报原因详情"
+        },
+        {
+          "name": "owner_id",
+          "type": "bigint",
+          "remarks": "举报对象所属用户 id"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键"
+        }
+      ]
+    },
+    {
+      "tableName": "galleries",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "影集名称"
+        },
+        {
+          "name": "description",
+          "type": "varchar",
+          "remarks": "描述"
+        },
+        {
+          "name": "privacy",
+          "type": "tinyint",
+          "remarks": "公有私有"
+        },
+        {
+          "name": "status",
+          "type": "int",
+          "remarks": "影集状态"
+        },
+        {
+          "name": "position",
+          "type": "int",
+          "remarks": "排序position"
+        },
+        {
+          "name": "kind",
+          "type": "int",
+          "remarks": "影集类型"
+        },
+        {
+          "name": "items_count",
+          "type": "int",
+          "remarks": "影集照片数量"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
           "remarks": "用户id"
         },
         {
           "name": "created_at",
           "type": "datetime",
-          "length": 19,
           "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "rating",
+          "type": "float",
+          "remarks": "点赞数"
+        },
+        {
+          "name": "subtitle",
+          "type": "varchar",
+          "remarks": "子标题"
+        },
+        {
+          "name": "cover_photo_id",
+          "type": "bigint",
+          "remarks": "封面图片id"
+        },
+        {
+          "name": "token",
+          "type": "varchar",
+          "remarks": "影集token"
+        },
+        {
+          "name": "custom_path",
+          "type": "varchar",
+          "remarks": "影集访问路径"
+        },
+        {
+          "name": "view_count",
+          "type": "int",
+          "remarks": "浏览量"
+        },
+        {
+          "name": "password_digest",
+          "type": "varchar",
+          "remarks": "密码（已失效）"
+        },
+        {
+          "name": "editors_choice",
+          "type": "datetime",
+          "remarks": "编辑精选"
+        },
+        {
+          "name": "nsfw",
+          "type": "tinyint",
+          "remarks": "是否包含成人内容图片"
+        },
+        {
+          "name": "last_added_to_at",
+          "type": "datetime",
+          "remarks": "最新加入的照片时间"
+        },
+        {
+          "name": "published_date",
+          "type": "datetime",
+          "remarks": "publish 日期"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "gallery_items",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "gallery_id",
+          "type": "bigint",
+          "remarks": "影集id"
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "照片id"
+        },
+        {
+          "name": "position",
+          "type": "int",
+          "remarks": "排序position"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "gallery_id",
+          "type": "bigint",
+          "remarks": "影集id"
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "照片id"
+        }
+      ]
+    },
+    {
+      "tableName": "groups_discussions",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "group_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "posts_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "discussion_type",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "inter_frecency",
+          "type": "float",
+          "remarks": ""
+        },
+        {
+          "name": "intra_frecency",
+          "type": "float",
+          "remarks": ""
+        },
+        {
+          "name": "pinned_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_groups",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "description",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "discussions_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "members_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "slug",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "cover_photo_version",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "avatar_version",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "verified",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "photos_count",
+          "type": "int",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_memberships",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "group_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_level",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_post_attachments",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "group_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "post_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "position",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "attachment_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "attachment_type",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_post_versions",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "post_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "topic",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "body",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "attachments",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_post_votes",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "group_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "post_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "direction",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "weight",
+          "type": "float",
+          "remarks": ""
+        },
+        {
+          "name": "ip_address",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "groups_posts",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "group_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "discussion_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "parent_post_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "topic",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "body",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "attachments_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "replies_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "positive_votes_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "votes_count",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "imports",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "记录主键,自增"
+        },
+        {
+          "name": "file_name",
+          "type": "varchar",
+          "remarks": "文件名"
+        },
+        {
+          "name": "original_storage_key",
+          "type": "varchar",
+          "remarks": "原始文件云存储的key值"
+        },
+        {
+          "name": "failed_storage_key",
+          "type": "varchar",
+          "remarks": "失败,未能导入的云存储的key值"
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "remarks": "来源:1 studio, 2 VCG , 3 GETTY"
+        },
+        {
+          "name": "total",
+          "type": "int",
+          "remarks": "上传记录总计"
+        },
+        {
+          "name": "failed_total",
+          "type": "int",
+          "remarks": "错误记录总计"
+        },
+        {
+          "name": "failed_gross",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "failed_total_seller_share",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "failed_cogs_amount",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "successed_total",
+          "type": "int",
+          "remarks": "成功上传总计"
+        },
+        {
+          "name": "successed_gross",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "successed_total_seller_share",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "successed_cogs_amount",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "remarks": "文件大小bytes"
+        },
+        {
+          "name": "processed_by",
+          "type": "bigint",
+          "remarks": "操作员编号"
+        },
+        {
+          "name": "upload_time",
+          "type": "datetime",
+          "remarks": "上传时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "记录主键,自增"
+        }
+      ]
+    },
+    {
+      "tableName": "imports_error",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "自增主键"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "素材编号"
+        },
+        {
+          "name": "sheet_index",
+          "type": "int",
+          "remarks": "导入源文件sheet序号"
+        },
+        {
+          "name": "line",
+          "type": "int",
+          "remarks": "导入源文件行号"
+        },
+        {
+          "name": "failed_reason",
+          "type": "varchar",
+          "remarks": "错误原因, 多个原因以  分隔"
+        },
+        {
+          "name": "imports_id",
+          "type": "bigint",
+          "remarks": "对应上传记录的主键"
+        },
+        {
+          "name": "gross",
+          "type": "int",
+          "remarks": "未分成前的稿费总额"
+        },
+        {
+          "name": "seller_share",
+          "type": "int",
+          "remarks": " 摄影师分成拿到金额，以美分记。"
+        },
+        {
+          "name": "photographer_cut",
+          "type": "float",
+          "remarks": "摄影师分成百分比"
+        },
+        {
+          "name": "license_name",
+          "type": "varchar",
+          "remarks": "授权类型"
+        },
+        {
+          "name": "exclusive",
+          "type": "varchar",
+          "remarks": "0: non_exc; 1:exclusive"
+        },
+        {
+          "name": "sales_territory",
+          "type": "varchar",
+          "remarks": "销售区域"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "交易时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "自增主键"
+        }
+      ]
+    },
+    {
+      "tableName": "lens_alternative_names",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        },
+        {
+          "name": "lens_id",
+          "type": "bigint",
+          "remarks": "镜头id"
+        },
+        {
+          "name": "alternative_name",
+          "type": "varchar",
+          "remarks": "设备别名"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        }
+      ]
+    },
+    {
+      "tableName": "lenses",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        },
+        {
+          "name": "brand_id",
+          "type": "bigint",
+          "remarks": "品牌id"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "镜头名称"
+        },
+        {
+          "name": "slug",
+          "type": "varchar",
+          "remarks": "slug"
+        },
+        {
+          "name": "upc",
+          "type": "varchar",
+          "remarks": "upc"
+        },
+        {
+          "name": "features",
+          "type": "text",
+          "remarks": "features"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        }
+      ]
+    },
+    {
+      "tableName": "license_requests",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "license_requests_enabled",
+          "type": "tinyint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": []
+    },
+    {
+      "tableName": "licenses",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "purchase_item_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "license_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "price_before_discount",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "resize_max",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "resize_dpi",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "photographer_cut",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "addon_inclusion",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "subscription_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "discount_code",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "remote_sale_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "receipt_id",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "licensing_photos",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "图片id"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        },
+        {
+          "name": "status",
+          "type": "int",
+          "remarks": "状态"
+        },
+        {
+          "name": "stored_at",
+          "type": "varchar",
+          "remarks": "s3地址"
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "remarks": "图片宽"
+        },
+        {
+          "name": "height",
+          "type": "int",
+          "remarks": "图片高"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "remarks": "地址"
+        },
+        {
+          "name": "latitude",
+          "type": "double",
+          "remarks": "纬度"
+        },
+        {
+          "name": "longitude",
+          "type": "double",
+          "remarks": "经度"
+        },
+        {
+          "name": "exclusive_use",
+          "type": "tinyint",
+          "remarks": "独家性 1 独家 0 非独家"
+        },
+        {
+          "name": "submission_date",
+          "type": "datetime",
+          "remarks": "提交时间"
+        },
+        {
+          "name": "title",
+          "type": "varchar",
+          "remarks": "标题"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "remarks": "描述"
+        },
+        {
+          "name": "keywords",
+          "type": "text",
+          "remarks": "关键词"
+        },
+        {
+          "name": "ai_keywords",
+          "type": "text",
+          "remarks": "关键词ai"
+        },
+        {
+          "name": "brand",
+          "type": "int",
+          "remarks": "商标"
+        },
+        {
+          "name": "file_name",
+          "type": "varchar",
+          "remarks": "文件名"
+        },
+        {
+          "name": "getty_id",
+          "type": "varchar",
+          "remarks": "getty_id"
+        },
+        {
+          "name": "vcg_id",
+          "type": "varchar",
+          "remarks": "vcgid"
+        },
+        {
+          "name": "taken_at",
+          "type": "datetime",
+          "remarks": "拍摄时间"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "remarks": "change require 或者 decline 原因"
+        },
+        {
+          "name": "category",
+          "type": "int",
+          "remarks": "图片类别"
+        },
+        {
+          "name": "lens",
+          "type": "varchar",
+          "remarks": "lens"
+        },
+        {
+          "name": "focal_length",
+          "type": "varchar",
+          "remarks": "focal_length"
+        },
+        {
+          "name": "iso",
+          "type": "varchar",
+          "remarks": "iso"
+        },
+        {
+          "name": "shutter_speed",
+          "type": "varchar",
+          "remarks": "shutter_speed"
+        },
+        {
+          "name": "aperture",
+          "type": "varchar",
+          "remarks": "aperture"
+        },
+        {
+          "name": "camera",
+          "type": "varchar",
+          "remarks": "camera"
+        },
+        {
+          "name": "orientation",
+          "type": "varchar",
+          "remarks": "图片方向"
+        },
+        {
+          "name": "extra_info",
+          "type": "text",
+          "remarks": "扩展信息"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "图片id"
+        }
+      ]
+    },
+    {
+      "tableName": "licensing_release_model_metadata",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "licensing_release_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "phone",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "photographer_full_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "shoot_date",
+          "type": "date",
+          "remarks": ""
+        },
+        {
+          "name": "shoot_description",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "full_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "birthday",
+          "type": "date",
+          "remarks": ""
+        },
+        {
+          "name": "gender",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "ethnicity",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "guardian_full_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "guardian_email",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "guardian_phone",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "street",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "city",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "province",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "country",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "token",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "licensing_release_photos",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "licensing_release_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "licensing_releases",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "uploader_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "release_type",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "stored_at",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "file_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "licensing_users",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "provider_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "enable_or_disable_time",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "firstname",
+          "type": "varchar",
+          "remarks": "名字"
+        },
+        {
+          "name": "lastname",
+          "type": "varchar",
+          "remarks": "姓"
+        },
+        {
+          "name": "username",
+          "type": "varchar",
+          "remarks": "用户名"
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "remarks": "用户电子邮箱"
+        },
+        {
+          "name": "verified_phone_number",
+          "type": "varchar",
+          "remarks": "用户手机号，加区号, from mongodb collection user_settings,'verified_phone_number'"
+        },
+        {
+          "name": "country_code",
+          "type": "varchar",
+          "remarks": "用户手机号国家code, from mongodb collection user_settings, 'country_code'"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "locations",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        },
+        {
+          "name": "place_id",
+          "type": "varchar",
+          "remarks": "google 的位置id"
+        },
+        {
+          "name": "locality",
+          "type": "varchar",
+          "remarks": "地址"
+        },
+        {
+          "name": "administrative_area_1",
+          "type": "varchar",
+          "remarks": "google api 返回字段"
+        },
+        {
+          "name": "administrative_area_2",
+          "type": "varchar",
+          "remarks": "google api 返回字段"
+        },
+        {
+          "name": "administrative_area_3",
+          "type": "varchar",
+          "remarks": "google api 返回字段"
+        },
+        {
+          "name": "administrative_area_4",
+          "type": "varchar",
+          "remarks": "google api 返回字段"
+        },
+        {
+          "name": "administrative_area_5",
+          "type": "varchar",
+          "remarks": "google api 返回字段"
+        },
+        {
+          "name": "country",
+          "type": "varchar",
+          "remarks": "国家"
+        },
+        {
+          "name": "country_code",
+          "type": "char",
+          "remarks": "国家编码"
+        },
+        {
+          "name": "latitude",
+          "type": "decimal",
+          "remarks": "纬度"
+        },
+        {
+          "name": "longitude",
+          "type": "decimal",
+          "remarks": "经度"
+        },
+        {
+          "name": "formatted_address",
+          "type": "varchar",
+          "remarks": "格式化地址"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        }
+      ]
+    },
+    {
+      "tableName": "notes",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "target_type",
+          "type": "int",
+          "remarks": "操作对象类型，1：user，2：photo，3：gallery"
+        },
+        {
+          "name": "target_id",
+          "type": "bigint",
+          "remarks": "操作对象 id"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户 id"
+        },
+        {
+          "name": "body",
+          "type": "text",
+          "remarks": "操作内容"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "partner_optout_periods",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "began_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "ended_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "agreement_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "agreement_version",
+          "type": "int",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "payment_profiles",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        },
+        {
+          "name": "address_id",
+          "type": "bigint",
+          "remarks": "关联 addresses  id"
+        },
+        {
+          "name": "last_four_digits",
+          "type": "varchar",
+          "remarks": "信用卡后四位"
+        },
+        {
+          "name": "expiration_date",
+          "type": "date",
+          "remarks": "信用卡过期时间"
+        },
+        {
+          "name": "profile_id",
+          "type": "varchar",
+          "remarks": "customer_id"
+        },
+        {
+          "name": "card_type",
+          "type": "varchar",
+          "remarks": "信用卡类型"
+        },
+        {
+          "name": "current",
+          "type": "tinyint",
+          "remarks": "当前使用"
+        },
+        {
+          "name": "default_use",
+          "type": "tinyint",
+          "remarks": "是否默认"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "gateway",
+          "type": "tinyint",
+          "remarks": "支付网关"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "snowflake id"
+        }
+      ]
+    },
+    {
+      "tableName": "payments",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "date",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "remarks": ""
+        },
+        {
+          "name": "payment_processor",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "payment_processor_subsciber_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "item_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "item_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "txn_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "params",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "promo_code",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "capture_date",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "last_digits",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "payout_requests",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "自增id"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "图片作者id"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "remarks": "提现金额"
+        },
+        {
+          "name": "method",
+          "type": "varchar",
+          "remarks": "支付方式"
+        },
+        {
+          "name": "address_id",
+          "type": "int",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "paypal_account",
+          "type": "varchar",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "paypal_txn_id",
+          "type": "varchar",
+          "remarks": "method为payal时, 表示reference_id"
+        },
+        {
+          "name": "cheque_number",
+          "type": "varchar",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "comment",
+          "type": "text",
+          "remarks": "备注信息,存放处理过程信息"
+        },
+        {
+          "name": "admin_id",
+          "type": "bigint",
+          "remarks": "财务审核操作员编号"
+        },
+        {
+          "name": "paypal_resource",
+          "type": "text",
+          "remarks": "存放支付接口请求,响应数据"
+        },
+        {
+          "name": "has_photo",
+          "type": "tinyint",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "paid_date",
+          "type": "datetime",
+          "remarks": "支付日期"
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": "支付处理状态. failed,paid_out,pending,submitted"
+        },
+        {
+          "name": "fee",
+          "type": "int",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "withholding",
+          "type": "int",
+          "remarks": "未用到,保留历史原值"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "自增id"
+        }
+      ]
+    },
+    {
+      "tableName": "payout_requests_sales",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "payout_request_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "sales_id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "payout_request_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "sales_id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "photo_extend",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "nsfw_set_by_admin",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "category_set_by_admin",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at_prior_to_hard_delete",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "status_prior_to_hard_delete",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "hard_deleted_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "glacier_path",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "stored_in_glacier",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "lytro_path",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "auto_activate",
+          "type": "tinyint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "photo_pulse",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        },
+        {
+          "name": "rating",
+          "type": "decimal",
+          "remarks": "热度值"
+        },
+        {
+          "name": "highest_rating",
+          "type": "decimal",
+          "remarks": "最高热度值"
+        },
+        {
+          "name": "highest_rating_time",
+          "type": "datetime",
+          "remarks": "最高热度值出现的时间"
+        },
+        {
+          "name": "first_action_time",
+          "type": "datetime",
+          "remarks": "图片第一次点赞时间"
+        },
+        {
+          "name": "rating_factor",
+          "type": "float",
+          "remarks": "热度值时间衰减指数"
+        },
+        {
+          "name": "weighted_sum",
+          "type": "double",
+          "remarks": "图片的weight sum和"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        }
+      ]
+    },
+    {
+      "tableName": "photo_stats",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "主键"
+        },
+        {
+          "name": "times_viewed",
+          "type": "int",
+          "remarks": "浏览量"
+        },
+        {
+          "name": "votes_count",
+          "type": "int",
+          "remarks": "点赞数"
+        },
+        {
+          "name": "comments_count",
+          "type": "int",
+          "remarks": "用户的评论数"
+        },
+        {
+          "name": "version",
+          "type": "int",
+          "remarks": "锁控制"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "主键"
+        }
+      ]
+    },
+    {
+      "tableName": "photographer_profiles",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "摄影师状态：          completed sign-up steps 1 and 2 but hasn't finished uploading specialty photos.                 IN_PROGRESS(\"\"in_progress\"\", 0),                  sign-up fully completed.                 ACTIVE(\"\"active\"\", 1),                  all specialties have been reviewed by admin.                 VETTED(\"\"vetted\"\", 2);"
+        },
+        {
+          "name": "company_name",
+          "type": "varchar",
+          "remarks": "公司名称"
+        },
+        {
+          "name": "biography",
+          "type": "text",
+          "remarks": "个人简介"
+        },
+        {
+          "name": "currency",
+          "type": "varchar",
+          "remarks": "支付币种"
+        },
+        {
+          "name": "service_rate",
+          "type": "tinyint",
+          "remarks": "是否收费"
+        },
+        {
+          "name": "service_rate_hourly",
+          "type": "decimal",
+          "remarks": "每小时收费"
+        },
+        {
+          "name": "service_rate_daily",
+          "type": "decimal",
+          "remarks": "每天收费"
+        },
+        {
+          "name": "service_type",
+          "type": "tinyint",
+          "remarks": "服务类型：0:拍照，1:录像， 2：拍照和录像"
+        },
+        {
+          "name": "location_id",
+          "type": "bigint",
+          "remarks": "服务地点ID,关联location表ID"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "phone_number",
+          "type": "varchar",
+          "remarks": "photographer 电话， 不做验证， from mongo collection \"\"user_settings\"\" phone_number"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        }
+      ]
+    },
+    {
+      "tableName": "photos",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "图片id：photos 中的id"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "图片所属用户id：photos中的user_id"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "图片名称 : photos中的name"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "remarks": " 图片描述: photos中的description"
+        },
+        {
+          "name": "camera",
+          "type": "varchar",
+          "remarks": "相机 : photos中camera"
+        },
+        {
+          "name": "lens",
+          "type": "varchar",
+          "remarks": "镜头 : photos中lens"
+        },
+        {
+          "name": "focal_length",
+          "type": "varchar",
+          "remarks": "焦距 :   photos中的focal_length"
+        },
+        {
+          "name": "iso",
+          "type": "varchar",
+          "remarks": "感光度:  photos中iso"
+        },
+        {
+          "name": "shutter_speed",
+          "type": "varchar",
+          "remarks": "快门速度 ： photos中的shutter_spped"
+        },
+        {
+          "name": "aperture",
+          "type": "varchar",
+          "remarks": "孔径:  photos中的aperture"
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "图片状态:  photos中的status"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "图片上传时间： photos中的created_at"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "修改时间: photos中的updated_at"
+        },
+        {
+          "name": "category",
+          "type": "smallint",
+          "remarks": "图片类别:  photos中的category"
+        },
+        {
+          "name": "location",
+          "type": "varchar",
+          "remarks": "图片拍摄的位置: photo中的location"
+        },
+        {
+          "name": "location_id",
+          "type": "bigint",
+          "remarks": "locations中的id"
+        },
+        {
+          "name": "privacy",
+          "type": "smallint",
+          "remarks": "图片是否私有 0：公有 1：私有 2：代表作 ： photo中的privacy"
+        },
+        {
+          "name": "latitude",
+          "type": "double",
+          "remarks": "图片纬度：photo中的latitude"
+        },
+        {
+          "name": "longitude",
+          "type": "double",
+          "remarks": "图片经度：photo中的longitude"
+        },
+        {
+          "name": "taken_at",
+          "type": "datetime",
+          "remarks": "图片拍摄时间：photo中的taken_at"
+        },
+        {
+          "name": "width",
+          "type": "int",
+          "remarks": "图片宽度: photos中的width"
+        },
+        {
+          "name": "height",
+          "type": "int",
+          "remarks": "图片高度:  photos中的height"
+        },
+        {
+          "name": "nsfw",
+          "type": "tinyint",
+          "remarks": "是否敏感图片:  photos中的nsfw"
+        },
+        {
+          "name": "image_format",
+          "type": "tinyint",
+          "remarks": "图片格式  0:jpeg  1:lytro :  photos中的image_format"
+        },
+        {
+          "name": "camera_id",
+          "type": "bigint",
+          "remarks": "相机id: photo_extra 中的 camera_id"
+        },
+        {
+          "name": "lens_id",
+          "type": "bigint",
+          "remarks": "镜头id ： photo_extra 中的 lens_id"
+        },
+        {
+          "name": "color_profile_id",
+          "type": "int",
+          "remarks": "color_profile_id: photo_extra 中的color_profile_id"
+        },
+        {
+          "name": "watermark",
+          "type": "tinyint",
+          "remarks": "photo_extra 中的watermark"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "图片id：photos 中的id"
+        }
+      ]
+    },
+    {
+      "tableName": "price_list_items",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "price_list_id",
+          "type": "bigint",
+          "remarks": "价格列表 id"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        },
+        {
+          "name": "region",
+          "type": "varchar",
+          "remarks": "产品所在区域，adobe 不同区域的定价不一样"
+        },
+        {
+          "name": "price",
+          "type": "int",
+          "remarks": "售价"
+        },
+        {
+          "name": "cost",
+          "type": "int",
+          "remarks": "成本价"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "price_list_id",
+          "type": "bigint",
+          "remarks": "价格列表 id"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        },
+        {
+          "name": "region",
+          "type": "varchar",
+          "remarks": "产品所在区域，adobe 不同区域的定价不一样"
+        }
+      ]
+    },
+    {
+      "tableName": "price_lists",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "价格列表名称"
+        },
+        {
+          "name": "currency",
+          "type": "varchar",
+          "remarks": "货币单元"
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "活跃状态"
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "remarks": "开始时间"
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "remarks": "结束时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "prime_addresses",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "address1",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "city",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "country",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "zip",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "phone",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "product_sales",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "订阅动作，0:支付失败 1：支付成功 2：已退款"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "订阅用户 id(根据 subscription 表的 user_id)"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id(根据 membership 和 billing_period 字段推出用户订阅的产品 id)"
+        },
+        {
+          "name": "membership",
+          "type": "varchar",
+          "remarks": "购买的会员，1:awesome， 2:pro(来自 subscription 表里面的 membership 字段)"
+        },
+        {
+          "name": "price_list_id",
+          "type": "bigint",
+          "remarks": "价格列表 id 1000000001(根据用户订阅的产品的价格推出当时的价格去 price_list 里面找到 id，可以后面再填)"
+        },
+        {
+          "name": "promo_code",
+          "type": "varchar",
+          "remarks": "使用的优惠活动 code 码(来自 subscription 表里面的 promo_code 字段)"
+        },
+        {
+          "name": "billing_period",
+          "type": "varchar",
+          "remarks": "结算周期:Y：年,M：月(来自 subscription 表里面的 billing_period 字段)"
+        },
+        {
+          "name": "purchase_date",
+          "type": "datetime",
+          "remarks": "购买日期(来自 subscription 表里面的 date 字段)"
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "remarks": "当前订阅的开始时间"
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "remarks": "当前订阅的结束时间"
+        },
+        {
+          "name": "credit_amount",
+          "type": "int",
+          "remarks": "对于升级会员时抵扣的信用值(默认 0)"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "remarks": "实际购买价格(来自 subscription 表里面的 amount 字段)"
+        },
+        {
+          "name": "item_name",
+          "type": "varchar",
+          "remarks": "购买的记录名称(来自 subscription 表里面的 item_name 字段)"
+        },
+        {
+          "name": "used",
+          "type": "tinyint",
+          "remarks": "对于购买会员产品来说是否已经使用，囤积的会员是还未生效的，0：未使用，1：已使用"
+        },
+        {
+          "name": "params",
+          "type": "text",
+          "remarks": "购买时的请求参数，供后期查看购买是否合法(来自 subscription 表里面的 params 字段)"
+        },
+        {
+          "name": "payment_id",
+          "type": "bigint",
+          "remarks": "支付 id(来自 subscription 表里面的 payment_id 字段)"
+        },
+        {
+          "name": "error_message",
+          "type": "text",
+          "remarks": "失败时的错误信息"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "membership_balance",
+          "type": "int",
+          "remarks": "membership balance"
+        },
+        {
+          "name": "add_on_product_balance",
+          "type": "int",
+          "remarks": "add on product balance"
+        },
+        {
+          "name": "taxes",
+          "type": "int",
+          "remarks": "taxes"
+        },
+        {
+          "name": "region",
+          "type": "varchar",
+          "remarks": "region"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "products",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "产品名称"
+        },
+        {
+          "name": "status",
+          "type": "tinyint",
+          "remarks": "产品状态，0-不可出售，1-可被展示出售，2-可出售但不展示"
+        },
+        {
+          "name": "is_member_product",
+          "type": "tinyint",
+          "remarks": "是否是会员类型产品:0.other product 1.member product"
+        },
+        {
+          "name": "member_type",
+          "type": "tinyint",
+          "remarks": "如果是会员类型的产品，对应的会员等级，1:awesome 2:pro"
+        },
+        {
+          "name": "upgrade_sequence",
+          "type": "tinyint",
+          "remarks": "升级顺序：0：basic,1:awesome monthly,2:pro monthly,3:awesome yearly,4:pro yearly,5:pro yearly + adobe"
+        },
+        {
+          "name": "duration",
+          "type": "int",
+          "remarks": "订阅时长，结合 period 字段"
+        },
+        {
+          "name": "unit",
+          "type": "varchar",
+          "remarks": "周期单位，Y：年，M：月，W：周，D：日"
+        },
+        {
+          "name": "bundled_id",
+          "type": "bigint",
+          "remarks": "bundled_id 存在时表示不能单独出售，bundled_id 是出售时需依赖的产品 id"
+        },
+        {
+          "name": "auto_renewal",
+          "type": "tinyint",
+          "remarks": "产品是否支持自动订阅,0-不支持，1-支持"
+        },
+        {
+          "name": "refundable",
+          "type": "tinyint",
+          "remarks": "0：不支持退款，1：支持退款"
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "remarks": "产品上架时间"
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "remarks": "产品下架时间"
+        },
+        {
+          "name": "end_of_life_date",
+          "type": "datetime",
+          "remarks": "产品不再支持的时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        }
+      ]
+    },
+    {
+      "tableName": "promotion_eligibilities",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "promotion_id",
+          "type": "bigint",
+          "remarks": "促销活动 id"
+        },
+        {
+          "name": "type",
+          "type": "tinyint",
+          "remarks": "促销规则类型,1:email"
+        },
+        {
+          "name": "value",
+          "type": "varchar",
+          "remarks": "type=1 时，email 邮箱"
+        },
+        {
+          "name": "description",
+          "type": "varchar",
+          "remarks": "促销规则描述"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "promotion_items",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "promotion_id",
+          "type": "bigint",
+          "remarks": "促销活动 id"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        },
+        {
+          "name": "region",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "type",
+          "type": "tinyint",
+          "remarks": "促销类型，0-优惠的百分比折扣，1-优惠部分钱"
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "remarks": "根据 promotion_type 的值来决定，0:减少的百分比，1:优惠的价格"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "promotion_id",
+          "type": "bigint",
+          "remarks": "促销活动 id"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        },
+        {
+          "name": "region",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "promotions",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": "促销活动名称"
+        },
+        {
+          "name": "description",
+          "type": "varchar",
+          "remarks": "促销活动描述"
+        },
+        {
+          "name": "promo_type",
+          "type": "int",
+          "remarks": "促销活动类型"
+        },
+        {
+          "name": "template_name",
+          "type": "varchar",
+          "remarks": "前端展示模板名"
+        },
+        {
+          "name": "promo_code",
+          "type": "varchar",
+          "remarks": "优惠码"
+        },
+        {
+          "name": "is_global",
+          "type": "tinyint",
+          "remarks": "是否全局可用,0:否，1：是"
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "remarks": "开始时间"
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "remarks": "结束时间"
+        },
+        {
+          "name": "created_by",
+          "type": "bigint",
+          "remarks": "创建人 id"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "purchase_items",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "purchase_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "license_type",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "receipt_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "remote_purchase_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "availability",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "discount_code",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "subscription_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "collection_type",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "exclusivity",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "receipt_id",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "purchases",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "total",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "reference_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "address_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "gateway_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "paid_with",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "subscription_id",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "tax_rate",
+          "type": "double",
+          "remarks": ""
+        },
+        {
+          "name": "currency",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "usd_rate",
+          "type": "double",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": []
+    },
+    {
+      "tableName": "quest_entries",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "quest_id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        },
+        {
+          "name": "rank",
+          "type": "int",
+          "remarks": "图片获奖排名"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "quest_id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        },
+        {
+          "name": "photo_id",
+          "type": "bigint",
+          "remarks": "图片id"
+        }
+      ]
+    },
+    {
+      "tableName": "quest_geofences",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "唯一标示id"
+        },
+        {
+          "name": "quest_id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        },
+        {
+          "name": "country_code",
+          "type": "varchar",
+          "remarks": "国家编码"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "唯一标示id"
+        }
+      ]
+    },
+    {
+      "tableName": "quest_translations",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        },
+        {
+          "name": "quest_id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        },
+        {
+          "name": "locale",
+          "type": "varchar",
+          "remarks": "语言地区编码"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "title",
+          "type": "varchar",
+          "remarks": "大赛标题"
+        },
+        {
+          "name": "brief",
+          "type": "mediumtext",
+          "remarks": "大赛简介"
+        },
+        {
+          "name": "excerpt",
+          "type": "mediumtext",
+          "remarks": "摘录"
+        },
+        {
+          "name": "rules",
+          "type": "mediumtext",
+          "remarks": "大赛规则"
+        },
+        {
+          "name": "sponsor_blurb",
+          "type": "mediumtext",
+          "remarks": "赞助商简介"
+        },
+        {
+          "name": "sponsor_cta_label",
+          "type": "varchar",
+          "remarks": "赞助商cta_lab"
+        },
+        {
+          "name": "prize",
+          "type": "mediumtext",
+          "remarks": "奖品"
+        },
+        {
+          "name": "sponsor_name",
+          "type": "varchar",
+          "remarks": "赞助商名称"
+        },
+        {
+          "name": "prize_name",
+          "type": "varchar",
+          "remarks": "奖品名称"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "id"
+        }
+      ]
+    },
+    {
+      "tableName": "quests",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        },
+        {
+          "name": "sponsor_logo_url",
+          "type": "varchar",
+          "remarks": "赞助商logo"
+        },
+        {
+          "name": "sponsor_cta_url",
+          "type": "varchar",
+          "remarks": "赞助商背景图"
+        },
+        {
+          "name": "starts_at",
+          "type": "datetime",
+          "remarks": "开始时间"
+        },
+        {
+          "name": "ends_at",
+          "type": "datetime",
+          "remarks": "结束时间"
+        },
+        {
+          "name": "slug",
+          "type": "varchar",
+          "remarks": "slug"
+        },
+        {
+          "name": "published_at",
+          "type": "datetime",
+          "remarks": "发布时间"
+        },
+        {
+          "name": "completed_at",
+          "type": "datetime",
+          "remarks": "完成时间"
+        },
+        {
+          "name": "status",
+          "type": "int",
+          "remarks": "大赛状态"
+        },
+        {
+          "name": "sample_gallery_id",
+          "type": "bigint",
+          "remarks": "灵感图影集id"
+        },
+        {
+          "name": "entry_count",
+          "type": "bigint",
+          "remarks": "参赛数量"
+        },
+        {
+          "name": "cover_photo_id",
+          "type": "bigint",
+          "remarks": "大赛头图图片id"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "token",
+          "type": "varchar",
+          "remarks": "大赛token"
+        },
+        {
+          "name": "prize_image_url",
+          "type": "varchar",
+          "remarks": "奖品图片地址"
+        },
+        {
+          "name": "brand_imagery_url",
+          "type": "varchar",
+          "remarks": "商标地址"
+        },
+        {
+          "name": "judge_id",
+          "type": "bigint",
+          "remarks": "裁判人id"
+        },
+        {
+          "name": "judge_bio",
+          "type": "text",
+          "remarks": "裁判人j简介"
+        },
+        {
+          "name": "licensing",
+          "type": "tinyint",
+          "remarks": "是否licensing大赛"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "大赛id"
+        }
+      ]
+    },
+    {
+      "tableName": "quests_stat",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "total",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "new_uploads",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "library_submitted",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "licensing",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "exclusive_licensing",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "quests_stat_total_category",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "category",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "total",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "category",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "quests_stat_total_date",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "b_date",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "total",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "b_date",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "sales",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "buyer_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "photo_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "payment_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "delivery_type_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "shipping_address_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "billing_address_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "quantity",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "shipping_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "payout_request_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "shipping_type",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "seller_share",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "cancelled",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "taxes",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "media_type",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "failure_reason",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "print_company_notified",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "guest_account",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "payment_method",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "same_address",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "payment_profile_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "courier",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "tracking",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "shipped_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "cost_taxes",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "photographer_cut",
+          "type": "float",
+          "remarks": ""
+        },
+        {
+          "name": "license_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "receipt_id",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "schema_migrations",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "version",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "version",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "site_promotions",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "promo_code_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "plus_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "awesome_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "expiration_date",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "allow_for_gift",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "template_name",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "adobe_pro_plus_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "adobe_pro_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "adobe_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "pro_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "pro_plus_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "adobe_awesome_promo_price",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "site_wide_settings",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID, from table users, column id"
+        },
+        {
+          "name": "locale",
+          "type": "varchar",
+          "remarks": "用户语言设置，from table users, column locale"
+        },
+        {
+          "name": "show_nude",
+          "type": "tinyint",
+          "remarks": "是否查看成人图片,from table users, column show_nude"
+        },
+        {
+          "name": "is_contactable",
+          "type": "tinyint",
+          "remarks": "是否可联系, from  photographer_profiles is_contactable."
+        },
+        {
+          "name": "analytics_code",
+          "type": "varchar",
+          "remarks": "付费用户可以使用google的跟踪码，from mongodb, collection user_settings analytics_code "
+        },
+        {
+          "name": "onboarding_categories",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID, from table users, column id"
+        }
+      ]
+    },
+    {
+      "tableName": "temp_common_membership_user",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "upgrade_status",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "upgrade_expiry_date",
+          "type": "date",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "temp_membership_user",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "upgrade_status",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "upgrade_expiry_date",
+          "type": "date",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "temp_product_sales",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "订阅用户 id"
+        },
+        {
+          "name": "purchase_date",
+          "type": "datetime",
+          "remarks": "订阅日期"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "产品 id"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "temp_recurring_subscriptions_current",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "current",
+          "type": "tinyint",
+          "remarks": ""
+        },
+        {
+          "name": "subscription_id",
+          "type": "int",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "current",
+          "type": "tinyint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "temp_subscriptions_product_id",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "product_id",
+          "type": "int",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "territory",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "territory_id",
+          "type": "varchar",
+          "remarks": "主键id"
+        },
+        {
+          "name": "territory_name",
+          "type": "varchar",
+          "remarks": "适用领地范围名称"
+        },
+        {
+          "name": "created_stamp",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "territory_name_zh",
+          "type": "varchar",
+          "remarks": "适用国家名称-中文"
+        },
+        {
+          "name": "territory_name_en",
+          "type": "varchar",
+          "remarks": "适用国家名称-英文"
+        },
+        {
+          "name": "territory_code",
+          "type": "varchar",
+          "remarks": "国家编码"
+        },
+        {
+          "name": "type",
+          "type": "varchar",
+          "remarks": "领地类型"
+        },
+        {
+          "name": "meta_territory_name_zh",
+          "type": "varchar",
+          "remarks": "区域名称-中文，如亚洲"
+        },
+        {
+          "name": "meta_territory_name_en",
+          "type": "varchar",
+          "remarks": "区域名称-英文"
+        },
+        {
+          "name": "hidden_flag",
+          "type": "varchar",
+          "remarks": "作废标志"
+        },
+        {
+          "name": "country",
+          "type": "int",
+          "remarks": "国家数"
+        },
+        {
+          "name": "created_time",
+          "type": "timestamp",
+          "remarks": ""
+        },
+        {
+          "name": "created_by",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "updated_time",
+          "type": "timestamp",
+          "remarks": ""
+        },
+        {
+          "name": "updated_by",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "territory_id",
+          "type": "varchar",
+          "remarks": "主键id"
+        }
+      ]
+    },
+    {
+      "tableName": "tos_acceptance_history",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        },
+        {
+          "name": "document_name",
+          "type": "varchar",
+          "remarks": "用户合约ToS版本"
+        },
+        {
+          "name": "signing_timestamp",
+          "type": "datetime",
+          "remarks": "签订时间"
+        },
+        {
+          "name": "ip",
+          "type": "varchar",
+          "remarks": "用户ip"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        },
+        {
+          "name": "document_name",
+          "type": "varchar",
+          "remarks": "用户合约ToS版本"
+        }
+      ]
+    },
+    {
+      "tableName": "transaction",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "old_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "tax_rate",
+          "type": "decimal",
+          "remarks": "税率"
+        },
+        {
+          "name": "tax_amount",
+          "type": "int",
+          "remarks": "税费"
+        },
+        {
+          "name": "product_amount",
+          "type": "int",
+          "remarks": "支付总金额"
+        },
+        {
+          "name": "total_amount",
+          "type": "int",
+          "remarks": "产品金额"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        },
+        {
+          "name": "payment_processor",
+          "type": "tinyint",
+          "remarks": "支付网关"
+        },
+        {
+          "name": "payment_processor_subsciber_id",
+          "type": "varchar",
+          "remarks": "customer_id"
+        },
+        {
+          "name": "payment_processor_txn_id",
+          "type": "varchar",
+          "remarks": "网关交易单号"
+        },
+        {
+          "name": "params",
+          "type": "text",
+          "remarks": "请求参数（老数据）"
+        },
+        {
+          "name": "state",
+          "type": "tinyint",
+          "remarks": "状态 （老数据)"
+        },
+        {
+          "name": "capture_date",
+          "type": "datetime",
+          "remarks": "交易日期"
+        },
+        {
+          "name": "last_digits",
+          "type": "varchar",
+          "remarks": "信用卡后四位（老数据)"
+        },
+        {
+          "name": "pay_id",
+          "type": "bigint",
+          "remarks": "可追溯的原始支付单id，自关联"
+        },
+        {
+          "name": "type",
+          "type": "tinyint",
+          "remarks": "1 - charge, 2 - refund, 3 - dispute hold, 4 - dispute hold reversal"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        },
+        {
+          "name": "pos_or_neg",
+          "type": "tinyint",
+          "remarks": "\"交易类型1 +，2 -\""
+        },
+        {
+          "name": "fees_amount",
+          "type": "int",
+          "remarks": "交易手续费"
+        },
+        {
+          "name": "fees_pos_or_neg",
+          "type": "tinyint",
+          "remarks": "\"交易类型1 +，2 -\""
+        },
+        {
+          "name": "payment_processor_response_dump",
+          "type": "text",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "unknown_equipments",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "equipment_type",
+          "type": "varchar",
+          "remarks": "设备类型"
+        },
+        {
+          "name": "equipment_name",
+          "type": "varchar",
+          "remarks": "设备名称"
+        },
+        {
+          "name": "equipment_id",
+          "type": "bigint",
+          "remarks": "内部设备id"
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "remarks": "图片count数"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "user_availabilities",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "availability",
+          "type": "tinyint",
+          "remarks": "主键2, 可工作时间：          weekday_evenings.                 WEEKDAY_EVENINGS(\"\"weekday_evenings\"\", 0),                  weekday_days.                 WEEKDAY_DAYS(\"\"weekday_days\"\", 1),                  weekend_evenings.                 WEEKEND_EVENINGS(\"\"weekend_evenings\"\", 2),                  weekend_days.                 WEEKEND_DAYS(\"\"weekend_days\"\", 3);"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "availability",
+          "type": "tinyint",
+          "remarks": "主键2, 可工作时间：          weekday_evenings.                 WEEKDAY_EVENINGS(\"\"weekday_evenings\"\", 0),                  weekday_days.                 WEEKDAY_DAYS(\"\"weekday_days\"\", 1),                  weekend_evenings.                 WEEKEND_EVENINGS(\"\"weekend_evenings\"\", 2),                  weekend_days.                 WEEKEND_DAYS(\"\"weekend_days\"\", 3);"
+        }
+      ]
+    },
+    {
+      "tableName": "user_blocks",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "blocked_user_id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "blocked_user_id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "user_capabilities",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "capability",
+          "type": "tinyint",
+          "remarks": "主键2，能力：          tripod.                 TRIPOD(\"\"tripod\"\", 0),                  Email external_flash .                 EXTERNAL_FLASH(\"\"external_flash\"\", 1),                  Email verified but the user do not want to get emails.                 WIDE_ANGLE_LENS(\"\"wide_angle_lens\"\", 2),                  PANORAMA_360.                 PANORAMA_360(\"\"panorama_360\"\", 3),                  video_4k.                 VIDEO_4K(\"\"video_4k\"\", 4),                  post_processing.                 POST_PROCESSING(\"\"post_processing\"\", 5);"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "capability",
+          "type": "tinyint",
+          "remarks": "主键2，能力：          tripod.                 TRIPOD(\"\"tripod\"\", 0),                  Email external_flash .                 EXTERNAL_FLASH(\"\"external_flash\"\", 1),                  Email verified but the user do not want to get emails.                 WIDE_ANGLE_LENS(\"\"wide_angle_lens\"\", 2),                  PANORAMA_360.                 PANORAMA_360(\"\"panorama_360\"\", 3),                  video_4k.                 VIDEO_4K(\"\"video_4k\"\", 4),                  post_processing.                 POST_PROCESSING(\"\"post_processing\"\", 5);"
+        }
+      ]
+    },
+    {
+      "tableName": "user_contacts",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键，ID"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        },
+        {
+          "name": "provider_id",
+          "type": "smallint",
+          "remarks": "第三方社交id:   Website.   WEBSITE(\"website\", 1),    Facebook.   FACEBOOK(\"facebook\", 2),    Twitter.   TWITTER(\"twitter\", 3),    LiveJournal.   LIVEJOURNAL(\"livejournal\", 4),    Last.fm.   LASTFM(\"lastfm\", 5),    Flickr.   FLICKR(\"flickr\", 6),    Gtalk.   GTALK(\"gtalk\", 7),    ICQ.   ICQ(\"icq\", 8),    Skype.   SKYPE(\"skype\", 9),    MSN.   MSN(\"MSN\", 10),    LOOKATME.   LOOKATME(\"LOOKATME\", 11),    VKONTAKTE.   VKONTAKTE(\"VKONTAKTE\", 12),    Blog.   BLOG(\"blog\", 13),    Google+.   GOOGLEPLUS(\"googleplus\", 14),    Facebook Page.   FACEBOOKPAGE(\"facebookpage\", 15),    Tumblr.   TUMBLR(\"thumblr\", 16),    QQ.   QQ(\"qq\", 18),    Instagram.   INSTAGRAM(\"instagram\", 19);"
+        },
+        {
+          "name": "contact",
+          "type": "varchar",
+          "remarks": "社交地址url用户名"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键，ID"
+        }
+      ]
+    },
+    {
+      "tableName": "user_equipments",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键ID"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        },
+        {
+          "name": "equipment_type",
+          "type": "tinyint",
+          "remarks": "设备类型：   TYPE_UNKNOWN.   TYPE_UNKNOWN(\"Unknown\", 0),    TYPE_CAMERA.   TYPE_CAMERA(\"Camera\", 1),    TYPE_LENS .   TYPE_LENS(\"Lens\", 2),    TYPE_MISC .   TYPE_MISC(\"Misc\", 3);"
+        },
+        {
+          "name": "equipment_name",
+          "type": "varchar",
+          "remarks": "设备名称"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键ID"
+        }
+      ]
+    },
+    {
+      "tableName": "user_equipments_structured",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键，ID"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        },
+        {
+          "name": "equipmentable_id",
+          "type": "bigint",
+          "remarks": "设备，在设备表中的ID"
+        },
+        {
+          "name": "equipmentable_type",
+          "type": "varchar",
+          "remarks": "设备类型：Camera,Lens"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "主键，ID"
+        }
+      ]
+    },
+    {
+      "tableName": "user_extend",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，user ID, from mongodb collection user_settings user_id"
+        },
+        {
+          "name": "can_email_reactivate",
+          "type": "tinyint",
+          "remarks": "to comfirm the  different with can_miss, from mongodb collection user_settings can_email_reactivate"
+        },
+        {
+          "name": "cover_uploaded_at",
+          "type": "datetime",
+          "remarks": "封面图片更新时间, from mongodb collection user_settings 'cover_uploaded_at'"
+        },
+        {
+          "name": "cover_version",
+          "type": "int",
+          "remarks": "封面图片版本号, from mongodb collection user_settings 'cover_version'"
+        },
+        {
+          "name": "onboarding_step",
+          "type": "varchar",
+          "remarks": "to confirm, 新手教程到第几步, from mongodb collection user_settings, 'onboarding_step'"
+        },
+        {
+          "name": "tfa_enabled",
+          "type": "tinyint",
+          "remarks": "是否启用google二元验证, from mongodb collection user_settings, 'tfa_enabled'"
+        },
+        {
+          "name": "otp_secret_key",
+          "type": "varchar",
+          "remarks": "二元验证secret key, 用于计算验证码, from mongodb collection user_settings,'otp_secret_key'"
+        },
+        {
+          "name": "verified_phone_number",
+          "type": "varchar",
+          "remarks": "用户手机号，加区号, from mongodb collection user_settings,'verified_phone_number'"
+        },
+        {
+          "name": "manually_verified_phone_number",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "country_code",
+          "type": "varchar",
+          "remarks": "用户手机号国家code, from mongodb collection user_settings, 'country_code'"
+        },
+        {
+          "name": "interested_in_directory",
+          "type": "tinyint",
+          "remarks": "用户是否感兴趣 from mongodb collection user_settings, 'photographer_db_interested'"
+        },
+        {
+          "name": "password_reset_required",
+          "type": "varchar",
+          "remarks": ""
+        },
+        {
+          "name": "password_reset_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，user ID, from mongodb collection user_settings user_id"
+        }
+      ]
+    },
+    {
+      "tableName": "user_languages",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "code",
+          "type": "char",
+          "remarks": "主键2，语言code"
+        },
+        {
+          "name": "proficiency",
+          "type": "tinyint",
+          "remarks": "流利程度：          basic.                 basic(\"\"basic\"\", 0),                  conversational.                 conversational(\"\"conversational\"\", 1),                  fluent.                 fluent(\"\"fluent\"\", 2);"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "code",
+          "type": "char",
+          "remarks": "主键2，语言code"
+        }
+      ]
+    },
+    {
+      "tableName": "user_memberships",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户 id(来自 users 表里面的 id 字段)"
+        },
+        {
+          "name": "member_status",
+          "type": "int",
+          "remarks": "会员状态(来自 users 表里面的 upgrade_status 字段)"
+        },
+        {
+          "name": "member_start_date",
+          "type": "datetime",
+          "remarks": "当前会员订阅的开始时间(product_sale 表里面的当前产品的订阅时间，purchase_date 字段)"
+        },
+        {
+          "name": "member_expiry_date",
+          "type": "datetime",
+          "remarks": "当前会员订阅的到期时间(根据 users 表里面的 upgrade_expiry_date 字段推出来)"
+        },
+        {
+          "name": "old_member_expiry_date",
+          "type": "date",
+          "remarks": "之前的数据会员订阅的到期时间(来自 users 表里面的 upgrade_expiry_date 字段)"
+        },
+        {
+          "name": "auto_renewal",
+          "type": "tinyint",
+          "remarks": "是否开启自动续费0关闭 1开启(根据用户 id 去 recurring_subscription 表里查 current 字段)"
+        },
+        {
+          "name": "stacking_number",
+          "type": "tinyint",
+          "remarks": "囤货数量(根据 users 表里面的 upgrade_expiry_date 字段推出来)"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint",
+          "remarks": "订阅的会员产品 id(product_sale 表里面的最新订阅的产品记录里面的 product_id)"
+        },
+        {
+          "name": "current_product_sale_id",
+          "type": "bigint",
+          "remarks": "当前产品的销售记录 id"
+        },
+        {
+          "name": "notify_about_adobe_cc_keys",
+          "type": "tinyint",
+          "remarks": "购买记录 id(product_sale 表里面的最新订阅的产品记录里面的 id)"
+        },
+        {
+          "name": "last_expiry_email_template",
+          "type": "varchar",
+          "remarks": "from mongodb, collection user_settings 'notify_about_adobe_cc_keys' field"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "from mongodb, collection user_settings 'last_subscription_expiry_email' field"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户 id(来自 users 表里面的 id 字段)"
+        }
+      ]
+    },
+    {
+      "tableName": "user_profile_tabs",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        },
+        {
+          "name": "featured_gallery_id",
+          "type": "bigint",
+          "remarks": "显示在用户profile页面中的影集ID"
+        },
+        {
+          "name": "tabs",
+          "type": "varchar",
+          "remarks": "tabs 逗号隔开"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键，用户ID"
+        }
+      ]
+    },
+    {
+      "tableName": "user_specialties",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "gallery_id",
+          "type": "bigint",
+          "remarks": "摄影师特长影集ID"
+        },
+        {
+          "name": "specialty",
+          "type": "tinyint",
+          "remarks": "摄影师特长:          aerial.                 AERIAL(\"\"aerial\"\", 0),                  architecture.                 ARCHITECTURE(\"\"architecture\"\", 1),                  automotive.                 AUTOMOTIVE(\"\"automotive\"\", 2),                  event.                 EVENT(\"\"event\"\", 3),                  fashion.                 FASHION(\"\"fashion\"\", 4),                  food.                 FOOD(\"\"food\"\", 5),                  interior.                 INTERIOR(\"\"interior\"\", 6),                  lifestyle.                 LIFESTYLE(\"\"lifestyle\"\", 7),                  maternity_newborn.                 MATERNITY_NEWBORN(\"\"maternity_newborn\"\", 8),                  nature_landscape.                 NATURE_LANDSCAPE(\"\"nature_landscape\"\", 9),                  pets_animals.                 PETS_ANIMALS(\"\"pets_animals\"\", 10),                  photojournalism.                 PHOTOJOURNALISM(\"\"photojournal"
+        },
+        {
+          "name": "score",
+          "type": "int",
+          "remarks": "内部评审评分"
+        },
+        {
+          "name": "reviewed_at",
+          "type": "datetime",
+          "remarks": "内部审核时间"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "bigint",
+          "remarks": "内部审核人ID"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "主键1，用户ID"
+        },
+        {
+          "name": "specialty",
+          "type": "tinyint",
+          "remarks": "摄影师特长:          aerial.                 AERIAL(\"\"aerial\"\", 0),                  architecture.                 ARCHITECTURE(\"\"architecture\"\", 1),                  automotive.                 AUTOMOTIVE(\"\"automotive\"\", 2),                  event.                 EVENT(\"\"event\"\", 3),                  fashion.                 FASHION(\"\"fashion\"\", 4),                  food.                 FOOD(\"\"food\"\", 5),                  interior.                 INTERIOR(\"\"interior\"\", 6),                  lifestyle.                 LIFESTYLE(\"\"lifestyle\"\", 7),                  maternity_newborn.                 MATERNITY_NEWBORN(\"\"maternity_newborn\"\", 8),                  nature_landscape.                 NATURE_LANDSCAPE(\"\"nature_landscape\"\", 9),                  pets_animals.                 PETS_ANIMALS(\"\"pets_animals\"\", 10),                  photojournalism.                 PHOTOJOURNALISM(\"\"photojournal"
+        }
+      ]
+    },
+    {
+      "tableName": "user_stats",
+      "isAutoIncrement": false,
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "1-1 Mapping to users.id"
+        },
+        {
+          "name": "followers_count",
+          "type": "int",
+          "remarks": "Number of users who are following user_id. 关注user_id的用户数"
+        },
+        {
+          "name": "followees_count",
+          "type": "int",
+          "remarks": "Number of users who are followed by user_id. 被user_id关注的用户数"
+        },
+        {
+          "name": "rating",
+          "type": "int",
+          "remarks": "The number of likes received by photos of this user. Could increase or decrease. 用户照片收到的点赞数，可能会增减"
+        },
+        {
+          "name": "version",
+          "type": "int",
+          "remarks": "Optimistic lock control. 乐观锁"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "1-1 Mapping to users.id"
+        }
+      ]
+    },
+    {
+      "tableName": "users",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        },
+        {
+          "name": "username",
+          "type": "varchar",
+          "remarks": "用户名"
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "remarks": "用户电子邮箱"
+        },
+        {
+          "name": "avatar_ver",
+          "type": "tinyint",
+          "remarks": "头像版本号，初始值为0"
+        },
+        {
+          "name": "firstname",
+          "type": "varchar",
+          "remarks": "名字"
+        },
+        {
+          "name": "lastname",
+          "type": "varchar",
+          "remarks": "姓"
+        },
+        {
+          "name": "birthday",
+          "type": "date",
+          "remarks": "生日"
+        },
+        {
+          "name": "sex",
+          "type": "tinyint",
+          "remarks": "性别，0：未知，1：男，2：女 "
+        },
+        {
+          "name": "city",
+          "type": "varchar",
+          "remarks": "城市"
+        },
+        {
+          "name": "state",
+          "type": "varchar",
+          "remarks": "州，省"
+        },
+        {
+          "name": "country",
+          "type": "varchar",
+          "remarks": "国家"
+        },
+        {
+          "name": "registration_date",
+          "type": "datetime",
+          "remarks": "注册时间"
+        },
+        {
+          "name": "activation_code",
+          "type": "varchar",
+          "remarks": "email 激活码，在email中带入"
+        },
+        {
+          "name": "can_email",
+          "type": "tinyint",
+          "remarks": "是否可以给用户发信息，初始0， 用户激活后1"
+        },
+        {
+          "name": "about",
+          "type": "mediumtext",
+          "remarks": "自我介绍"
+        },
+        {
+          "name": "usertype",
+          "type": "tinyint",
+          "remarks": "用户类型   Basic.   USERTYPE_BASIC(\"Basic\", 0),    Store .   USERTYPE_STORE(\"Store\", 1),    Partner.   USERTYPE_PARTNER(\"Partner\", 3),    Newsletter Test.   USERTYPE_NEWSLETTER_TEST(\"Newsletter Test\", 4),    Moderator.   USERTYPE_MODERATOR(\"Moderator\", 6),    Editor.   USERTYPE_EDITOR(\"Editor\", 8),    Admin.   USERTYPE_ADMIN(\"Admin\", 9),    Ambassador.   USERTYPE_AMBASSADOR(\"Ambassador\", 10),    System Internal.   USERTYPE_SYSTEM(\"System Internal\", 99),    Verified.   USERTYPE_VERIFIED(\"Verified\", 11),    USERTYPE_VCG.   USERTYPE_VCG(\"USERTYPE_VCG\", 12),    Alumnus.   USERTYPE_ALUMNUS(\"Alumnus\", 13);"
+        },
+        {
+          "name": "user_photo",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "shadow_email",
+          "type": "varchar",
+          "remarks": "未确认的用户电子邮件地址"
+        },
+        {
+          "name": "s3_avatar",
+          "type": "varchar",
+          "remarks": "用户头像地址，存储在s3上的路径"
+        },
+        {
+          "name": "active",
+          "type": "int",
+          "remarks": "用户激活状态：   NOT_ACTIVE.   NOT_ACTIVE(\"NOT_ACTIVE\", 0),    ACTIVE.   ACTIVE(\"ACTIVE\", 1),    DELETED_BY_USER.   DELETED_BY_USER(\"DELETED_BY_USER\", 2),    BANNED.   BANNED(\"BANNED\", 3);"
+        },
+        {
+          "name": "encrypted_password",
+          "type": "varchar",
+          "remarks": "加密后的密码，（SHA512Bcrypt）"
+        },
+        {
+          "name": "reset_password_token",
+          "type": "varchar",
+          "remarks": "密码重置时的token, 遗留字段，兼容数据迁移时的遗留数据，后面删除"
+        },
+        {
+          "name": "reset_password_sent_at",
+          "type": "datetime",
+          "remarks": "密码重置请求时间，有效时间14天，遗留字段，兼容数据迁移时的遗留数据，后面删除"
+        },
+        {
+          "name": "password_salt",
+          "type": "varchar",
+          "remarks": "老版本SHA512加密时的salt"
+        },
+        {
+          "name": "created_by_application",
+          "type": "int",
+          "remarks": "注册手机端来源id, rename from invited_by to created_by_application"
+        },
+        {
+          "name": "authentication_token",
+          "type": "varchar",
+          "remarks": "发送邮件时，允许用户进入设置页面，需要的token"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "用户ID"
+        }
+      ]
+    },
+    {
+      "tableName": "white_list",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "记录主键，自增"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        },
+        {
+          "name": "authority_name",
+          "type": "varchar",
+          "remarks": "权限名"
+        },
+        {
+          "name": "created_time",
+          "type": "datetime",
+          "remarks": "创建时间"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": "记录主键，自增"
+        }
+      ]
+    },
+    {
+      "tableName": "workshops",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "title",
+          "type": "varchar",
+          "remarks": "标题"
+        },
+        {
+          "name": "user_id",
+          "type": "bigint",
+          "remarks": "用户id"
+        },
+        {
+          "name": "cover_photo_id",
+          "type": "bigint",
+          "remarks": "封面图片id"
+        },
+        {
+          "name": "start_time",
+          "type": "datetime",
+          "remarks": "课程开始时间"
+        },
+        {
+          "name": "time_zone",
+          "type": "varchar",
+          "remarks": "时区"
+        },
+        {
+          "name": "location_id",
+          "type": "bigint",
+          "remarks": "关联locations.id"
+        },
+        {
+          "name": "currency",
+          "type": "varchar",
+          "remarks": "货币"
+        },
+        {
+          "name": "price",
+          "type": "decimal",
+          "remarks": "课程价格"
+        },
+        {
+          "name": "url",
+          "type": "text",
+          "remarks": "课程地址"
+        },
+        {
+          "name": "state",
+          "type": "tinyint",
+          "remarks": "课程状态"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": "创建日期"
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": "更新日期"
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
         }
       ]
     }

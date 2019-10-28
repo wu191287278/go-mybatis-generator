@@ -13,6 +13,8 @@
 
 前往 [Go Mybatis Generator](https://wu191287278.github.io/go-mybatis-generator/index.html) 生成代码
 
+
+
 #### Getting Started
 
 ```sql
@@ -23,6 +25,16 @@ CREATE TABLE `users` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=utf8mb4;
+```
+
+
+### 从数据库中生成元数据信息
+```
+git clone https://github.com/wu191287278/go-mybatis-generator
+cd go-mybatis-generator
+go get github.com/go-sql-driver/mysql
+go build
+./go-mybatis-generator -host localhost -username root -password root -dbname 500px #默认生成元数据到template/example.json文件中
 ```
 
 #### SelectByExample
