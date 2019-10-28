@@ -11,8 +11,7 @@
 
 ### Go Mybatis Generator
 
-前往 [Go Mybatis Generator](https://wu191287278.github.io/go-mybatis-generator/index.html) 生成代码
-
+在线 [Go Mybatis Generator](https://wu191287278.github.io/go-mybatis-generator/index.html) 生成代码
 
 
 #### Getting Started
@@ -28,7 +27,7 @@ CREATE TABLE `users` (
 ```
 
 
-### 从数据库中生成元数据信息
+#### 从数据库中生成元数据信息
 ```
 git clone https://github.com/wu191287278/go-mybatis-generator
 cd go-mybatis-generator
