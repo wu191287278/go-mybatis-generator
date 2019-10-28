@@ -29,7 +29,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Con
 	}
 
 	params := &{{domainName}}{}
-	e := c.Bind(params)
+	e := c.ShouldBind(params)
 	if e != nil {
 		_ = c.AbortWithError(http.StatusBadRequest, e)
 		return
@@ -86,7 +86,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Con
 
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
-	e := c.BindJSON({{lowerDomainName}})
+	e := c.ShouldBindJSON({{lowerDomainName}})
 	if e != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, e)
 		return
@@ -104,7 +104,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c
 
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
-	e := c.BindJSON({{lowerDomainName}})
+	e := c.ShouldBindJSON({{lowerDomainName}})
 	if e != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, e)
 		return
