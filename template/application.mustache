@@ -14,6 +14,7 @@ import (
 func main() {
 	db, _ := sql.Open("mysql", "{{{dataSource.username}}}:{{{dataSource.password}}}@({{{dataSource.host}}}:{{{dataSource.port}}})/{{{dataSource.dbName}}}")
 	defer db.Close()
+    r := gin.Default()
 
 {{#tables}}
 	{{lowerDomainName}}Repository := New{{domainName}}Repository(db)
@@ -24,22 +25,9 @@ func main() {
 {{/tables}}
 
 {{#tables}}
-    {{lowerDomainName}}Controller := New{{domainName}}Controller({{lowerDomainName}}Service)
+    New{{domainName}}Controller(r, {{lowerDomainName}}Service)
 {{/tables}}
 
-    r := gin.Default()
-
-{{#tables}}
-	{{lowerDomainName}} := r.Group("{{lowerDomainName}}")
-    {
-        {{lowerDomainName}}.GET("/search", {{lowerDomainName}}Controller.Search)
-	    {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
-    {{#hasPrimaryKey}}
-	    {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
-    {{/hasPrimaryKey}}
-        }
-
-{{/tables}}
 
     err := endless.ListenAndServe(":8080", r)
     if err != nil {

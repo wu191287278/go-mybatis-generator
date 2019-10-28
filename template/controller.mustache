@@ -12,8 +12,17 @@ type {{domainName}}Controller struct {
 	{{lowerDomainName}}Service *{{domainName}}Service
 }
 
-func New{{domainName}}Controller({{lowerDomainName}}Service *{{domainName}}Service) *{{domainName}}Controller {
-	return &{{domainName}}Controller{ {{lowerDomainName}}Service: {{lowerDomainName}}Service }
+func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{domainName}}Service) *{{domainName}}Controller {
+    {{lowerDomainName}}Controller := &{{domainName}}Controller{ {{lowerDomainName}}Service: {{lowerDomainName}}Service }
+    {{lowerDomainName}} := r.Group("{{lowerDomainName}}")
+    {
+        {{lowerDomainName}}.GET("/search", {{lowerDomainName}}Controller.Search)
+        {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
+        {{#hasPrimaryKey}}
+        {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
+        {{/hasPrimaryKey}}
+    }
+    return {{lowerDomainName}}Controller
 }
 
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Context) {
