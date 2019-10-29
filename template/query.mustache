@@ -37,7 +37,7 @@ func (query {{domainName}}Example) before(sql string, args... interface{}) {
         query.Before(sql, args)
     } else {
         log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Preparing:  ", sql)
-        log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Parameters: ", query.Args)
+        log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Parameters: ", args)
     }
 }
 
@@ -843,42 +843,48 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
 {{#fields}}
 {{#isInt8}}
 	if t.{{upperName}} != 0 {
-        columns = append(columns, "{{name}}=?")
+        columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
 		args = append(args, t.{{upperName}})
 	}
 
 {{/isInt8}}
 {{#isInt16}}
 	if t.{{upperName}} != 0 {
-        columns = append(columns, "{{name}}=?")
-		args = append(args, t.{{upperName}})
+        columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
+        args = append(args, t.{{upperName}})
 	}
 
 {{/isInt16}}
 {{#isInt32}}
 	if t.{{upperName}} != 0 {
-        columns = append(columns, "{{name}}=?")
+        columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
 		args = append(args, t.{{upperName}})
 	}
 
 {{/isInt32}}
 {{#isInt64}}
 	if t.{{upperName}} != 0 {
-        columns = append(columns, "{{name}}=?")
+        columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
 		args = append(args, t.{{upperName}})
 	}
 
 {{/isInt64}}
 {{#isBoolean}}
 	if t.{{upperName}} != false {
-        columns = append(columns, "{{name}}=?")
+        columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
 		args = append(args, t.{{upperName}})
 	}
 
 {{/isBoolean}}
 {{#isString}}
 	if t.{{upperName}} != "" {
-		columns = append(columns, "{{name}}=?")
+		columns = append(columns, "{{name}}")
+        placeholder = append(placeholder, "?")
         args = append(args, t.{{upperName}})
 	}
 
