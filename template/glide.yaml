@@ -5,3 +5,5 @@ import:
   - package: github.com/go-sql-driver/mysql
     version: 1.4.1
   - package: github.com/fvbock/endless
+  - package: go.uber.org/dig
+    version: v1.7.0

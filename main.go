@@ -82,8 +82,8 @@ func main() {
 	}
 	file.Write(bytes)
 	file.Close()
-	log.Println("Serving files from " + *dir + " at http://localhost:8080\n" + "Press Ctrl+C to quit")
-	log.Fatal(http.ListenAndServe(":8080", http.FileServer(http.Dir(*dir))))
+	log.Println("Serving files from " + *dir + " at http://localhost:8090\n" + "Press Ctrl+C to quit")
+	log.Fatal(http.ListenAndServe(":8090", http.FileServer(http.Dir(*dir))))
 }
 
 type Example struct {

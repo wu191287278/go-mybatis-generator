@@ -250,10 +250,12 @@ func (query *{{domainName}}Example) SelectByExample() ([]{{domainName}}, error) 
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	stmt, e := query.DefaultDB.Prepare(querySql)
+    defer stmt.Close()
 	if e != nil {
 		return nil, e
 	}
 	rows, e := stmt.Query(query.Args...)
+    defer rows.Close()
 	if e != nil {
 		return nil, e
 	}
@@ -350,11 +352,13 @@ func (query *{{domainName}}Example) SelectOne() (*{{domainName}}, error) {
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	stmt, e := query.DefaultDB.Prepare(querySql)
-	if e != nil {
+    defer stmt.Close()
+
+    if e != nil {
 		return nil, e
 	}
 	rows, e := stmt.Query(query.Args...)
-
+    defer rows.Close()
 	if e != nil {
 		return nil, e
 	}
@@ -452,10 +456,12 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	stmt, e := query.DefaultDB.Prepare(querySql)
+    defer stmt.Close()
 	if e != nil {
 		return e
 	}
 	rows, e := stmt.Query(query.Args...)
+    defer rows.Close()
 	if e != nil {
 		return e
 	}
@@ -551,6 +557,7 @@ func (query *{{domainName}}Example) CountByExample() (int64, error) {
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	rows, e := query.DefaultDB.Query(querySql, query.Args...)
+    defer rows.Close()
 	if e == nil && rows.Next() {
 		var count sql.NullInt64
 		e := rows.Scan(&count)
@@ -575,6 +582,7 @@ func (query *{{domainName}}Example) ExistsByExample() (bool, error) {
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	rows, e := query.DefaultDB.Query(querySql, query.Args...)
+    defer rows.Close()
 	if e == nil && rows.Next() {
 		var exists sql.NullBool
 		e := rows.Scan(&exists)

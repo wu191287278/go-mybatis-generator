@@ -1,36 +1,78 @@
 package main
 
 import (
-    "database/sql"
-    "github.com/fvbock/endless"
-	"github.com/gin-gonic/gin"
-    _ "github.com/go-sql-driver/mysql"
-    "log"
     . "{{{artifact}}}/controller"
     . "{{{artifact}}}/repository"
     . "{{{artifact}}}/service"
+    "database/sql"
+    "github.com/fvbock/endless"
+    "github.com/gin-gonic/gin"
+    _ "github.com/go-sql-driver/mysql"
+    "go.uber.org/dig"
+    "log"
 )
 
 func main() {
-	db, _ := sql.Open("mysql", "{{{dataSource.username}}}:{{{dataSource.password}}}@({{{dataSource.host}}}:{{{dataSource.port}}})/{{{dataSource.dbName}}}")
-	defer db.Close()
-    r := gin.Default()
+    container := dig.New()
+    for _, v := range GetProvide() {
+        e := container.Provide(v)
+        if e != nil {
+            panic(e)
+        }
+    }
 
-{{#tables}}
-	{{lowerDomainName}}Repository := New{{domainName}}Repository(db)
-{{/tables}}
+    for _, v := range GetInvoke() {
+        e := container.Invoke(v)
+        if e != nil {
+            panic(e)
+        }
+    }
 
-{{#tables}}
-    {{lowerDomainName}}Service := New{{domainName}}Service({{lowerDomainName}}Repository)
-{{/tables}}
-
-{{#tables}}
-    New{{domainName}}Controller(r, {{lowerDomainName}}Service)
-{{/tables}}
+    e := container.Invoke(Start)
+    if e != nil {
+        log.Fatal(e)
+    }
+}
 
 
+func Start(r *gin.Engine, db *sql.DB) {
+    defer db.Close()
+    r.Static("/static", "./static")
+    r.GET("/", func(context *gin.Context) {
+        context.Redirect(301, "/static/index.html")
+    })
     err := endless.ListenAndServe(":8080", r)
     if err != nil {
         log.Fatal(err)
     }
 }
+
+func NewDataSource() (*sql.DB, error) {
+    return sql.Open("mysql", "{{{dataSource.username}}}:{{{dataSource.password}}}@({{{dataSource.host}}}:{{{dataSource.port}}})/{{{dataSource.dbName}}}")
+}
+
+func NewGinEngine() *gin.Engine {
+    return gin.Default()
+}
+
+func GetProvide() []interface{} {
+    return []interface{}{
+        NewGinEngine,
+        NewDataSource,
+{{#tables}}
+        New{{domainName}}Repository,
+{{/tables}}
+{{#tables}}
+        New{{domainName}}Service,
+{{/tables}}
+    }
+}
+
+func GetInvoke() []interface{} {
+    return []interface{}{
+{{#tables}}
+        New{{domainName}}Controller,
+{{/tables}}
+    }
+}
+
