@@ -34,13 +34,8 @@ func main() {
     }
 }
 
-
 func Start(r *gin.Engine, db *sql.DB) {
     defer db.Close()
-    r.Static("/static", "./static")
-    r.GET("/", func(context *gin.Context) {
-        context.Redirect(301, "/static/index.html")
-    })
     err := endless.ListenAndServe(":8080", r)
     if err != nil {
         log.Fatal(err)
