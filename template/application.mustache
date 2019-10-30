@@ -13,21 +13,7 @@ import (
 )
 
 func main() {
-    container := dig.New()
-    for _, v := range GetProvide() {
-        e := container.Provide(v)
-        if e != nil {
-            panic(e)
-        }
-    }
-
-    for _, v := range GetInvoke() {
-        e := container.Invoke(v)
-        if e != nil {
-            panic(e)
-        }
-    }
-
+    container := NewContainer()
     e := container.Invoke(Start)
     if e != nil {
         log.Fatal(e)
@@ -50,6 +36,24 @@ func NewGinEngine() *gin.Engine {
     return gin.Default()
 }
 
+func NewContainer() *dig.Container {
+    container := dig.New()
+    for _, v := range GetProvide() {
+        e := container.Provide(v)
+        if e != nil {
+            panic(e)
+        }
+    }
+
+    for _, v := range GetInvoke() {
+        e := container.Invoke(v)
+        if e != nil {
+            panic(e)
+        }
+    }
+    return container
+}
+
 func GetProvide() []interface{} {
     return []interface{}{
         NewGinEngine,
@@ -70,4 +74,5 @@ func GetInvoke() []interface{} {
 {{/tables}}
     }
 }
+
 
