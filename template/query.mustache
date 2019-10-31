@@ -177,19 +177,18 @@ func (query *{{domainName}}Example) toCondition() string {
 	var buffer bytes.Buffer
 	if OrExamples != nil {
 		buffer.WriteString(" where ")
-		if len(conditions) > 0 {
-			buffer.WriteString("(")
-			buffer.WriteString(strings.Join(conditions, " and "))
-			buffer.WriteString(")")
-		}
-		for _, item := range OrExamples {
-			if len(item.Conditions) > 0 {
-				buffer.WriteString(" or ")
-				buffer.WriteString("(")
-				buffer.WriteString(strings.Join(item.Conditions, " and "))
-				buffer.WriteString(")")
-			}
-		}
+        buffer.WriteString("(")
+        buffer.WriteString(strings.Join(conditions, " and "))
+        buffer.WriteString(")")
+        for i := 0; i < len(OrExamples); i++ {
+            item := OrExamples[i]
+            if len(item.Conditions) > 0 {
+                buffer.WriteString(" or ")
+                buffer.WriteString("(")
+                buffer.WriteString(strings.Join(item.Conditions, " and "))
+                buffer.WriteString(")")
+            }
+        }
 	} else {
 		if len(conditions) > 0 {
 			buffer.WriteString(" where ")

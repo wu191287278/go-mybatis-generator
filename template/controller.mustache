@@ -16,12 +16,12 @@ func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{do
     {{lowerDomainName}} := r.Group("{{lowerDomainName}}")
     {
         {{lowerDomainName}}.GET("", {{lowerDomainName}}Controller.Search)
-        {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
-        {{#hasPrimaryKey}}
+    {{#hasPrimaryKey}}
         {{lowerDomainName}}.GET("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.SelectByPrimaryKey)
         {{lowerDomainName}}.DELETE("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.DeleteByPrimaryKey)
         {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
-        {{/hasPrimaryKey}}
+    {{/hasPrimaryKey}}
+        {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
     }
     return {{lowerDomainName}}Controller
 }
