@@ -156,7 +156,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) DeleteByPrimaryKe
     }
 
     var e error
-    if e = c.ShouldBind(&params); e == nil {
+    if e = c.ShouldBindUri(&params); e == nil {
         _, e := {{lowerDomainName}}Controller.{{lowerDomainName}}Service.DeleteByPrimaryKey({{#primaryKeys}}params.{{upperName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
         if e == nil {
             return
@@ -175,7 +175,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) SelectByPrimaryKe
     }
 
     var e error
-    if e = c.ShouldBind(&params); e == nil {
+    if e = c.ShouldBindUri(&params); e == nil {
         {{lowerDomainName}}, e := {{lowerDomainName}}Controller.{{lowerDomainName}}Service.SelectByPrimaryKey({{#primaryKeys}}params.{{upperName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
         if e == nil {
             c.JSON(http.StatusOK, {{lowerDomainName}})
