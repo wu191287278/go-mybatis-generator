@@ -2,7 +2,7 @@ package domain
 
 type {{domainName}} struct {
 {{#fields}}
-    /*{{{remarks}}}*/
+    {{#remarks}}/*{{{remarks}}}*/{{/remarks}}
 	{{upperName}}        {{propertyType}}  `json:"{{lowerName}}" form:"{{lowerName}}"`
 {{/fields}}
 }

@@ -489,34 +489,8 @@
             table["artifact"] = artifact;
             let primaryKeys = table["primaryKeys"];
             table["hasPrimaryKey"] = primaryKeys && primaryKeys.length > 0
-            for (let j = 0; j < fields.length; j++) {
-                let field = fields[j];
-                field["upperName"] = upperCamel(field["name"]);
-                if (!field["lowerName"]) {
-                    field["lowerName"] = lowerCamel(field["name"]);
-                }
-                field["propertyType"] = getGolangType(field["type"]);
-                processGolangType(field)
-                if (j === (fields.length - 1)) {
-                    field["hasNext"] = false
-                } else {
-                    field["hasNext"] = true
-                }
-            }
-            for (let j = 0; j < primaryKeys.length; j++) {
-                let field = primaryKeys[j];
-                field["upperName"] = upperCamel(field["name"]);
-                if (!field["lowerName"]) {
-                    field["lowerName"] = lowerCamel(field["name"]);
-                }
-                field["propertyType"] = getGolangType(field["type"]);
-                processGolangType(field)
-                if (j === (primaryKeys.length - 1)) {
-                    field["hasNext"] = false
-                } else {
-                    field["hasNext"] = true
-                }
-            }
+            processFields(fields);
+            processFields(primaryKeys);
             zip.file(artifact + "/domain/" + tableName + ".go", Mustache.render(modelTemplate.getValue(), table));
             zip.file(artifact + "/domain/" + tableName + "_example.go", Mustache.render(queryTemplate.getValue(), table));
             zip.file(artifact + "/controller/" + tableName + "_controller.go", Mustache.render(controllerTemplate.getValue(), table));
@@ -531,6 +505,22 @@
                 saveAs(content, artifact + ".zip");
             });
 
+    }
+
+    function processFields(fields) {
+        for (let j = 0; j < fields.length; j++) {
+            let field = fields[j]
+            field["upperName"] = upperCamel(field["name"]);
+            if (!field["lowerName"]) {
+                field["lowerName"] = lowerCamel(field["name"]);
+            }
+            field["propertyType"] = getGolangType(field["type"]);
+            processGolangType(field)
+            field["hasNext"] = j !== (fields.length - 1);
+            if (field["remarks"] === "") {
+                field["remarks"] = undefined
+            }
+        }
     }
 
     function lowerCamel(name) {

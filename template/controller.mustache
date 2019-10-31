@@ -5,7 +5,6 @@ import (
 	. "{{{artifact}}}/domain"
 	. "{{{artifact}}}/service"
 	"net/http"
-	"strconv"
 )
 
 type {{domainName}}Controller struct {
@@ -16,9 +15,11 @@ func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{do
     {{lowerDomainName}}Controller := &{{domainName}}Controller{ {{lowerDomainName}}Service: {{lowerDomainName}}Service }
     {{lowerDomainName}} := r.Group("{{lowerDomainName}}")
     {
-        {{lowerDomainName}}.GET("/search", {{lowerDomainName}}Controller.Search)
+        {{lowerDomainName}}.GET("", {{lowerDomainName}}Controller.Search)
         {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
         {{#hasPrimaryKey}}
+        {{lowerDomainName}}.GET("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.SelectByPrimaryKey)
+        {{lowerDomainName}}.DELETE("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.DeleteByPrimaryKey)
         {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
         {{/hasPrimaryKey}}
     }
@@ -26,25 +27,41 @@ func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{do
 }
 
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Context) {
-	var page uint32 = 1
-	var size uint32 = 20
 
-	if i, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32); err == nil {
-		page = uint32(i)
-	}
+    var params struct {
+        Page    uint32	`form:"page"`
+        Size    uint32	`form:"size"`
+        OrderBy string	`form:"orderBy"`
+        Sort    string	`form:"sort"`
+{{#fields}}
+        {{upperName}}   {{propertyType}}  `form:"{{lowerName}}"`
+{{/fields}}
+    }
 
-	if i, err := strconv.ParseInt(c.DefaultQuery("size", "20"), 10, 32); err == nil {
-		size = uint32(i)
-	}
-
-	params := &{{domainName}}{}
-	e := c.ShouldBind(params)
+	e := c.ShouldBind(&params)
 	if e != nil {
 		_ = c.AbortWithError(http.StatusBadRequest, e)
 		return
 	}
 
-	query := New{{domainName}}Example().WithPage(page, size)
+    query := New{{domainName}}Example()
+
+    if params.Page == 0 {
+        params.Page = 1
+    }
+
+    if params.Size == 0 {
+        params.Size = 20
+    }
+
+    query.WithPage(params.Page, params.Size)
+
+    if params.OrderBy != ""{
+        if params.Sort=="" {
+            params.Sort = "asc"
+        }
+        query.WithOrderByClause(params.OrderBy +" " +params.Sort)
+    }
 
 {{#fields}}
 {{#isInt8}}
@@ -111,6 +128,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c
 
 }
 {{#hasPrimaryKey}}
+
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
@@ -128,4 +146,44 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKe
 	c.JSON(http.StatusOK, {{lowerDomainName}})
 
 }
+
+func ({{lowerDomainName}}Controller *{{domainName}}Controller) DeleteByPrimaryKey(c *gin.Context) {
+
+    var params struct {
+    {{#primaryKeys}}
+        {{upperName}}   {{propertyType}}  `uri:"{{lowerName}}"`
+    {{/primaryKeys}}
+    }
+
+    var e error
+    if e = c.ShouldBind(&params); e == nil {
+        _, e := {{lowerDomainName}}Controller.{{lowerDomainName}}Service.DeleteByPrimaryKey({{#primaryKeys}}params.{{upperName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+        if e == nil {
+            return
+        }
+    }
+
+    c.AbortWithError(http.StatusInternalServerError, e)
+}
+
+func ({{lowerDomainName}}Controller *{{domainName}}Controller) SelectByPrimaryKey(c *gin.Context) {
+
+    var params struct {
+    {{#primaryKeys}}
+        {{upperName}}   {{propertyType}}  `uri:"{{lowerName}}"`
+    {{/primaryKeys}}
+    }
+
+    var e error
+    if e = c.ShouldBind(&params); e == nil {
+        {{lowerDomainName}}, e := {{lowerDomainName}}Controller.{{lowerDomainName}}Service.SelectByPrimaryKey({{#primaryKeys}}params.{{upperName}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}})
+        if e == nil {
+            c.JSON(http.StatusOK, {{lowerDomainName}})
+            return
+        }
+    }
+
+    c.AbortWithError(http.StatusInternalServerError, e)
+}
+
 {{/hasPrimaryKey}}
