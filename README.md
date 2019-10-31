@@ -14,26 +14,24 @@
 在线 [Go Mybatis Generator](https://wu191287278.github.io/go-mybatis-generator/index.html) 生成代码
 
 
-#### Getting Started
-
-```sql
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=994 DEFAULT CHARSET=utf8mb4;
-```
+#### 
 
 
-#### 从数据库中生成元数据信息
+#### 从数据库中生成元数据信息 并生成项目代码
 ```
 git clone https://github.com/wu191287278/go-mybatis-generator
 cd go-mybatis-generator
 go get github.com/go-sql-driver/mysql
 go build
 ./go-mybatis-generator -host localhost -username root -password root -dbname db #默认生成元数据到template/example.json文件中
+```
+
+#### Getting Started
+```
+cd 生成的项目
+go list -m -u all
+go mod vendor
+go run main.go
 ```
 
 #### SelectByExample

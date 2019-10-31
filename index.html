@@ -42,7 +42,7 @@
                             <option value="serviceTemplateDiv">Service</option>
                             <option value="repositoryTemplateDiv">Repository</option>
                             <option value="modelTemplateDiv">Domain</option>
-                            <option value="pomTemplateDiv">Glide</option>
+                            <option value="pomTemplateDiv">Mod</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-default" onclick="clearCache()">Reset</button>
@@ -208,7 +208,7 @@
         let container = document.getElementById('pomTemplate');
         let defaultOption = {
             value: template,
-            language: 'yaml'
+            language: 'text'
         };
         require.config({paths: {'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/'}});
         require(['vs/editor/editor.main'], function () {
@@ -329,7 +329,7 @@
                 }
             };
 
-            xhr.open("get", "./template/glide.yaml");
+            xhr.open("get", "./template/go.mod");
             xhr.send(null);
         }
     }
@@ -497,7 +497,7 @@
             zip.file(artifact + "/service/" + tableName + "_service.go", Mustache.render(serviceTemplate.getValue(), table));
             zip.file(artifact + "/repository/" + tableName + "_repository.go", Mustache.render(repositoryTemplate.getValue(), table));
         }
-        zip.file(artifact + "/glide.yaml", Mustache.render(pomTemplate.getValue(), settings));
+        zip.file(artifact + "/go.mod", Mustache.render(pomTemplate.getValue(), settings));
         zip.file(artifact + "/main.go", Mustache.render(applicationTemplate.getValue(), settings));
 
         zip.generateAsync({type: "blob"})
