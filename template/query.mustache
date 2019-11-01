@@ -264,15 +264,15 @@ func (query *{{domainName}}Example) ConsumeByExample(accept func(*{{domainName}}
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
 	stmt, e := query.DefaultDB.Prepare(querySql)
+	if e != nil {
+		return e
+	}
     defer stmt.Close()
-	if e != nil {
-		return e
-	}
 	rows, e := stmt.Query(query.Args...)
-    defer rows.Close()
 	if e != nil {
 		return e
 	}
+    defer rows.Close()
     var counter int64
 	for rows.Next() {
 {{#fields}}
@@ -363,9 +363,17 @@ func (query *{{domainName}}Example) CountByExample() (int64, error) {
 	buffer.WriteString(query.toCondition())
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
-	rows, e := query.DefaultDB.Query(querySql, query.Args...)
+    stmt, e := query.DefaultDB.Prepare(querySql)
+    if e != nil{
+        return 0, e
+    }
+    defer stmt.Close()
+    rows, e := stmt.Query(query.Args...)
+    if e != nil{
+        return 0, e
+    }
     defer rows.Close()
-	if e == nil && rows.Next() {
+	if rows.Next() {
 		var count sql.NullInt64
 		e := rows.Scan(&count)
 		if e != nil {
@@ -388,9 +396,17 @@ func (query *{{domainName}}Example) ExistsByExample() (bool, error) {
 	buffer.WriteString(" limit 1")
 	querySql := buffer.String()
     query.before(querySql, query.Args...)
-	rows, e := query.DefaultDB.Query(querySql, query.Args...)
-    defer rows.Close()
-	if e == nil && rows.Next() {
+	stmt, e := query.DefaultDB.Prepare(querySql)
+    if e != nil{
+        return false, e
+    }
+    defer stmt.Close()
+    rows, e := stmt.Query(query.Args...)
+    if e !=nil {
+        return false, e
+    }
+
+    if rows.Next() {
 		var exists sql.NullBool
 		e := rows.Scan(&exists)
 		if e != nil {
