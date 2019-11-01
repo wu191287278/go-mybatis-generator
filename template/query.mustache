@@ -532,6 +532,7 @@ func (query *{{domainName}}Example) UpdateByPrimaryKeySelective(t *{{domainName}
 	}
 	return 0, nil
 }
+
 {{/hasPrimaryKey}}
 func (query *{{domainName}}Example) UpdateByExample(t *{{domainName}}) (int64, error) {
 	var buffer bytes.Buffer
@@ -634,6 +635,9 @@ func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, 
 
 {{^isAutoIncrement}}
     _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    if e == nil {
+        query.after(1)
+    }
 {{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
@@ -649,13 +653,11 @@ func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, 
             t.{{upperName}} = {{propertyType}}(i)
 {{/isInt64}}
 {{/primaryKeys}}
-		}
-        query.after(1)
-        return t, e
+            query.after(1)
+        }
     }
 {{/isAutoIncrement}}
 {{/hasPrimaryKey}}
-    query.after(0)
     return t, e
 }
 
@@ -732,6 +734,9 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
 
 {{^isAutoIncrement}}
     _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    if e == nil{
+        query.after(1)
+    }
 {{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
@@ -747,13 +752,11 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
             t.{{upperName}} = {{propertyType}}(i)
 {{/isInt64}}
 {{/primaryKeys}}
-		}
-        query.after(1)
-        return t, e
+            query.after(1)
+        }
     }
 {{/isAutoIncrement}}
 {{/hasPrimaryKey}}
-    query.after(0)
 	return t, e
 }
 
