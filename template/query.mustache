@@ -7,7 +7,6 @@ import (
     "log"
     "strconv"
     "strings"
-    "time"
 )
 
 type {{domainName}}Example struct {
@@ -36,8 +35,8 @@ func (query {{domainName}}Example) before(sql string, args... interface{}) {
     if query.Before != nil {
         query.Before(sql, args)
     } else {
-        log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Preparing:  ", sql)
-        log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Parameters: ", args)
+        log.Println("[{{domainName}}Example]", "Preparing:  ", sql)
+        log.Println("[{{domainName}}Example]", "Parameters: ", args)
     }
 }
 
@@ -45,7 +44,7 @@ func (query *{{domainName}}Example) after(total int64) {
     if query.After != nil {
         query.After(total)
     } else {
-        log.Println("[{{domainName}}Example]", time.Now().Format("2006/01/02 15:04:05"), "Total:      ", total)
+        log.Println("[{{domainName}}Example]", "Total:      ", total)
     }
 }
 
