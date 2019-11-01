@@ -777,7 +777,7 @@ func (query *{{domainName}}Example) BatchInsert(ts []{{domainName}}) error {
 	insertSql := buffer.String()
     query.before(insertSql, args...)
 	_, e := query.DefaultDB.Exec(insertSql, args...)
-    if e==nil{
+    if e == nil{
         query.after(int64(len(ts)))
     }
     return e
