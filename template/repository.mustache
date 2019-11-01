@@ -47,6 +47,10 @@ func ({{lowerDomainName}}Repository *{{domainName}}Repository) SelectByExample({
 	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).SelectByExample()
 }
 
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) ConsumeByExample({{lowerDomainName}}Example *{{domainName}}Example, accept func(*{{domainName}})) error {
+	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).ConsumeByExample(accept)
+}
+
 func ({{lowerDomainName}}Repository *{{domainName}}Repository) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan *{{domainName}}) error {
 	return {{lowerDomainName}}Example.WithDB({{lowerDomainName}}Repository.db).SelectChannel(ch)
 }

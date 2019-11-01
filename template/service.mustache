@@ -47,6 +47,10 @@ func ({{lowerDomainName}}Service *{{domainName}}Service) SelectByExample({{lower
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.SelectByExample({{lowerDomainName}}Example)
 }
 
+func ({{lowerDomainName}}Service *{{domainName}}Service) ConsumeByExample({{lowerDomainName}}Example *{{domainName}}Example, accept func(*{{domainName}})) error {
+    return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ConsumeByExample({{lowerDomainName}}Example, accept)
+}
+
 func ({{lowerDomainName}}Service *{{domainName}}Service) ChanelByExample({{lowerDomainName}}Example *{{domainName}}Example, ch chan *{{domainName}}) error {
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.ChanelByExample({{lowerDomainName}}Example, ch)
 }

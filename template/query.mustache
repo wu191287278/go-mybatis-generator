@@ -240,212 +240,22 @@ func (query *{{domainName}}Example) Or(orExample {{domainName}}Example) *{{domai
 }
 
 func (query *{{domainName}}Example) SelectByExample() ([]{{domainName}}, error) {
-	var buffer bytes.Buffer
-	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
-	buffer.WriteString(query.getTableName())
-	buffer.WriteString(query.toCondition())
-	buffer.WriteString(query.toOrderByClause())
-	buffer.WriteString(query.toLimit())
-	querySql := buffer.String()
-    query.before(querySql, query.Args...)
-	stmt, e := query.DefaultDB.Prepare(querySql)
-    defer stmt.Close()
-	if e != nil {
-		return nil, e
-	}
-	rows, e := stmt.Query(query.Args...)
-    defer rows.Close()
-	if e != nil {
-		return nil, e
-	}
-	result := make([]{{domainName}}, 0)
-	for rows.Next() {
-{{#fields}}
-{{#isInt8}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt8}}
-{{#isInt16}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt16}}
-{{#isInt32}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt32}}
-{{#isInt64}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt64}}
-{{#isString}}
-		var {{lowerName}} sql.NullString
-{{/isString}}
-{{#isBoolean}}
-		var {{lowerName}} sql.NullBoolean
-{{/isBoolean}}
-{{#isFloat32}}
-		var {{lowerName}} sql.NullFloat64
-{{/isFloat32}}
-{{#isFloat64}}
-		var {{lowerName}} sql.NullFloat64
-{{/isFloat64}}
-{{/fields}}
-		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
-		if e != nil {
-			break
-		}
-
-		t := {{domainName}}{}
-{{#fields}}
-{{#isInt8}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int8({{lowerName}}.Int64)
-        }
-{{/isInt8}}
-{{#isInt16}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int16({{lowerName}}.Int64)
-        }
-{{/isInt16}}
-{{#isInt32}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int32({{lowerName}}.Int64)
-        }
-{{/isInt32}}
-{{#isInt64}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Int64
-        }
-{{/isInt64}}
-{{#isString}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.String
-        }
-{{/isString}}
-{{#isFloat32}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = float32({{lowerName}}.Float64)
-        }
-{{/isFloat32}}
-{{#isFloat64}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Float64
-        }
-{{/isFloat64}}
-{{#isBoolean}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Boolean
-        }
-{{/isBoolean}}
-{{/fields}}
-		result = append(result, t)
-	}
-    query.after(int64(len(result)))
-	return result, nil
+    result := make([]{{domainName}}, 0)
+    e := query.ConsumeByExample(func(t *{{domainName}}) {
+        result = append(result, *t)
+    })
+    return result, e
 }
-{{#hasPrimaryKey}}
-
-func (query *{{domainName}}Example) SelectOne() (*{{domainName}}, error) {
-	var buffer bytes.Buffer
-	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
-	buffer.WriteString(query.getTableName())
-	buffer.WriteString(query.toCondition())
-	buffer.WriteString(query.toOrderByClause())
-	buffer.WriteString(" limit 1")
-	querySql := buffer.String()
-    query.before(querySql, query.Args...)
-	stmt, e := query.DefaultDB.Prepare(querySql)
-    defer stmt.Close()
-
-    if e != nil {
-		return nil, e
-	}
-	rows, e := stmt.Query(query.Args...)
-    defer rows.Close()
-	if e != nil {
-		return nil, e
-	}
-
-	if rows.Next() {
-{{#fields}}
-{{#isInt8}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt8}}
-{{#isInt16}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt16}}
-{{#isInt32}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt32}}
-{{#isInt64}}
-		var {{lowerName}} sql.NullInt64
-{{/isInt64}}
-{{#isString}}
-		var {{lowerName}} sql.NullString
-{{/isString}}
-{{#isBoolean}}
-		var {{lowerName}} sql.NullBoolean
-{{/isBoolean}}
-{{#isFloat32}}
-		var {{lowerName}} sql.NullFloat64
-{{/isFloat32}}
-{{#isFloat64}}
-		var {{lowerName}} sql.NullFloat64
-{{/isFloat64}}
-{{/fields}}
-		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
-		if e != nil {
-			return nil, e
-		}
-
-		t := {{domainName}}{}
-{{#fields}}
-{{#isInt8}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int8({{lowerName}}.Int64)
-        }
-{{/isInt8}}
-{{#isInt16}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int16({{lowerName}}.Int64)
-        }
-{{/isInt16}}
-{{#isInt32}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = int32({{lowerName}}.Int64)
-        }
-{{/isInt32}}
-{{#isInt64}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Int64
-        }
-{{/isInt64}}
-{{#isString}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.String
-        }
-{{/isString}}
-{{#isFloat32}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = float32({{lowerName}}.Float64)
-        }
-{{/isFloat32}}
-{{#isFloat64}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Float64
-        }
-{{/isFloat64}}
-{{#isBoolean}}
-		if {{lowerName}}.Valid {
-            t.{{upperName}} = {{lowerName}}.Boolean
-        }
-{{/isBoolean}}
-{{/fields}}
-        query.after(1)
-        return &t,e
-	}
-    query.after(0)
-	return nil, e
-}
-{{/hasPrimaryKey}}
 
 func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error {
+    e := query.ConsumeByExample(func(t *{{domainName}}) {
+        ch <- t
+    })
+    close(ch)
+    return e
+}
+
+func (query *{{domainName}}Example) ConsumeByExample(accept func(*{{domainName}})) error {
 	var buffer bytes.Buffer
 	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
 	buffer.WriteString(query.getTableName())
@@ -464,7 +274,7 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 	if e != nil {
 		return e
 	}
-    var selectChannelTotal int64
+    var counter int64
 	for rows.Next() {
 {{#fields}}
 {{#isInt8}}
@@ -497,21 +307,21 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 			break
 		}
 
-		t := &{{domainName}}{}
+		t := {{domainName}}{}
 {{#fields}}
 {{#isInt8}}
 		if {{lowerName}}.Valid {
-           t.{{upperName}} = int8({{lowerName}}.Int64)
+            t.{{upperName}} = int8({{lowerName}}.Int64)
         }
 {{/isInt8}}
 {{#isInt16}}
 		if {{lowerName}}.Valid {
-           t.{{upperName}} = int16({{lowerName}}.Int64)
+            t.{{upperName}} = int16({{lowerName}}.Int64)
         }
 {{/isInt16}}
 {{#isInt32}}
 		if {{lowerName}}.Valid {
-           t.{{upperName}} = int32({{lowerName}}.Int64)
+            t.{{upperName}} = int32({{lowerName}}.Int64)
         }
 {{/isInt32}}
 {{#isInt64}}
@@ -540,12 +350,11 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
         }
 {{/isBoolean}}
 {{/fields}}
-		ch <- t
-        selectChannelTotal++
+        accept(&t)
+        counter++
 	}
-    close(ch)
-    query.after(selectChannelTotal)
-	return e
+    query.after(counter)
+	return nil
 }
 
 func (query *{{domainName}}Example) CountByExample() (int64, error) {
@@ -975,7 +784,11 @@ func (query *{{domainName}}Example) SelectByPrimaryKey({{#primaryKeys}}{{lowerNa
 {{#primaryKeys}}
     query.And{{upperName}}EqualTo({{lowerName}})
 {{/primaryKeys}}
-	return query.SelectOne()
+	result,e := query.SelectByExample()
+    if e != nil || len(result) == 0{
+        return nil, e
+    }
+    return &result[0], e
 }
 
 func (query *{{domainName}}Example) SelectByPrimaryKeys({{#primaryKeys}}{{lowerName}} []{{propertyType}}{{#hasNext}},{{/hasNext}}{{/primaryKeys}}) ([]{{domainName}}, error) {
