@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/select2/4.0.10/css/select2.min.css" rel="stylesheet">
     <style type="text/css">
         html,
         body {
@@ -47,8 +48,7 @@
                     </div>
                     <button type="button" class="btn btn-default" onclick="clearCache()">Reset</button>
                     <button type="button" class="btn btn-default" onclick="save()">Save</button>
-                    <button type="button" class="btn btn-default" onclick="generatorSpringBootPop()">Generate
-                    </button>
+                    <button type="button" class="btn btn-default" onclick="pop()">Generate</button>
                 </div>
 
             </div>
@@ -82,20 +82,24 @@
         <div id="serviceTemplate" style="width:100%;height:100%"></div>
     </div>
 </div>
-<div class='modal' id='generatorSpringBootPop'>
+<div class='modal' id='pop'>
     <div class='modal-dialog'>
         <div class='modal-content'>
             <div class='modal-header'>
                 <button type='button' class='close' data-dismiss='modal'>
                     <span aria-hidden='true'>×</span><span class='sr-only'>Close</span>
                 </button>
-                <h4 class='modal-title'>Generate SpringBoot Project</h4>
+                <h4 class='modal-title'>Generate</h4>
             </div>
             <div class='modal-body'>
                 <form onsubmit="generate()" action="javascript:void(0)" method="get" role='form'>
                     <div class='form-group'>
                         <label>Artifact:</label>
                         <input type='text' class='form-control' id="artifact" value="demo" placeholder="demo">
+                    </div>
+                    <div class='form-group'>
+                        <label>Tables:</label>
+                        <select class="form-control" multiple="multiple" id="tables" style="width: 100%;"></select>
                     </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-default'
@@ -111,7 +115,9 @@
 <script src="https://cdn.bootcss.com/mustache.js/3.0.1/mustache.js"></script>
 <script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
 <script src="https://cdn.bootcss.com/jszip/3.1.5/jszip.min.js"></script>
+<script src="https://cdn.bootcss.com/jszip-utils/0.1.0/jszip-utils.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/select2/4.0.10/js/select2.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.14.3/min/vs/loader.js"></script>
 <script>
@@ -270,6 +276,7 @@
             xhr.open("get", "./template/example.json");
             xhr.send(null);
         }
+
     }
 
 
@@ -469,17 +476,48 @@
         document.getElementById("serviceTemplateDiv").hidden = true;
     }
 
-    function generatorSpringBootPop() {
-        $('#generatorSpringBootPop').modal('toggle')
+    let select2;
+
+    function pop() {
+        if (!select2) {
+            let tables = JSON.parse(settingsEditor.getValue())["tables"];
+            let results = [];
+            for (let i = 0; i < tables.length; i++) {
+                let tableName = tables[i]["tableName"];
+                results.push({id: tableName, text: tableName})
+            }
+            select2 = $('#tables').select2({
+                data: results
+            });
+        }
+        $('#pop').modal('toggle')
     }
 
 
     function generate() {
+        doGenerate(new JSZip())
+        // fetch('base.zip')       // 1) fetch the url
+        //     .then(function (response) {                       // 2) filter on 200 OK
+        //         if (response.status === 200 || response.status === 0) {
+        //             return Promise.resolve(response.blob());
+        //         } else {
+        //             return Promise.reject(new Error(response.statusText));
+        //         }
+        //     })
+        //     .then(JSZip.loadAsync)                            // 3) chain with the zip promise
+        //     .then(function success(zip) {                    // 5) display the result
+        //         doGenerate(zip)
+        //     }, function error(e) {
+        //         alert(e)
+        //     });
+    }
+
+    function doGenerate(zip) {
         let artifact = document.getElementById("artifact").value;
-        let zip = new JSZip();
         let settings = JSON.parse(settingsEditor.getValue());
         settings["artifact"] = artifact;
-        let tables = settings["tables"]
+        let tables = getTables(settings);
+
         for (let i = 0; i < tables.length; i++) {
             let table = tables[i];
             let fields = table["fields"];
@@ -505,6 +543,29 @@
                 saveAs(content, artifact + ".zip");
             });
 
+    }
+
+
+    function getTables(settings) {
+        let tables = settings["tables"];
+        let newTables = [];
+        let selectedTables = select2.val();
+        if (selectedTables) {
+            let m = {};
+            for (let i = 0; i < tables.length; i++) {
+                let table = tables[i];
+                m[table["tableName"]] = table;
+            }
+            for (let i = 0; i < selectedTables.length; i++) {
+                let name = selectedTables[i];
+                let table = m[name];
+                if (table) {
+                    newTables.push(table)
+                }
+            }
+            settings["tables"] = newTables;
+        }
+        return newTables.length === 0 ? tables : newTables;
     }
 
     function processFields(fields) {

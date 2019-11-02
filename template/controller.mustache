@@ -26,6 +26,19 @@ func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{do
     return {{lowerDomainName}}Controller
 }
 
+// Search {{lowerDomainName}}
+// @Summary
+// @Description
+// @ID search
+// @Param page    query    uint32    false    "page"
+// @Param size    query    uint32    false    "size"
+// @Param orderBy    query    string    false    "order by table column"
+// @Param sort    query    string    false    "asc/desc"
+{{#fields}}
+// @Param {{lowerName}}    query    {{propertyType}}    false    "{{remarks}}"
+{{/fields}}
+// @Success 200 {array} {{domainName}}
+// @Router /{{lowerDomainName}} [get]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Context) {
 
     var params struct {
@@ -110,6 +123,14 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Con
 	c.JSON(http.StatusOK, {{lowerDomainName}})
 }
 
+
+// Save a {{lowerDomainName}}
+// @Summary
+// @Description
+// @ID Save
+// @Param {{lowerDomainName}}    body    {{domainName}}    true    "{{{remarks}}}"
+// @Success 200 {object} {{domainName}}
+// @Router /{{lowerDomainName}}/ [post]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
@@ -129,6 +150,13 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c
 }
 {{#hasPrimaryKey}}
 
+// Update a {{lowerDomainName}}
+// @Summary
+// @Description
+// @ID Update
+// @Param {{lowerDomainName}}    body    {{domainName}}    true    "{{domainName}}"
+// @Success 200 {object} {{domainName}}
+// @Router /{{lowerDomainName}}/ [put]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
@@ -147,6 +175,15 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKe
 
 }
 
+// Delete a {{lowerDomainName}}
+// @Summary
+// @Description
+// @ID Delete
+{{#primaryKeys}}
+// @Param {{lowerName}}    path    {{propertyType}}    true    "{{remarks}}"
+{{/primaryKeys}}
+// @Success 200 {object} {{domainName}}
+// @Router /{{lowerDomainName}}/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}} [delete]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) DeleteByPrimaryKey(c *gin.Context) {
 
     var params struct {
@@ -166,6 +203,15 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) DeleteByPrimaryKe
     c.AbortWithError(http.StatusInternalServerError, e)
 }
 
+// Get a {{lowerDomainName}}
+// @Summary
+// @Description
+// @ID Delete
+{{#primaryKeys}}
+// @Param {{lowerName}}    path    {{propertyType}}    true    "{{remarks}}"
+{{/primaryKeys}}
+// @Success 200 {object} {{domainName}}
+// @Router /{{lowerDomainName}}/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}} [get]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) SelectByPrimaryKey(c *gin.Context) {
 
     var params struct {
