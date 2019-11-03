@@ -19,9 +19,9 @@ func New{{domainName}}Controller(r *gin.Engine, {{lowerDomainName}}Service *{{do
     {{#hasPrimaryKey}}
         {{lowerDomainName}}.GET("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.SelectByPrimaryKey)
         {{lowerDomainName}}.DELETE("/{{#primaryKeys}}:{{lowerName}}{{#hasNext}}/{{/hasNext}}{{/primaryKeys}}", {{lowerDomainName}}Controller.DeleteByPrimaryKey)
-        {{lowerDomainName}}.PUT("/", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
+        {{lowerDomainName}}.PUT("", {{lowerDomainName}}Controller.UpdateByPrimaryKeySelective)
     {{/hasPrimaryKey}}
-        {{lowerDomainName}}.POST("/", {{lowerDomainName}}Controller.InsertSelective)
+        {{lowerDomainName}}.POST("", {{lowerDomainName}}Controller.InsertSelective)
     }
     return {{lowerDomainName}}Controller
 }
@@ -130,7 +130,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) Search(c *gin.Con
 // @ID Save
 // @Param {{lowerDomainName}}    body    {{domainName}}    true    "{{{remarks}}}"
 // @Success 200 {object} {{domainName}}
-// @Router /{{lowerDomainName}}/ [post]
+// @Router /{{lowerDomainName}} [post]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
@@ -156,7 +156,7 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) InsertSelective(c
 // @ID Update
 // @Param {{lowerDomainName}}    body    {{domainName}}    true    "{{domainName}}"
 // @Success 200 {object} {{domainName}}
-// @Router /{{lowerDomainName}}/ [put]
+// @Router /{{lowerDomainName}} [put]
 func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKeySelective(c *gin.Context) {
 	{{lowerDomainName}} := &{{domainName}}{}
 	e := c.ShouldBindJSON({{lowerDomainName}})
