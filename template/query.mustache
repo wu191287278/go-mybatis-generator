@@ -101,11 +101,11 @@ func (query *{{domainName}}Example) And{{upperName}}LessThanEqualTo({{lowerName}
 	return query
 }
 
-func (query *{{domainName}}Example) And{{upperName}}In({{lowerName}} []{{propertyType}}) *{{domainName}}Example {
+func (query *{{domainName}}Example) And{{upperName}}In(values []{{propertyType}}) *{{domainName}}Example {
 	var buffer bytes.Buffer
 	buffer.WriteString("{{name}} in (")
-	length := len({{lowerName}}) - 1
-	for i, item := range {{lowerName}} {
+	length := len(values) - 1
+	for i, item := range values {
 		query.Args = append(query.Args, item)
 		if i == length {
 			buffer.WriteString("?")
@@ -118,11 +118,11 @@ func (query *{{domainName}}Example) And{{upperName}}In({{lowerName}} []{{propert
 	return query
 }
 
-func (query *{{domainName}}Example) And{{upperName}}NotIn({{lowerName}} []{{propertyType}}) *{{domainName}}Example {
+func (query *{{domainName}}Example) And{{upperName}}NotIn(values []{{propertyType}}) *{{domainName}}Example {
 	var buffer bytes.Buffer
 	buffer.WriteString("{{name}} not in (")
-	length := len({{lowerName}}) - 1
-	for i, item := range {{lowerName}} {
+	length := len(values) - 1
+	for i, item := range values {
 		query.Args = append(query.Args, item)
 		if i == length {
 			buffer.WriteString("?")

@@ -165,11 +165,16 @@ func ({{lowerDomainName}}Controller *{{domainName}}Controller) UpdateByPrimaryKe
 		return
 	}
 
-	_, e = {{lowerDomainName}}Controller.{{lowerDomainName}}Service.UpdateByPrimaryKeySelective({{lowerDomainName}})
+	result, e = {{lowerDomainName}}Controller.{{lowerDomainName}}Service.UpdateByPrimaryKeySelective({{lowerDomainName}})
 	if e != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, e)
 		return
 	}
+
+    if result == 0 {
+        c.AbortWithStatus(http.StatusNotFound)
+        return
+    }
 
 	c.JSON(http.StatusOK, {{lowerDomainName}})
 
