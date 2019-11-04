@@ -46,8 +46,6 @@
                             <option value="pomTemplateDiv">Mod</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-default" onclick="clearCache()">Reset</button>
-                    <button type="button" class="btn btn-default" onclick="save()">Save</button>
                     <button type="button" class="btn btn-default" onclick="pop()">Generate</button>
                 </div>
 
@@ -259,169 +257,120 @@
     }
 
     function loadingSettings() {
-        let storage = window.localStorage;
-        let settings = storage.getItem("go-mybatis.settings");
-        if (settings) {
-            loadSettingsEditor(settings);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadSettingsEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadSettingsEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/example.json");
-            xhr.send(null);
-        }
-
+        xhr.open("get", "./template/example.json");
+        xhr.send(null);
     }
 
 
     function loadingQueryEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.queryTemplate");
-        if (template) {
-            loadQueryTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadQueryTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadQueryTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/query.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/query.mustache");
+        xhr.send(null);
     }
 
     function loadingControllerEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.controllerTemplate");
-        if (template) {
-            loadControllerTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadControllerTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadControllerTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/controller.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/controller.mustache");
+        xhr.send(null);
     }
 
 
     function loadingPomEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.pomTemplate");
-        if (template) {
-            loadPomTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadPomTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadPomTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/go.mod");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/go.mod");
+        xhr.send(null);
     }
 
 
     function loadingRepositoryEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.repositoryTemplate");
-        if (template) {
-            loadRepositoryTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadRepositoryTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadRepositoryTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/repository.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/repository.mustache");
+        xhr.send(null);
     }
 
 
     function loadingApplicationEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.applicationTemplate");
-        if (template) {
-            loadApplicationTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadApplicationTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadApplicationTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/application.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/application.mustache");
+        xhr.send(null);
     }
 
 
     function loadingModelEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.modelTemplate");
-        if (template) {
-            loadModelTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadModelTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadModelTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/domain.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/domain.mustache");
+        xhr.send(null);
     }
 
     function loadingServiceEditor() {
-        let storage = window.localStorage;
-        let template = storage.getItem("go-mybatis.serviceTemplate");
-        if (template) {
-            loadServiceTemplateEditor(template);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    loadServiceTemplateEditor(xhr.responseText);
-                } else {
-                    alert(xhr.status);
-                }
-            };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                loadServiceTemplateEditor(xhr.responseText);
+            } else {
+                alert(xhr.status);
+            }
+        };
 
-            xhr.open("get", "./template/service.mustache");
-            xhr.send(null);
-        }
+        xhr.open("get", "./template/service.mustache");
+        xhr.send(null);
     }
 
 
@@ -433,32 +382,6 @@
     loadingPomEditor();
     loadingModelEditor();
     loadingServiceEditor();
-
-    function clearCache() {
-        let storage = window.localStorage;
-        storage.removeItem("go-mybatis.settings");
-        storage.removeItem("go-mybatis.queryTemplate");
-        storage.removeItem("go-mybatis.controllerTemplate");
-        storage.removeItem("go-mybatis.repositoryTemplate");
-        storage.removeItem("go-mybatis.pomTemplate");
-        storage.removeItem("go-mybatis.applicationTemplate");
-        storage.removeItem("go-mybatis.modelTemplate");
-        storage.removeItem("go-mybatis.serviceTemplate");
-        window.location.reload()
-    }
-
-    function save() {
-        let storage = window.localStorage;
-        storage.setItem("go-mybatis.settings", settingsEditor.getValue());
-        storage.setItem("go-mybatis.queryTemplate", queryTemplate.getValue());
-        storage.setItem("go-mybatis.controllerTemplate", controllerTemplate.getValue());
-        storage.setItem("go-mybatis.repositoryTemplate", repositoryTemplate.getValue());
-        storage.setItem("go-mybatis.pomTemplate", pomTemplate.getValue());
-        storage.setItem("go-mybatis.applicationTemplate", applicationTemplate.getValue());
-        storage.setItem("go-mybatis.modelTemplate", modelTemplate.getValue());
-        storage.setItem("go-mybatis.serviceTemplate", modelTemplate.getValue());
-        alert("success")
-    }
 
     function changeTemplate() {
         hiddenTemplate();
@@ -575,8 +498,8 @@
             if (!field["lowerName"]) {
                 field["lowerName"] = lowerCamel(field["name"]);
             }
-            field["propertyType"] = getGolangType(field["type"]);
-            processGolangType(field)
+            field["propertyType"] = getType(field["type"]);
+            processType(field)
             field["hasNext"] = j !== (fields.length - 1);
             if (field["remarks"] === "") {
                 field["remarks"] = undefined
@@ -607,8 +530,8 @@
         return name.replace(/([A-Z])/g, "_$1").toLowerCase();
     }
 
-    function processGolangType(filed) {
-        var golangType = filed["propertyType"];
+    function processType(filed) {
+        var type = filed["propertyType"];
         filed["isInt8"] = false;
         filed["isInt16"] = false;
         filed["isInt32"] = false;
@@ -617,32 +540,32 @@
         filed["isFloat64"] = false;
         filed["isString"] = false;
         filed["isBoolean"] = false;
-        if (golangType == "string") {
+        if (type == "string") {
             filed["isString"] = true
-        } else if (golangType == "int8") {
+        } else if (type == "int8") {
             filed["isInt8"] = true
-        } else if (golangType == "int16") {
+        } else if (type == "int16") {
             filed["isInt16"] = true
-        } else if (golangType == "int32") {
+        } else if (type == "int32") {
             filed["isInt32"] = true
-        } else if (golangType == "int64") {
+        } else if (type == "int64") {
             filed["isInt64"] = true
-        } else if (golangType == "float32") {
+        } else if (type == "float32") {
             filed["isFloat32"] = true
-        } else if (golangType == "float64") {
+        } else if (type == "float64") {
             filed["isFloat64"] = true
-        } else if (golangType == "int64") {
+        } else if (type == "int64") {
             filed["isInt64"] = true
-        } else if (golangType == "byte") {
+        } else if (type == "byte") {
             filed["isByte"] = true
-        } else if (golangType == "bit") {
+        } else if (type == "bit") {
             filed["isBoolean"] = true
         } else {
             filed["isString"] = true
         }
     }
 
-    function getGolangType(jdbcType) {
+    function getType(jdbcType) {
         jdbcType = jdbcType.toUpperCase()
         if (jdbcType == "CHAR" || jdbcType == "VARCHAR" || jdbcType == "TEXT" || jdbcType == "LONGTEXT"
             || jdbcType == "LONGVARCHAR" || jdbcType == "VARCHAR2" || jdbcType == "JSON"
