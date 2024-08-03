@@ -1,16 +1,18 @@
 package main
 
 import (
-    . "{{{artifact}}}/controller"
-    . "{{{artifact}}}/repository"
-    . "{{{artifact}}}/service"
     "database/sql"
     "github.com/fvbock/endless"
     "github.com/gin-gonic/gin"
     _ "github.com/go-sql-driver/mysql"
+    "github.com/spf13/viper"
+    . "{{{artifact}}}/controller"
+    . "{{{artifact}}}/repository"
+    . "{{{artifact}}}/service"
     "go.uber.org/dig"
     "log"
 )
+
 
 func main() {
     container := NewContainer()
@@ -20,16 +22,33 @@ func main() {
     }
 }
 
-func Start(r *gin.Engine, db *sql.DB) {
+func Start(v *viper.Viper, r *gin.Engine, db *sql.DB) {
     defer db.Close()
-    err := endless.ListenAndServe(":8080", r)
+    port := v.GetString("server.port")
+    err := endless.ListenAndServe(port, r)
     if err != nil {
         log.Fatal(err)
     }
 }
 
-func NewDataSource() (*sql.DB, error) {
-    return sql.Open("mysql", "root:root@(localhost:3306)/users")
+func NewConfig() *viper.Viper {
+    config := viper.New()
+    config.SetConfigName("config")
+    config.AddConfigPath(".")
+    config.SetConfigType("toml")
+    if err := config.ReadInConfig(); err != nil {
+        if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+            panic("config not found")
+        } else {
+            panic(err)
+        }
+    }
+    return config
+}
+
+func NewDataSource(v *viper.Viper) (*sql.DB, error) {
+    url := v.GetString("database.url")
+    return sql.Open("mysql", url)
 }
 
 func NewGinEngine() *gin.Engine {
@@ -56,6 +75,7 @@ func NewContainer() *dig.Container {
 
 func GetProvide() []interface{} {
     return []interface{}{
+        NewConfig,
         NewGinEngine,
         NewDataSource,
 {{#tables}}
