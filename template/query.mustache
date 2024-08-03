@@ -31,7 +31,7 @@ func (query *{{domainName}}Example) WithDB(db *sql.DB) *{{domainName}}Example {
 	return query
 }
 
-func (query {{domainName}}Example) before(sql string, args... interface{}) {
+func (query *{{domainName}}Example) before(sql string, args... interface{}) {
     if query.Before != nil {
         query.Before(sql, args)
     } else {
@@ -212,9 +212,9 @@ func (query *{{domainName}}Example) toLimit() string {
 			buffer.WriteString(strconv.Itoa(int(query.Size)))
 		} else {
 			startNum := (query.Page - 1) * query.Size
-			buffer.WriteString(string(startNum))
+			buffer.WriteString(strconv.Itoa(int(startNum)))
 			buffer.WriteString(",")
-			buffer.WriteString(string(query.Size))
+			buffer.WriteString(strconv.Itoa(int(query.Size)))
 		}
 	}
 	return buffer.String()
