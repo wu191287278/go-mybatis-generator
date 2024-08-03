@@ -29,7 +29,7 @@ func Start(r *gin.Engine, db *sql.DB) {
 }
 
 func NewDataSource() (*sql.DB, error) {
-    return sql.Open("mysql", "{{{dataSource.username}}}:{{{dataSource.password}}}@({{{dataSource.host}}}:{{{dataSource.port}}})/{{{dataSource.dbName}}}")
+    return sql.Open("mysql", "root:root@(localhost:3306)/users")
 }
 
 func NewGinEngine() *gin.Engine {

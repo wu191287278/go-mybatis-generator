@@ -1,41 +1,158 @@
 {
   "dataSource": {
     "host": "localhost",
+    "port": 3306,
     "username": "root",
     "password": "root",
-    "dbName": "users"
+    "dbName": "bmo"
   },
   "tables": [
     {
-      "tableName": "users",
+      "tableName": "application",
       "isAutoIncrement": true,
-      "primaryKeys": [
-        {
-          "name": "id",
-          "type": "bigint",
-          "remarks": "主键id"
-        }
-      ],
       "fields": [
         {
           "name": "id",
-          "type": "bigint",
-          "remarks": "主键id"
+          "type": "int",
+          "remarks": ""
         },
         {
-          "name": "email",
+          "name": "name",
           "type": "varchar",
-          "remarks": "邮件"
+          "remarks": ""
         },
         {
-          "name": "user_id",
-          "type": "bigint",
-          "remarks": "用户id"
+          "name": "git_url",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "command",
+          "type": "text",
+          "remarks": ""
         },
         {
           "name": "created_at",
           "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "pri_message",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        },
+        {
+          "name": "send_id",
+          "type": "varchar",
+          "remarks": "发件人id"
+        },
+        {
+          "name": "rec_id",
+          "type": "varchar",
+          "remarks": "收件人id"
+        },
+        {
+          "name": "message",
+          "type": "text",
+          "remarks": "消息内容"
+        },
+        {
+          "name": "type",
+          "type": "int",
+          "remarks": "0 普通消息 1 系统消息 2 点赞 3 关注 4 评论消息 5 作品 6 部落 7 签约 8 活动 "
+        },
+        {
+          "name": "json",
+          "type": "int",
+          "remarks": "0 正常文本 1 json数据"
+        },
+        {
+          "name": "created_time",
+          "type": "bigint",
           "remarks": "创建时间"
+        },
+        {
+          "name": "dialogue_id",
+          "type": "bigint",
+          "remarks": "对话id"
+        },
+        {
+          "name": "uni_id",
+          "type": "varchar",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "remarks": ""
+        }
+      ]
+    },
+    {
+      "tableName": "users",
+      "isAutoIncrement": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
+        },
+        {
+          "name": "nickname",
+          "type": "varchar",
+          "remarks": "昵称"
+        },
+        {
+          "name": "token",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "token_type",
+          "type": "tinyint",
+          "remarks": "0. Slack"
+        },
+        {
+          "name": "avatar",
+          "type": "text",
+          "remarks": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "remarks": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "remarks": ""
+        }
+      ],
+      "primaryKeys": [
+        {
+          "name": "id",
+          "type": "int",
+          "remarks": ""
         }
       ]
     }
