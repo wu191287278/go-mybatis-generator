@@ -83,7 +83,7 @@ func ({{lowerDomainName}}Service *{{domainName}}Service) InsertSelective(t *{{do
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.InsertSelective(t)
 }
 
-func ({{lowerDomainName}}Service *{{domainName}}Service) BatchInsert(ts []{{domainName}}) error {
+func ({{lowerDomainName}}Service *{{domainName}}Service) BatchInsert(ts []*{{domainName}}) error {
 	return {{lowerDomainName}}Service.{{lowerDomainName}}Repository.BatchInsert(ts);
 }
 

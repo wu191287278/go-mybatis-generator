@@ -83,7 +83,7 @@ func ({{lowerDomainName}}Repository *{{domainName}}Repository) InsertSelective(t
 	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).InsertSelective(t)
 }
 
-func ({{lowerDomainName}}Repository *{{domainName}}Repository) BatchInsert(ts []{{domainName}}) error {
+func ({{lowerDomainName}}Repository *{{domainName}}Repository) BatchInsert(ts []*{{domainName}}) error {
 	return New{{domainName}}Example().WithDB({{lowerDomainName}}Repository.db).BatchInsert(ts);
 }
 

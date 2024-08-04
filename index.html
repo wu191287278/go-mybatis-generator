@@ -70,7 +70,7 @@
     <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="applicationTemplateDiv">
         <div id="applicationTemplate" style="width:100%;height:100%"></div>
     </div>
-    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="queryTemplateDiv">
+    <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="configTemplateDiv">
         <div id="configTemplate" style="width:100%;height:100%"></div>
     </div>
     <div class="col-xs-12" style="height: 100%;padding-top: 10px" id="pomTemplateDiv">
@@ -389,6 +389,13 @@
         let addSuffix = document.getElementById("addSuffix").value;
         let zip = new JSZip();
 
+        let project = {
+            "packagePath": packagePath,
+            "artifact": artifact,
+            packageDir: packagePath.replaceAll(".", "/"),
+            tables: []
+        };
+
         let settings = settingsEditor.getValue().split(";");
         for (let setting in settings) {
             let sql = settings[setting].trim();
@@ -435,15 +442,12 @@
             zip.file(queryModel, render);
 
             zip.file("config.toml", configTemplate);
+            project.tables.push(index);
         }
 
-        let project = {
-            "packagePath": packagePath,
-            "artifact": artifact,
-            packageDir: packagePath.replaceAll(".", "/")
-        };
 
         zip.file("go.mod", Mustache.render(pomTemplate.getValue(), project));
+
         zip.file("main.go", Mustache.render(applicationTemplate.getValue(), project));
         zip.generateAsync({type: "blob"})
             .then(function (content) {
@@ -599,7 +603,9 @@
             tableDef.primaryField = tableDef.fields[0];
             tableDef.primaryKeys.push(tableDef.fields[0]);
         }
-
+        tableDef["isAutoIncrement"] = tableDef.primaryKeys[0]["autoIncrement"];
+        tableDef.primaryKeys = JSON.parse(JSON.stringify(tableDef.primaryKeys));
+        processFields(tableDef.primaryKeys);
         console.log(tableDef)
 
         function convertToCamelCase(str) {

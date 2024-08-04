@@ -3,6 +3,7 @@ package domain
 import (
     "bytes"
     "database/sql"
+    "context"
     _ "github.com/go-sql-driver/mysql"
     "log"
     "strconv"
@@ -18,6 +19,7 @@ type {{domainName}}Example struct {
     OrExamples    []{{domainName}}Example               `json:"orExamples,omitempty"`
     OrderByClause string                                `json:"orderByClause,omitempty"`
     DefaultDB     *sql.DB                               `json:"-"`
+    Tx            *sql.Tx                               `json:"-"`
     Before        func(sql string, args... interface{}) `json:"-"`
     After         func(total int64)                     `json:"-"`
 }
@@ -29,6 +31,25 @@ func New{{domainName}}Example() *{{domainName}}Example {
 func (query *{{domainName}}Example) WithDB(db *sql.DB) *{{domainName}}Example {
 	query.DefaultDB = db
 	return query
+}
+
+func (query *{{domainName}}Example) WithTx(tx *sql.Tx) *{{domainName}}Example {
+    query.Tx = tx
+    return query
+}
+
+func (query *{{domainName}}Example) Exec(sql string, args ...any) (sql.Result, error) {
+    if query.Tx != nil {
+        return query.Tx.Exec(sql, args...)
+    }
+    return query.DefaultDB.Exec(sql, args...)
+}
+
+func (query *{{domainName}}Example) ExecContext(ctx context.Context, sql string, args ...any) (sql.Result, error) {
+    if query.Tx != nil {
+        return query.Tx.ExecContext(ctx, sql, args...)
+    }
+    return query.DefaultDB.ExecContext(ctx, sql, args...)
 }
 
 func (query *{{domainName}}Example) before(sql string, args... interface{}) {
@@ -256,7 +277,7 @@ func (query *{{domainName}}Example) SelectChannel(ch chan *{{domainName}}) error
 
 func (query *{{domainName}}Example) ConsumeByExample(accept func(*{{domainName}})) error {
 	var buffer bytes.Buffer
-	buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}},{{/hasNext}}{{/fields}} from ")
+    buffer.WriteString("select {{#fields}}{{name}}{{#hasNext}}, {{/hasNext}}{{/fields}} from ")
 	buffer.WriteString(query.getTableName())
 	buffer.WriteString(query.toCondition())
 	buffer.WriteString(query.toOrderByClause())
@@ -303,7 +324,7 @@ func (query *{{domainName}}Example) ConsumeByExample(accept func(*{{domainName}}
 {{/fields}}
 		e = rows.Scan({{#fields}}&{{lowerName}}{{#hasNext}},{{/hasNext}}{{/fields}})
 		if e != nil {
-			break
+			return e
 		}
 
 		t := {{domainName}}{}
@@ -432,7 +453,7 @@ func (query *{{domainName}}Example) DeleteByExample() (int64, error) {
 	buffer.WriteString(query.toLimit())
 	deleteSql := buffer.String()
     query.before(deleteSql, query.Args...)
-	result, e := query.DefaultDB.Exec(deleteSql, query.Args...)
+	result, e := query.Exec(deleteSql, query.Args...)
 	if e != nil {
 		return 0, e
 	}
@@ -452,11 +473,11 @@ func (query *{{domainName}}Example) UpdateByPrimaryKey(t *{{domainName}}) (int64
 	buffer.WriteString("update ")
 	buffer.WriteString(query.getTableName())
 	buffer.WriteString(" set ")
-	buffer.WriteString("{{#fields}}{{name}}=?{{#hasNext}},{{/hasNext}}{{/fields}}")
+	buffer.WriteString("{{#fields}}{{name}}=?{{#hasNext}}, {{/hasNext}}{{/fields}}")
 	buffer.WriteString(" where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
 	updateSql := buffer.String()
     query.before(updateSql, query.Args)
-	result, e := query.DefaultDB.Exec(updateSql, {{#fields}}&t.{{upperName}}{{#hasNext}},{{/hasNext}}{{/fields}}{{#primaryKeys}},&t.{{upperName}}{{/primaryKeys}})
+	result, e := query.Exec(updateSql, {{#fields}}&t.{{upperName}}{{#hasNext}},{{/hasNext}}{{/fields}}{{#primaryKeys}},&t.{{upperName}}{{/primaryKeys}})
 	if e == nil {
 		i, e := result.RowsAffected()
         query.after(i)
@@ -524,13 +545,13 @@ func (query *{{domainName}}Example) UpdateByPrimaryKeySelective(t *{{domainName}
 	buffer.WriteString(" where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
     updateSql := buffer.String()
     query.before(updateSql, args)
-	result, e := query.DefaultDB.Exec(updateSql, args...)
+	result, e := query.Exec(updateSql, args...)
 	if e == nil {
 		i, e := result.RowsAffected()
         query.after(i)
         return i, e
 	}
-	return 0, nil
+	return 0, e
 }
 
 {{/hasPrimaryKey}}
@@ -538,7 +559,7 @@ func (query *{{domainName}}Example) UpdateByExample(t *{{domainName}}) (int64, e
 	var buffer bytes.Buffer
 	buffer.WriteString("update ")
 	buffer.WriteString(query.getTableName())
-	buffer.WriteString(" set {{#fields}}{{name}}=?{{#hasNext}},{{/hasNext}}{{/fields}} where id=?")
+	buffer.WriteString(" set {{#fields}}{{name}}=?{{#hasNext}}, {{/hasNext}}{{/fields}} where {{#primaryKeys}}{{name}}=?{{#hasNext}} and {{/hasNext}}{{/primaryKeys}}")
 	buffer.WriteString(query.toCondition())
 	buffer.WriteString(query.toOrderByClause())
 	buffer.WriteString(query.toLimit())
@@ -547,7 +568,7 @@ func (query *{{domainName}}Example) UpdateByExample(t *{{domainName}}) (int64, e
 	args = append(args, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
     args = append(args, query.Args...)
     query.before(updateSql, args)
-	result, e := query.DefaultDB.Exec(updateSql, args)
+	result, e := query.Exec(updateSql, args)
 	if e == nil {
 		i, e := result.RowsAffected()
         query.after(i)
@@ -615,13 +636,13 @@ func (query *{{domainName}}Example) UpdateByExampleSelective(t *{{domainName}}) 
 	updateSql := buffer.String()
 	args = append(args, query.Args...)
     query.before(updateSql, args)
-	result, e := query.DefaultDB.Exec(updateSql, args...)
+	result, e := query.Exec(updateSql, args...)
 	if e == nil {
 		i, e := result.RowsAffected()
         query.after(i)
         return i, e
 	}
-	return 0, nil
+	return 0, e
 }
 
 func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, error) {
@@ -634,14 +655,14 @@ func (query *{{domainName}}Example) Insert(t *{{domainName}}) (*{{domainName}}, 
     query.before(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
 
 {{^isAutoIncrement}}
-    _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    _, e := query.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
     if e == nil {
         query.after(1)
     }
 {{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
-    result, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    result, e := query.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
     if e == nil {
 		i, e := result.LastInsertId()
 		if e == nil {
@@ -733,14 +754,14 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
     query.before(insertSql, args...)
 
 {{^isAutoIncrement}}
-    _, e := query.DefaultDB.Exec(insertSql, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+    _, e := query.Exec(insertSql, args...)
     if e == nil{
         query.after(1)
     }
 {{/isAutoIncrement}}
 {{#hasPrimaryKey}}
 {{#isAutoIncrement}}
-    result, e := query.DefaultDB.Exec(insertSql, args...)
+    result, e := query.Exec(insertSql, args...)
     if e == nil {
         i, e := result.LastInsertId()
 		if e == nil {
@@ -760,7 +781,7 @@ func (query *{{domainName}}Example) InsertSelective(t *{{domainName}}) (*{{domai
 	return t, e
 }
 
-func (query *{{domainName}}Example) BatchInsert(ts []{{domainName}}) error {
+func (query *{{domainName}}Example) BatchInsert(ts []*{{domainName}}) error {
 	var buffer bytes.Buffer
 	buffer.WriteString("insert into ")
 	buffer.WriteString(query.getTableName())
@@ -771,12 +792,12 @@ func (query *{{domainName}}Example) BatchInsert(ts []{{domainName}}) error {
 	for i := 0; i < len(ts); i++ {
 		placeholder = append(placeholder, "({{#fields}}?{{#hasNext}}, {{/hasNext}}{{/fields}})")
 		t := ts[i]
-		args = append(args, {{#fields}}&t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
+		args = append(args, {{#fields}}t.{{upperName}}{{#hasNext}}, {{/hasNext}}{{/fields}})
 	}
 	buffer.WriteString(strings.Join(placeholder, ","))
 	insertSql := buffer.String()
     query.before(insertSql, args...)
-	_, e := query.DefaultDB.Exec(insertSql, args...)
+	_, e := query.Exec(insertSql, args...)
     if e == nil{
         query.after(int64(len(ts)))
     }

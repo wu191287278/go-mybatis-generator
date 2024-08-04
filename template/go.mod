@@ -1,6 +1,6 @@
 module {{{artifact}}}
 
-go 1.11
+go 1.22
 
 require (
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
